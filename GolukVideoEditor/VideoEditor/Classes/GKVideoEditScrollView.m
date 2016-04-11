@@ -212,6 +212,7 @@
     static BOOL IN_MOVING_ANIMATION = NO;
     if (IN_MOVING_ANIMATION == NO) {
         IN_MOVING_ANIMATION = YES;
+        // 向右移动
         if (direction == GKVideoEditDirectionRight) {
             [UIView animateWithDuration:0.3f
                                   delay:0
@@ -249,7 +250,9 @@
                              } completion:^(BOOL finished) {
                                  IN_MOVING_ANIMATION = NO;
                              }];
-        } else if (direction == GKVideoEditDirectionLeft) {
+        }
+        // 向左移动
+        else if (direction == GKVideoEditDirectionLeft) {
             [UIView animateWithDuration:0.3f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut

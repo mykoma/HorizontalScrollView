@@ -132,7 +132,7 @@
             center.y += point.y - self.priorPoint.y;
             view.center = center;
             if ([self.delegate respondsToSelector:@selector(videoEditCell:movingAtPoint:)]) {
-                [self.delegate videoEditCell:self movingAtPoint:center];
+                [self.delegate videoEditCell:self movingAtPoint:point];
             }
             break;
         }
