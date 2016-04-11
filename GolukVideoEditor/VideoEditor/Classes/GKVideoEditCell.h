@@ -31,8 +31,24 @@
 @property (nonatomic, weak) IBOutlet id <GKVideoEditCellDelegate> delegate;
 @property (nonatomic, assign, readonly) CGRect originFrameInUpdating;
 
+@property (nonatomic, weak) GKVideoEditCell * leftCell;
+@property (nonatomic, weak) GKVideoEditCell * rightCell;
+
 - (void)setup;
+/**************** 开始更新 ***************/
 - (void)beginUpdating;
 - (void)endUpdating;
+
+/**************** 子类重写 ***************/
+
+/**
+ * 能否长按移动，默认 NO
+ */
+- (BOOL)canMove;
+
+/**
+ * 能否能够和正在移动的 cell 移动位置，默认 NO
+ */
+- (BOOL)canExchange;
 
 @end

@@ -11,6 +11,7 @@
 
 @interface GKVideoEditScrollView () <GKVideoEditCellDelegate>
 
+@property (nonatomic, strong) NSMutableArray <GKVideoEditCell *> * cells;
 @property (nonatomic, strong) UIScrollView * scrollView;
 @property (nonatomic, assign) CGFloat xOffset;
 
@@ -29,6 +30,7 @@
 
 - (void)setup
 {
+    self.cells = [NSMutableArray new];
     self.xOffset = 0.0f;
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.backgroundColor = [UIColor grayColor];
@@ -38,6 +40,9 @@
 
 - (void)reloadData
 {
+    // Clear
+    [self.cells removeAllObjects];
+    
     // scrollView 布局
     CGRect videoScrollAreaFrame = [self.layout rectOfVideoEditScrollView:self];
     self.scrollView.frame = videoScrollAreaFrame;
@@ -54,6 +59,7 @@
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         GKVideoEditCell * cell = [self.dataSource videoEditScrollView:self
                                                 cellForRowAtIndexPath:indexPath];
+        [self.cells addObject:cell];
         cell.delegate = self;
         NSAssert(cell != nil, nil);
         if (cell != nil) {
@@ -79,6 +85,31 @@
     self.scrollView.contentSize = CGSizeMake(self.xOffset, 0);
 }
 
+- (void)buildCellsRelation
+{
+    for (NSInteger index = 0; index < self.cells.count; index ++) {
+        GKVideoEditCell * currentCell = self.cells[index];
+        GKVideoEditCell * leftCell = nil;
+        GKVideoEditCell * rightCell = nil;
+        
+        if (index > 0) {
+            leftCell = self.cells[index - 1];
+        }
+        if (index < self.cells.count - 1) {
+            rightCell = self.cells[index + 1];
+        }
+        if (leftCell) {
+            leftCell.rightCell = currentCell;
+            currentCell.leftCell = leftCell;
+        }
+        
+        if (rightCell) {
+            rightCell.leftCell = currentCell;
+            currentCell.rightCell = rightCell;
+        }
+    }
+}
+
 #pragma mark - GKVideoEditCellDelegate
 
 - (void)videoEditCell:(GKVideoEditCell *)videoEditCell
@@ -97,7 +128,7 @@
 {
     GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell];
     
-    if (intersectCell) {
+    if (intersectCell && [intersectCell canExchange]) {
         static BOOL IN_MOVING_ANIMATION = NO;
         if (IN_MOVING_ANIMATION == NO) {
             IN_MOVING_ANIMATION = YES;

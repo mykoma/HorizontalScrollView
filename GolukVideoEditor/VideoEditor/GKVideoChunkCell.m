@@ -10,25 +10,24 @@
 
 @interface GKVideoChunkCell ()
 
-
 @end
 
 @implementation GKVideoChunkCell
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setup];
-    }
-    return self;
-}
 
 - (void)setup
 {
     [super setup];
     self.backgroundColor = [UIColor redColor];
-    
+}
+
+- (BOOL)canMove
+{
+    return YES;
+}
+
+- (BOOL)canExchange
+{
+    return YES;
 }
 
 @end

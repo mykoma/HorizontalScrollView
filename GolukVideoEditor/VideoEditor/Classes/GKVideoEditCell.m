@@ -48,8 +48,10 @@
 
 - (void)setup
 {
-    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongGesture:)];
-    [self addGestureRecognizer:longGesture];
+    if ([self canMove]) {
+        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongGesture:)];
+        [self addGestureRecognizer:longGesture];
+    }
 }
 
 #pragma mark - UIGestureRecognizer
@@ -97,6 +99,18 @@
         }
     }
     self.priorPoint = point;
+}
+
+#pragma mark - Default Implement
+
+- (BOOL)canMove
+{
+    return NO;
+}
+
+- (BOOL)canExchange
+{
+    return NO;
 }
 
 @end

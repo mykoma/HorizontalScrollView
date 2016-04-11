@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "GKVideoChunkCell.h"
+#import "GKVideoChunkFenceCell.h"
 #import "GKVideoEditScrollView.h"
 
 @interface ViewController ()
@@ -50,12 +51,12 @@ GKVideoEditScrollViewDelegate
 - (GKVideoEditCell *)videoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
                    cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GKVideoChunkCell * cell = [[GKVideoChunkCell alloc] init];
-    if (indexPath.row % 2 == 0)
+    GKVideoEditCell * cell;
+    if (indexPath.row % 2 == 1)
     {
-        cell.backgroundColor = [UIColor redColor];
+        cell = [[GKVideoChunkCell alloc] init];
     } else {
-        cell.backgroundColor = [UIColor yellowColor];
+        cell = [[GKVideoChunkFenceCell alloc] init];
     }
     return cell;
 }
@@ -70,10 +71,14 @@ GKVideoEditScrollViewDelegate
 - (CGSize)videoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
        sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 2 == 0) {
-        return CGSizeMake(50, 50);
+    if (indexPath.row % 2 == 1) {
+        if ((indexPath.row / 2 ) % 2 == 1) {
+            return CGSizeMake(100, 50);
+        } else {
+            return CGSizeMake(70, 50);
+        }
     }
-    return CGSizeMake(100, 50);
+    return CGSizeMake(20, 50);
 }
 
 //- (UIEdgeInsets)edgeInsetsOfVideoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
