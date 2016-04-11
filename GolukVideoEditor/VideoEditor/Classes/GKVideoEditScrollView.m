@@ -125,9 +125,9 @@
 }
 
 - (void)videoEditCell:(GKVideoEditCell *)videoEditCell
-         changeCenter:(CGPoint)newCenter
+         movingAtPoint:(CGPoint)point
 {
-    GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell];
+    GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell withPoint:point];
     
     if ([intersectCell canExchange]) {
         [self doMovementFrom:videoEditCell to:intersectCell];
@@ -137,7 +137,7 @@
 - (void)videoEditCell:(GKVideoEditCell *)videoEditCell
        moveEndAtPoint:(CGPoint)point
 {
-    GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell];
+    GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell withPoint:point];
     if ([intersectCell canExchange]) {
         if ([videoEditCell directionForCell:intersectCell] == GKVideoEditDirectionRight) {
             [UIView animateWithDuration:0.3f
@@ -236,7 +236,7 @@
 
 #pragma mark - Get Intersect Cell
 
-- (GKVideoEditCell *)getIntersectCellByCell:(GKVideoEditCell *)videoEditCell
+- (GKVideoEditCell *)getIntersectCellByCell:(GKVideoEditCell *)videoEditCell withPoint:(CGPoint)point
 {
     GKVideoEditCell * intersectCell = nil;
     for (GKVideoEditCell * subview in self.scrollView.subviews) {
@@ -246,7 +246,7 @@
         if (subview == videoEditCell) {
             continue;
         }
-        if (CGRectIntersectsRect(videoEditCell.frame, subview.originFrameInUpdating)) {
+        if (CGRectContainsPoint(subview.originFrameInUpdating, point)) {
             intersectCell = subview;
             break;
         }

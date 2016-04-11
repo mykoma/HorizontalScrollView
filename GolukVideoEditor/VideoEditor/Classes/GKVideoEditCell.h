@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, GKVideoEditDirection)
      moveBeganAtPoint:(CGPoint)point;
 
 - (void)videoEditCell:(GKVideoEditCell *)videoEditCell
-         changeCenter:(CGPoint)newCenter;
+        movingAtPoint:(CGPoint)point;
 
 - (void)videoEditCell:(GKVideoEditCell *)videoEditCell
        moveEndAtPoint:(CGPoint)point;
