@@ -1,0 +1,353 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		186FA1FB1CBA2B89009EA660 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FA1CBA2B89009EA660 /* main.m */; };
+		186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FD1CBA2B89009EA660 /* AppDelegate.m */; };
+		186FA2011CBA2B89009EA660 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2001CBA2B89009EA660 /* ViewController.m */; };
+		186FA2041CBA2B89009EA660 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2021CBA2B89009EA660 /* Main.storyboard */; };
+		186FA2061CBA2B89009EA660 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2051CBA2B89009EA660 /* Assets.xcassets */; };
+		186FA2091CBA2B89009EA660 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2071CBA2B89009EA660 /* LaunchScreen.storyboard */; };
+		186FA21C1CBA30E4009EA660 /* GKVideoEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2191CBA30E4009EA660 /* GKVideoEditCell.m */; };
+		186FA21D1CBA30E4009EA660 /* GKVideoEditScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA21B1CBA30E4009EA660 /* GKVideoEditScrollView.m */; };
+		186FA2201CBA3113009EA660 /* GKVideoChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */; };
+		186FA2231CBA3179009EA660 /* GKVideoChunkFenceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2221CBA3179009EA660 /* GKVideoChunkFenceCell.m */; };
+		186FA2291CBA3235009EA660 /* GKVideoAddChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2281CBA3235009EA660 /* GKVideoAddChunkCell.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		186FA1F61CBA2B89009EA660 /* GolukVideoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolukVideoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		186FA1FA1CBA2B89009EA660 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		186FA1FC1CBA2B89009EA660 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		186FA1FD1CBA2B89009EA660 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		186FA1FF1CBA2B89009EA660 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		186FA2001CBA2B89009EA660 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		186FA2031CBA2B89009EA660 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		186FA2051CBA2B89009EA660 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		186FA2081CBA2B89009EA660 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		186FA20A1CBA2B89009EA660 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		186FA2181CBA30E4009EA660 /* GKVideoEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditCell.h; sourceTree = "<group>"; };
+		186FA2191CBA30E4009EA660 /* GKVideoEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditCell.m; sourceTree = "<group>"; };
+		186FA21A1CBA30E4009EA660 /* GKVideoEditScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditScrollView.h; sourceTree = "<group>"; };
+		186FA21B1CBA30E4009EA660 /* GKVideoEditScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditScrollView.m; sourceTree = "<group>"; };
+		186FA21E1CBA3113009EA660 /* GKVideoChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCell.h; sourceTree = "<group>"; };
+		186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCell.m; sourceTree = "<group>"; };
+		186FA2211CBA3179009EA660 /* GKVideoChunkFenceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkFenceCell.h; sourceTree = "<group>"; };
+		186FA2221CBA3179009EA660 /* GKVideoChunkFenceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkFenceCell.m; sourceTree = "<group>"; };
+		186FA2271CBA3235009EA660 /* GKVideoAddChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoAddChunkCell.h; sourceTree = "<group>"; };
+		186FA2281CBA3235009EA660 /* GKVideoAddChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoAddChunkCell.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		186FA1F31CBA2B89009EA660 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		186FA1ED1CBA2B89009EA660 = {
+			isa = PBXGroup;
+			children = (
+				186FA1F81CBA2B89009EA660 /* GolukVideoEditor */,
+				186FA1F71CBA2B89009EA660 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		186FA1F71CBA2B89009EA660 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				186FA1F61CBA2B89009EA660 /* GolukVideoEditor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		186FA1F81CBA2B89009EA660 /* GolukVideoEditor */ = {
+			isa = PBXGroup;
+			children = (
+				186FA2101CBA2B9C009EA660 /* VideoEditor */,
+				186FA1FC1CBA2B89009EA660 /* AppDelegate.h */,
+				186FA1FD1CBA2B89009EA660 /* AppDelegate.m */,
+				186FA1FF1CBA2B89009EA660 /* ViewController.h */,
+				186FA2001CBA2B89009EA660 /* ViewController.m */,
+				186FA2021CBA2B89009EA660 /* Main.storyboard */,
+				186FA2051CBA2B89009EA660 /* Assets.xcassets */,
+				186FA2071CBA2B89009EA660 /* LaunchScreen.storyboard */,
+				186FA20A1CBA2B89009EA660 /* Info.plist */,
+				186FA1F91CBA2B89009EA660 /* Supporting Files */,
+			);
+			path = GolukVideoEditor;
+			sourceTree = "<group>";
+		};
+		186FA1F91CBA2B89009EA660 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				186FA1FA1CBA2B89009EA660 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		186FA2101CBA2B9C009EA660 /* VideoEditor */ = {
+			isa = PBXGroup;
+			children = (
+				186FA2171CBA30E4009EA660 /* Classes */,
+				186FA21E1CBA3113009EA660 /* GKVideoChunkCell.h */,
+				186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */,
+				186FA2211CBA3179009EA660 /* GKVideoChunkFenceCell.h */,
+				186FA2221CBA3179009EA660 /* GKVideoChunkFenceCell.m */,
+				186FA2271CBA3235009EA660 /* GKVideoAddChunkCell.h */,
+				186FA2281CBA3235009EA660 /* GKVideoAddChunkCell.m */,
+			);
+			path = VideoEditor;
+			sourceTree = "<group>";
+		};
+		186FA2171CBA30E4009EA660 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				186FA2181CBA30E4009EA660 /* GKVideoEditCell.h */,
+				186FA2191CBA30E4009EA660 /* GKVideoEditCell.m */,
+				186FA21A1CBA30E4009EA660 /* GKVideoEditScrollView.h */,
+				186FA21B1CBA30E4009EA660 /* GKVideoEditScrollView.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		186FA1F51CBA2B89009EA660 /* GolukVideoEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 186FA20D1CBA2B89009EA660 /* Build configuration list for PBXNativeTarget "GolukVideoEditor" */;
+			buildPhases = (
+				186FA1F21CBA2B89009EA660 /* Sources */,
+				186FA1F31CBA2B89009EA660 /* Frameworks */,
+				186FA1F41CBA2B89009EA660 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GolukVideoEditor;
+			productName = GolukVideoEditor;
+			productReference = 186FA1F61CBA2B89009EA660 /* GolukVideoEditor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		186FA1EE1CBA2B89009EA660 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = SCU;
+				TargetAttributes = {
+					186FA1F51CBA2B89009EA660 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 186FA1F11CBA2B89009EA660 /* Build configuration list for PBXProject "GolukVideoEditor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 186FA1ED1CBA2B89009EA660;
+			productRefGroup = 186FA1F71CBA2B89009EA660 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				186FA1F51CBA2B89009EA660 /* GolukVideoEditor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		186FA1F41CBA2B89009EA660 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				186FA2091CBA2B89009EA660 /* LaunchScreen.storyboard in Resources */,
+				186FA2061CBA2B89009EA660 /* Assets.xcassets in Resources */,
+				186FA2041CBA2B89009EA660 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		186FA1F21CBA2B89009EA660 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				186FA2011CBA2B89009EA660 /* ViewController.m in Sources */,
+				186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */,
+				186FA1FB1CBA2B89009EA660 /* main.m in Sources */,
+				186FA2291CBA3235009EA660 /* GKVideoAddChunkCell.m in Sources */,
+				186FA2231CBA3179009EA660 /* GKVideoChunkFenceCell.m in Sources */,
+				186FA21D1CBA30E4009EA660 /* GKVideoEditScrollView.m in Sources */,
+				186FA21C1CBA30E4009EA660 /* GKVideoEditCell.m in Sources */,
+				186FA2201CBA3113009EA660 /* GKVideoChunkCell.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		186FA2021CBA2B89009EA660 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				186FA2031CBA2B89009EA660 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		186FA2071CBA2B89009EA660 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				186FA2081CBA2B89009EA660 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		186FA20B1CBA2B89009EA660 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		186FA20C1CBA2B89009EA660 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		186FA20E1CBA2B89009EA660 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = GolukVideoEditor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.scu.GolukVideoEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		186FA20F1CBA2B89009EA660 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = GolukVideoEditor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.scu.GolukVideoEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		186FA1F11CBA2B89009EA660 /* Build configuration list for PBXProject "GolukVideoEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				186FA20B1CBA2B89009EA660 /* Debug */,
+				186FA20C1CBA2B89009EA660 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		186FA20D1CBA2B89009EA660 /* Build configuration list for PBXNativeTarget "GolukVideoEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				186FA20E1CBA2B89009EA660 /* Debug */,
+				186FA20F1CBA2B89009EA660 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 186FA1EE1CBA2B89009EA660 /* Project object */;
+}
