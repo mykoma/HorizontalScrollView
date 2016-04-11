@@ -10,6 +10,7 @@
 #import "GKVideoChunkCell.h"
 #import "GKVideoChunkFenceCell.h"
 #import "GKVideoAddChunkCell.h"
+#import "GKVideoChunkTailerCell.h"
 #import "GKVideoEditScrollView.h"
 
 @interface ViewController ()
@@ -37,6 +38,7 @@ GKHorizontalScrollViewDelegate
                          @"GKVideoChunkCell",
                          @"GKVideoChunkFenceCell",
                          @"GKVideoChunkCell",
+                         @"GKVideoChunkTailerCell",
                          @"GKVideoAddChunkCell"] mutableCopy];
     
     self.videoEditScrollView = [[GKVideoEditScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
