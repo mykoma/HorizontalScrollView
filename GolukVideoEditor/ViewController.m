@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "GKVideoChunkCell.h"
 #import "GKVideoChunkFenceCell.h"
+#import "GKVideoAddChunkCell.h"
 #import "GKVideoEditScrollView.h"
 
 @interface ViewController ()
@@ -20,12 +21,24 @@ GKHorizontalScrollViewDelegate
 
 @property (nonatomic, strong) GKVideoEditScrollView * videoEditScrollView;
 
+@property (nonatomic, strong) NSMutableArray * dataSource;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataSource = [@[@"GKVideoChunkCell",
+                         @"GKVideoChunkFenceCell",
+                         @"GKVideoChunkCell",
+                         @"GKVideoChunkFenceCell",
+                         @"GKVideoChunkCell",
+                         @"GKVideoChunkFenceCell",
+                         @"GKVideoChunkCell",
+                         @"GKVideoAddChunkCell"] mutableCopy];
+    
     self.videoEditScrollView = [[GKVideoEditScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
     self.videoEditScrollView.dataSource = self;
     self.videoEditScrollView.layout = self;
@@ -45,20 +58,14 @@ GKHorizontalScrollViewDelegate
 
 - (NSInteger)countOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
-    return 20;
+    return self.dataSource.count;
 }
 
 - (GKHorizontalCell *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-                   cellForRowAtIndexPath:(NSIndexPath *)indexPath
+                     cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GKHorizontalCell * cell;
-    if (indexPath.row % 2 == 1)
-    {
-        cell = [[GKVideoChunkCell alloc] init];
-    } else {
-        cell = [[GKVideoChunkFenceCell alloc] init];
-    }
-    return cell;
+    NSString * str = self.dataSource[indexPath.row];
+    return [[NSClassFromString(str) alloc] init];
 }
 
 #pragma mark - GKHorizontalScrollViewLayout
@@ -71,7 +78,7 @@ GKHorizontalScrollViewDelegate
 - (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
        sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 2 == 1) {
+    if (indexPath.row % 2 == 0) {
         if ((indexPath.row / 2 ) % 2 == 1) {
             return CGSizeMake(100, 50);
         } else {
