@@ -49,7 +49,7 @@ typedef NS_ENUM(NSUInteger, GKVideoEditDirection)
  */
 - (GKVideoEditDirection)directionForCell:(GKVideoEditCell *)cell;
 
-- (void)moveToCell:(GKVideoEditCell *)cell;
+- (void)changeRelationWithCell:(GKVideoEditCell *)cell;
 
 /**************** 开始更新 ***************/
 - (void)beginUpdating;

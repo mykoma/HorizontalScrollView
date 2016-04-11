@@ -131,6 +131,8 @@
     
     if ([intersectCell canExchange]) {
         [self doMovementFrom:videoEditCell to:intersectCell];
+    } else {
+        [self recoveryVideoEditCellsFrameExceptCell:videoEditCell];
     }
 }
 
@@ -150,7 +152,7 @@
                                                                   videoEditCell.originFrameInUpdating.size.height);
                              }
                              completion:^(BOOL finished) {
-                                 [videoEditCell moveToCell:intersectCell];
+                                 [videoEditCell changeRelationWithCell:intersectCell];
                              }];
         } else if ([videoEditCell directionForCell:intersectCell] == GKVideoEditDirectionLeft) {
             [UIView animateWithDuration:0.3f
@@ -163,11 +165,11 @@
                                                                   videoEditCell.originFrameInUpdating.size.height);
                              }
                              completion:^(BOOL finished) {
-                                 [videoEditCell moveToCell:intersectCell];
+                                 [videoEditCell changeRelationWithCell:intersectCell];
                              }];
         }
     } else {
-        [self revertVideoEditCells];
+        [self recoveryVideoEditCellsFrameExceptCell:nil];
     }
     
     for (GKVideoEditCell * subview in self.scrollView.subviews) {
@@ -184,7 +186,7 @@
     
 }
 
-- (void)revertVideoEditCells
+- (void)recoveryVideoEditCellsFrameExceptCell:(GKVideoEditCell *)videoEditCell
 {
     [UIView animateWithDuration:0.3f
                           delay:0
@@ -192,6 +194,9 @@
                      animations:^{
                          for (GKVideoEditCell * subview in self.scrollView.subviews) {
                              if (![subview isKindOfClass:[GKVideoEditCell class]]) {
+                                 continue;
+                             }
+                             if (subview == videoEditCell) {
                                  continue;
                              }
                              subview.frame = subview.originFrameInUpdating;

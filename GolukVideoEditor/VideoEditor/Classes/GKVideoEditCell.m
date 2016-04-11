@@ -79,7 +79,7 @@
     return direction;
 }
 
-- (void)moveToCell:(GKVideoEditCell *)cell
+- (void)changeRelationWithCell:(GKVideoEditCell *)cell
 {
     GKVideoEditDirection direction = [self directionForCell:cell];
     
