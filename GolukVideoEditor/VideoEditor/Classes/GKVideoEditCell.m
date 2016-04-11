@@ -54,6 +54,61 @@
     }
 }
 
+- (GKVideoEditDirection)directionForCell:(GKVideoEditCell *)cell
+{
+    GKVideoEditDirection direction = GKVideoEditDirectionNone;
+    GKVideoEditCell * tmpCell = self;
+    // 检查右边
+    while (tmpCell != nil) {
+        if (tmpCell.rightCell == cell) {
+            direction = GKVideoEditDirectionRight;
+            break;
+        }
+        tmpCell = tmpCell.rightCell;
+    }
+    // 检查左边
+    tmpCell = self;
+    while (tmpCell != nil) {
+        if (tmpCell.leftCell == cell) {
+            direction = GKVideoEditDirectionLeft;
+            break;
+        }
+        tmpCell = tmpCell.leftCell;
+    }
+    
+    return direction;
+}
+
+- (void)moveToCell:(GKVideoEditCell *)cell
+{
+    GKVideoEditDirection direction = [self directionForCell:cell];
+    
+    if (direction != GKVideoEditDirectionNone) {
+        // Move out for self.
+        GKVideoEditCell * leftOfCurrentCell = self.leftCell;
+        leftOfCurrentCell.rightCell = self.rightCell;
+        self.rightCell.leftCell = leftOfCurrentCell;
+    }
+    
+    if (direction == GKVideoEditDirectionLeft) {
+        GKVideoEditCell * tmpCell = cell.leftCell;
+        
+        cell.leftCell = self;
+        self.rightCell = cell;
+        
+        tmpCell.rightCell = self;
+        self.leftCell = tmpCell;
+    } else if (direction == GKVideoEditDirectionRight) {
+        GKVideoEditCell * tmpCell = cell.rightCell;
+        
+        cell.rightCell = self;
+        self.leftCell = cell;
+        
+        tmpCell.leftCell = self;
+        self.rightCell = tmpCell;
+    }
+}
+
 #pragma mark - UIGestureRecognizer
 
 - (void)handleLongGesture:(UILongPressGestureRecognizer *)sender

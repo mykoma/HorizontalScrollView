@@ -83,6 +83,7 @@
     self.xOffset += scrollViewEdge.right;
     // 设置 scrollview 的滚动区域
     self.scrollView.contentSize = CGSizeMake(self.xOffset, 0);
+    [self buildCellsRelation];
 }
 
 - (void)buildCellsRelation
@@ -128,22 +129,8 @@
 {
     GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell];
     
-    if (intersectCell && [intersectCell canExchange]) {
-        static BOOL IN_MOVING_ANIMATION = NO;
-        if (IN_MOVING_ANIMATION == NO) {
-            IN_MOVING_ANIMATION = YES;
-            [UIView animateWithDuration:0.3f
-                                  delay:0
-                                options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^{
-                                 intersectCell.frame = CGRectOffset(intersectCell.originFrameInUpdating,
-                                                              videoEditCell.originFrameInUpdating.origin.x - intersectCell.originFrameInUpdating.origin.x,
-                                                              0);
-                             }
-                             completion:^(BOOL finished) {
-                                 IN_MOVING_ANIMATION = NO;
-                             }];
-        }
+    if ([intersectCell canExchange]) {
+        [self doMovementFrom:videoEditCell to:intersectCell];
     }
 }
 
@@ -151,18 +138,34 @@
        moveEndAtPoint:(CGPoint)point
 {
     GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell];
-    if (intersectCell) {
-        [UIView animateWithDuration:0.3f
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             videoEditCell.frame = CGRectMake(CGRectGetMaxX(intersectCell.originFrameInUpdating) - videoEditCell.originFrameInUpdating.size.width,
-                                                              videoEditCell.originFrameInUpdating.origin.y,
-                                                              videoEditCell.originFrameInUpdating.size.width,
-                                                              videoEditCell.originFrameInUpdating.size.height);
-                         }
-                         completion:^(BOOL finished) {
-                         }];
+    if ([intersectCell canExchange]) {
+        if ([videoEditCell directionForCell:intersectCell] == GKVideoEditDirectionRight) {
+            [UIView animateWithDuration:0.3f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 videoEditCell.frame = CGRectMake(CGRectGetMaxX(intersectCell.originFrameInUpdating) - videoEditCell.originFrameInUpdating.size.width,
+                                                                  videoEditCell.originFrameInUpdating.origin.y,
+                                                                  videoEditCell.originFrameInUpdating.size.width,
+                                                                  videoEditCell.originFrameInUpdating.size.height);
+                             }
+                             completion:^(BOOL finished) {
+                                 [videoEditCell moveToCell:intersectCell];
+                             }];
+        } else if ([videoEditCell directionForCell:intersectCell] == GKVideoEditDirectionLeft) {
+            [UIView animateWithDuration:0.3f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 videoEditCell.frame = CGRectMake(intersectCell.originFrameInUpdating.origin.x,
+                                                                  videoEditCell.originFrameInUpdating.origin.y,
+                                                                  videoEditCell.originFrameInUpdating.size.width,
+                                                                  videoEditCell.originFrameInUpdating.size.height);
+                             }
+                             completion:^(BOOL finished) {
+                                 [videoEditCell moveToCell:intersectCell];
+                             }];
+        }
     } else {
         [self revertVideoEditCells];
     }
@@ -196,6 +199,39 @@
                      } completion:^(BOOL finished) {
                          
                      }];
+}
+
+- (void)doMovementFrom:(GKVideoEditCell *)fromCell to:(GKVideoEditCell *)toCell
+{
+    static BOOL IN_MOVING_ANIMATION = NO;
+    if (IN_MOVING_ANIMATION == NO) {
+        IN_MOVING_ANIMATION = YES;
+        if ([fromCell directionForCell:toCell] == GKVideoEditDirectionRight) {
+            [UIView animateWithDuration:0.3f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 toCell.frame = CGRectOffset(toCell.originFrameInUpdating,
+                                                             fromCell.originFrameInUpdating.origin.x - toCell.originFrameInUpdating.origin.x,
+                                                             0);
+                             }
+                             completion:^(BOOL finished) {
+                                 IN_MOVING_ANIMATION = NO;
+                             }];
+        } else if ([fromCell directionForCell:toCell] == GKVideoEditDirectionLeft) {
+            [UIView animateWithDuration:0.3f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 toCell.frame = CGRectMake(CGRectGetMaxX(fromCell.originFrameInUpdating) - toCell.originFrameInUpdating.size.width, 0,
+                                                           toCell.originFrameInUpdating.size.width,
+                                                           toCell.originFrameInUpdating.size.height);
+                             }
+                             completion:^(BOOL finished) {
+                                 IN_MOVING_ANIMATION = NO;
+                             }];
+        }
+    }
 }
 
 #pragma mark - Get Intersect Cell

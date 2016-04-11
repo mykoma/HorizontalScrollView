@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, GKVideoEditDirection)
+{
+    GKVideoEditDirectionNone,
+    GKVideoEditDirectionLeft,
+    GKVideoEditDirectionRight,
+};
+
 @class GKVideoEditCell;
 
 @protocol GKVideoEditCellDelegate <NSObject>
@@ -35,6 +42,15 @@
 @property (nonatomic, weak) GKVideoEditCell * rightCell;
 
 - (void)setup;
+/**
+ * 获取 cell 在 self 的位置
+ * eg. self ---- cell， 返回 GKVideoEditDirectionRight
+ *     cell ---- self， 返回 GKVideoEditDirectionLeft
+ */
+- (GKVideoEditDirection)directionForCell:(GKVideoEditCell *)cell;
+
+- (void)moveToCell:(GKVideoEditCell *)cell;
+
 /**************** 开始更新 ***************/
 - (void)beginUpdating;
 - (void)endUpdating;
