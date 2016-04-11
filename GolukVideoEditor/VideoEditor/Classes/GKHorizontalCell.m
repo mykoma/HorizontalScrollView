@@ -1,21 +1,21 @@
 //
-//  GKVideoEditCell.m
+//  GKHorizontalCell.m
 //  GolukVideoEditor
 //
 //  Created by apple on 16/4/10.
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoEditCell.h"
+#import "GKHorizontalCell.h"
 
-@interface GKVideoEditCell ()
+@interface GKHorizontalCell ()
 
 @property (nonatomic, assign) CGPoint priorPoint;
 @property (nonatomic, assign, readwrite) CGRect originFrameInUpdating;
 
 @end
 
-@implementation GKVideoEditCell
+@implementation GKHorizontalCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -54,14 +54,14 @@
     }
 }
 
-- (GKVideoEditDirection)directionForCell:(GKVideoEditCell *)cell
+- (GKHorizontalDirection)directionForCell:(GKHorizontalCell *)cell
 {
-    GKVideoEditDirection direction = GKVideoEditDirectionNone;
-    GKVideoEditCell * tmpCell = self;
+    GKHorizontalDirection direction = GKHorizontalDirectionNone;
+    GKHorizontalCell * tmpCell = self;
     // 检查右边
     while (tmpCell != nil) {
         if (tmpCell.rightCell == cell) {
-            direction = GKVideoEditDirectionRight;
+            direction = GKHorizontalDirectionRight;
             break;
         }
         tmpCell = tmpCell.rightCell;
@@ -70,7 +70,7 @@
     tmpCell = self;
     while (tmpCell != nil) {
         if (tmpCell.leftCell == cell) {
-            direction = GKVideoEditDirectionLeft;
+            direction = GKHorizontalDirectionLeft;
             break;
         }
         tmpCell = tmpCell.leftCell;
@@ -79,27 +79,27 @@
     return direction;
 }
 
-- (void)changeRelationWithCell:(GKVideoEditCell *)cell
+- (void)changeRelationWithCell:(GKHorizontalCell *)cell
 {
-    GKVideoEditDirection direction = [self directionForCell:cell];
+    GKHorizontalDirection direction = [self directionForCell:cell];
     
-    if (direction != GKVideoEditDirectionNone) {
+    if (direction != GKHorizontalDirectionNone) {
         // Move out for self.
-        GKVideoEditCell * leftOfCurrentCell = self.leftCell;
+        GKHorizontalCell * leftOfCurrentCell = self.leftCell;
         leftOfCurrentCell.rightCell = self.rightCell;
         self.rightCell.leftCell = leftOfCurrentCell;
     }
     
-    if (direction == GKVideoEditDirectionLeft) {
-        GKVideoEditCell * tmpCell = cell.leftCell;
+    if (direction == GKHorizontalDirectionLeft) {
+        GKHorizontalCell * tmpCell = cell.leftCell;
         
         cell.leftCell = self;
         self.rightCell = cell;
         
         tmpCell.rightCell = self;
         self.leftCell = tmpCell;
-    } else if (direction == GKVideoEditDirectionRight) {
-        GKVideoEditCell * tmpCell = cell.rightCell;
+    } else if (direction == GKHorizontalDirectionRight) {
+        GKHorizontalCell * tmpCell = cell.rightCell;
         
         cell.rightCell = self;
         self.leftCell = cell;
@@ -121,8 +121,8 @@
         }
         case UIGestureRecognizerStateBegan: {
             [view.superview bringSubviewToFront:view];
-            if ([self.delegate respondsToSelector:@selector(videoEditCell:moveBeganAtPoint:)]) {
-                [self.delegate videoEditCell:self moveBeganAtPoint:point];
+            if ([self.delegate respondsToSelector:@selector(horizontalCell:moveBeganAtPoint:)]) {
+                [self.delegate horizontalCell:self moveBeganAtPoint:point];
             }
             break;
         }
@@ -131,20 +131,20 @@
             center.x += point.x - self.priorPoint.x;
             center.y += point.y - self.priorPoint.y;
             view.center = center;
-            if ([self.delegate respondsToSelector:@selector(videoEditCell:movingAtPoint:)]) {
-                [self.delegate videoEditCell:self movingAtPoint:point];
+            if ([self.delegate respondsToSelector:@selector(horizontalCell:movingAtPoint:)]) {
+                [self.delegate horizontalCell:self movingAtPoint:point];
             }
             break;
         }
         case UIGestureRecognizerStateEnded: {
-            if ([self.delegate respondsToSelector:@selector(videoEditCell:moveEndAtPoint:)]) {
-                [self.delegate videoEditCell:self moveEndAtPoint:point];
+            if ([self.delegate respondsToSelector:@selector(horizontalCell:moveEndAtPoint:)]) {
+                [self.delegate horizontalCell:self moveEndAtPoint:point];
             }
             break;
         }
         case UIGestureRecognizerStateCancelled: {
-            if ([self.delegate respondsToSelector:@selector(videoEditCell:moveCanceledAtPoint:)]) {
-                [self.delegate videoEditCell:self moveCanceledAtPoint:point];
+            if ([self.delegate respondsToSelector:@selector(horizontalCell:moveCanceledAtPoint:)]) {
+                [self.delegate horizontalCell:self moveCanceledAtPoint:point];
             }
             break;
         }

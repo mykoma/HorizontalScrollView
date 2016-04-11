@@ -13,8 +13,8 @@
 		186FA2041CBA2B89009EA660 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2021CBA2B89009EA660 /* Main.storyboard */; };
 		186FA2061CBA2B89009EA660 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2051CBA2B89009EA660 /* Assets.xcassets */; };
 		186FA2091CBA2B89009EA660 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2071CBA2B89009EA660 /* LaunchScreen.storyboard */; };
-		186FA21C1CBA30E4009EA660 /* GKVideoEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2191CBA30E4009EA660 /* GKVideoEditCell.m */; };
-		186FA21D1CBA30E4009EA660 /* GKVideoEditScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA21B1CBA30E4009EA660 /* GKVideoEditScrollView.m */; };
+		186FA21C1CBA30E4009EA660 /* GKHorizontalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2191CBA30E4009EA660 /* GKHorizontalCell.m */; };
+		186FA21D1CBA30E4009EA660 /* GKHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA21B1CBA30E4009EA660 /* GKHorizontalScrollView.m */; };
 		186FA2201CBA3113009EA660 /* GKVideoChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */; };
 		186FA2231CBA3179009EA660 /* GKVideoChunkFenceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2221CBA3179009EA660 /* GKVideoChunkFenceCell.m */; };
 		186FA2291CBA3235009EA660 /* GKVideoAddChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2281CBA3235009EA660 /* GKVideoAddChunkCell.m */; };
@@ -31,10 +31,10 @@
 		186FA2051CBA2B89009EA660 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		186FA2081CBA2B89009EA660 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		186FA20A1CBA2B89009EA660 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		186FA2181CBA30E4009EA660 /* GKVideoEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditCell.h; sourceTree = "<group>"; };
-		186FA2191CBA30E4009EA660 /* GKVideoEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditCell.m; sourceTree = "<group>"; };
-		186FA21A1CBA30E4009EA660 /* GKVideoEditScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditScrollView.h; sourceTree = "<group>"; };
-		186FA21B1CBA30E4009EA660 /* GKVideoEditScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditScrollView.m; sourceTree = "<group>"; };
+		186FA2181CBA30E4009EA660 /* GKHorizontalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalCell.h; sourceTree = "<group>"; };
+		186FA2191CBA30E4009EA660 /* GKHorizontalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalCell.m; sourceTree = "<group>"; };
+		186FA21A1CBA30E4009EA660 /* GKHorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalScrollView.h; sourceTree = "<group>"; };
+		186FA21B1CBA30E4009EA660 /* GKHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalScrollView.m; sourceTree = "<group>"; };
 		186FA21E1CBA3113009EA660 /* GKVideoChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCell.h; sourceTree = "<group>"; };
 		186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCell.m; sourceTree = "<group>"; };
 		186FA2211CBA3179009EA660 /* GKVideoChunkFenceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkFenceCell.h; sourceTree = "<group>"; };
@@ -112,10 +112,10 @@
 		186FA2171CBA30E4009EA660 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				186FA2181CBA30E4009EA660 /* GKVideoEditCell.h */,
-				186FA2191CBA30E4009EA660 /* GKVideoEditCell.m */,
-				186FA21A1CBA30E4009EA660 /* GKVideoEditScrollView.h */,
-				186FA21B1CBA30E4009EA660 /* GKVideoEditScrollView.m */,
+				186FA2181CBA30E4009EA660 /* GKHorizontalCell.h */,
+				186FA2191CBA30E4009EA660 /* GKHorizontalCell.m */,
+				186FA21A1CBA30E4009EA660 /* GKHorizontalScrollView.h */,
+				186FA21B1CBA30E4009EA660 /* GKHorizontalScrollView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -195,8 +195,8 @@
 				186FA1FB1CBA2B89009EA660 /* main.m in Sources */,
 				186FA2291CBA3235009EA660 /* GKVideoAddChunkCell.m in Sources */,
 				186FA2231CBA3179009EA660 /* GKVideoChunkFenceCell.m in Sources */,
-				186FA21D1CBA30E4009EA660 /* GKVideoEditScrollView.m in Sources */,
-				186FA21C1CBA30E4009EA660 /* GKVideoEditCell.m in Sources */,
+				186FA21D1CBA30E4009EA660 /* GKHorizontalScrollView.m in Sources */,
+				186FA21C1CBA30E4009EA660 /* GKHorizontalCell.m in Sources */,
 				186FA2201CBA3113009EA660 /* GKVideoChunkCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,6 +346,7 @@
 				186FA20F1CBA2B89009EA660 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

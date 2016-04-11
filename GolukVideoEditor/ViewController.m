@@ -9,16 +9,16 @@
 #import "ViewController.h"
 #import "GKVideoChunkCell.h"
 #import "GKVideoChunkFenceCell.h"
-#import "GKVideoEditScrollView.h"
+#import "GKHorizontalScrollView.h"
 
 @interface ViewController ()
 <
-GKVideoEditScrollViewDataSource,
-GKVideoEditScrollViewLayout,
-GKVideoEditScrollViewDelegate
+GKHorizontalScrollDataSource,
+GKHorizontalScrollViewLayout,
+GKHorizontalScrollViewDelegate
 >
 
-@property (nonatomic, strong) GKVideoEditScrollView * videoEditScrollView;
+@property (nonatomic, strong) GKHorizontalScrollView * horizontalScrollView;
 
 @end
 
@@ -26,32 +26,32 @@ GKVideoEditScrollViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.videoEditScrollView = [[GKVideoEditScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
-    self.videoEditScrollView.dataSource = self;
-    self.videoEditScrollView.layout = self;
-    self.videoEditScrollView.delegate = self;
+    self.horizontalScrollView = [[GKHorizontalScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
+    self.horizontalScrollView.dataSource = self;
+    self.horizontalScrollView.layout = self;
+    self.horizontalScrollView.delegate = self;
     
-    self.videoEditScrollView.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:self.videoEditScrollView];
+    self.horizontalScrollView.backgroundColor = [UIColor blueColor];
+    [self.view addSubview:self.horizontalScrollView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.videoEditScrollView reloadData];
+    [self.horizontalScrollView reloadData];
 }
 
-#pragma mark - GKVideoEditScrollViewDataSource
+#pragma mark - GKHorizontalScrollDataSource
 
-- (NSInteger)countOfVideoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
+- (NSInteger)countOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
     return 20;
 }
 
-- (GKVideoEditCell *)videoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
+- (GKHorizontalCell *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
                    cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GKVideoEditCell * cell;
+    GKHorizontalCell * cell;
     if (indexPath.row % 2 == 1)
     {
         cell = [[GKVideoChunkCell alloc] init];
@@ -61,14 +61,14 @@ GKVideoEditScrollViewDelegate
     return cell;
 }
 
-#pragma mark - GKVideoEditScrollViewLayout
+#pragma mark - GKHorizontalScrollViewLayout
 
-- (CGRect)rectOfVideoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
+- (CGRect)rectOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
     return CGRectMake(0, 10, self.view.bounds.size.width, 50);
 }
 
-- (CGSize)videoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
+- (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
        sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row % 2 == 1) {
@@ -81,12 +81,12 @@ GKVideoEditScrollViewDelegate
     return CGSizeMake(20, 50);
 }
 
-//- (UIEdgeInsets)edgeInsetsOfVideoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
+//- (UIEdgeInsets)edgeInsetsOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 //{
 //    return UIEdgeInsetsMake(0, 10, 0, 10);
 //}
 
-- (UIEdgeInsets)videoEditScrollView:(GKVideoEditScrollView *)videoEditScrollView
+- (UIEdgeInsets)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
             insetForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return UIEdgeInsetsMake(0, 5, 0, 5);

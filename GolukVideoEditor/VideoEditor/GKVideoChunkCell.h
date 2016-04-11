@@ -6,8 +6,8 @@
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoEditCell.h"
+#import "GKHorizontalCell.h"
 
-@interface GKVideoChunkCell : GKVideoEditCell
+@interface GKVideoChunkCell : GKHorizontalCell
 
 @end

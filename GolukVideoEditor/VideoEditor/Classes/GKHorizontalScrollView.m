@@ -1,23 +1,23 @@
 //
-//  GKVideoEditScrollView.m
+//  GKHorizontalScrollView.m
 //  GolukVideoEditor
 //
 //  Created by apple on 16/4/10.
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoEditScrollView.h"
-#import "GKVideoEditCell.h"
+#import "GKHorizontalScrollView.h"
+#import "GKHorizontalCell.h"
 
-@interface GKVideoEditScrollView () <GKVideoEditCellDelegate>
+@interface GKHorizontalScrollView () <GKHorizontalCellDelegate>
 
-@property (nonatomic, strong) NSMutableArray <GKVideoEditCell *> * cells;
+@property (nonatomic, strong) NSMutableArray <GKHorizontalCell *> * cells;
 @property (nonatomic, strong) UIScrollView * scrollView;
 @property (nonatomic, assign) CGFloat xOffset;
 
 @end
 
-@implementation GKVideoEditScrollView
+@implementation GKHorizontalScrollView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -44,35 +44,35 @@
     [self.cells removeAllObjects];
     
     // scrollView 布局
-    CGRect videoScrollAreaFrame = [self.layout rectOfVideoEditScrollView:self];
-    self.scrollView.frame = videoScrollAreaFrame;
+    CGRect scrollAreaFrame = [self.layout rectOfHorizontalScrollView:self];
+    self.scrollView.frame = scrollAreaFrame;
     
     // 检查是否有 edge， 开始计算 xOffset
     UIEdgeInsets scrollViewEdge = UIEdgeInsetsZero;
-    if ([self.layout respondsToSelector:@selector(edgeInsetsOfVideoEditScrollView:)]) {
-        scrollViewEdge = [self.layout edgeInsetsOfVideoEditScrollView:self];
+    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
+        scrollViewEdge = [self.layout edgeInsetsOfHorizontalScrollView:self];
         self.xOffset += scrollViewEdge.left;
     }
     
-    NSInteger rowCount = [self.dataSource countOfVideoEditScrollView:self];
+    NSInteger rowCount = [self.dataSource countOfHorizontalScrollView:self];
     for (NSInteger index = 0; index < rowCount; index++) {
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-        GKVideoEditCell * cell = [self.dataSource videoEditScrollView:self
-                                                cellForRowAtIndexPath:indexPath];
+        GKHorizontalCell * cell = [self.dataSource horizontalScrollView:self
+                                                 cellForRowAtIndexPath:indexPath];
         [self.cells addObject:cell];
         cell.delegate = self;
         NSAssert(cell != nil, nil);
         if (cell != nil) {
             UIEdgeInsets cellEdge = UIEdgeInsetsZero;
             // Cell Left Edge Insets
-            if ([self.layout respondsToSelector:@selector(videoEditScrollView:insetForItemAtIndexPath:)]) {
-                cellEdge = [self.layout videoEditScrollView:self
-                                    insetForItemAtIndexPath:indexPath];
+            if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
+                cellEdge = [self.layout horizontalScrollView:self
+                                     insetForItemAtIndexPath:indexPath];
             }
             self.xOffset += cellEdge.left;
             
-            CGSize cellSize = [self.layout videoEditScrollView:self
-                                        sizeForItemAtIndexPath:indexPath];
+            CGSize cellSize = [self.layout horizontalScrollView:self
+                                         sizeForItemAtIndexPath:indexPath];
             cell.frame = CGRectMake(self.xOffset, 0, cellSize.width, cellSize.height);
             [self.scrollView addSubview:cell];
             
@@ -89,9 +89,9 @@
 - (void)buildCellsRelation
 {
     for (NSInteger index = 0; index < self.cells.count; index ++) {
-        GKVideoEditCell * currentCell = self.cells[index];
-        GKVideoEditCell * leftCell = nil;
-        GKVideoEditCell * rightCell = nil;
+        GKHorizontalCell * currentCell = self.cells[index];
+        GKHorizontalCell * leftCell = nil;
+        GKHorizontalCell * rightCell = nil;
         
         if (index > 0) {
             leftCell = self.cells[index - 1];
@@ -111,92 +111,92 @@
     }
 }
 
-#pragma mark - GKVideoEditCellDelegate
+#pragma mark - GKHorizontalCellDelegate
 
-- (void)videoEditCell:(GKVideoEditCell *)videoEditCell
+- (void)horizontalCell:(GKHorizontalCell *)horizontalCell
      moveBeganAtPoint:(CGPoint)point
 {
-    for (GKVideoEditCell * subview in self.scrollView.subviews) {
-        if (![subview isKindOfClass:[GKVideoEditCell class]]) {
+    for (GKHorizontalCell * subview in self.scrollView.subviews) {
+        if (![subview isKindOfClass:[GKHorizontalCell class]]) {
             continue;
         }
         [subview beginUpdating];
     }
 }
 
-- (void)videoEditCell:(GKVideoEditCell *)videoEditCell
+- (void)horizontalCell:(GKHorizontalCell *)horizontalCell
          movingAtPoint:(CGPoint)point
 {
-    GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell withPoint:point];
+    GKHorizontalCell * intersectCell = [self getIntersectCellByCell:horizontalCell withPoint:point];
     
     if ([intersectCell canExchange]) {
-        [self doMovementFrom:videoEditCell to:intersectCell];
+        [self doMovementFrom:horizontalCell to:intersectCell];
     } else {
-        [self recoveryCellsFrameExceptCell:videoEditCell];
+        [self recoveryCellsFrameExceptCell:horizontalCell];
     }
 }
 
-- (void)videoEditCell:(GKVideoEditCell *)videoEditCell
+- (void)horizontalCell:(GKHorizontalCell *)horizontalCell
        moveEndAtPoint:(CGPoint)point
 {
-    GKVideoEditCell * intersectCell = [self getIntersectCellByCell:videoEditCell withPoint:point];
+    GKHorizontalCell * intersectCell = [self getIntersectCellByCell:horizontalCell withPoint:point];
     if ([intersectCell canExchange]) {
-        if ([videoEditCell directionForCell:intersectCell] == GKVideoEditDirectionRight) {
+        if ([horizontalCell directionForCell:intersectCell] == GKHorizontalDirectionRight) {
             [UIView animateWithDuration:0.3f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 videoEditCell.frame = CGRectMake(CGRectGetMaxX(intersectCell.originFrameInUpdating) - videoEditCell.originFrameInUpdating.size.width,
-                                                                  videoEditCell.originFrameInUpdating.origin.y,
-                                                                  videoEditCell.originFrameInUpdating.size.width,
-                                                                  videoEditCell.originFrameInUpdating.size.height);
+                                 horizontalCell.frame = CGRectMake(CGRectGetMaxX(intersectCell.originFrameInUpdating) - horizontalCell.originFrameInUpdating.size.width,
+                                                                  horizontalCell.originFrameInUpdating.origin.y,
+                                                                  horizontalCell.originFrameInUpdating.size.width,
+                                                                  horizontalCell.originFrameInUpdating.size.height);
                              }
                              completion:^(BOOL finished) {
-                                 [videoEditCell changeRelationWithCell:intersectCell];
+                                 [horizontalCell changeRelationWithCell:intersectCell];
                              }];
-        } else if ([videoEditCell directionForCell:intersectCell] == GKVideoEditDirectionLeft) {
+        } else if ([horizontalCell directionForCell:intersectCell] == GKHorizontalDirectionLeft) {
             [UIView animateWithDuration:0.3f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 videoEditCell.frame = CGRectMake(intersectCell.originFrameInUpdating.origin.x,
-                                                                  videoEditCell.originFrameInUpdating.origin.y,
-                                                                  videoEditCell.originFrameInUpdating.size.width,
-                                                                  videoEditCell.originFrameInUpdating.size.height);
+                                 horizontalCell.frame = CGRectMake(intersectCell.originFrameInUpdating.origin.x,
+                                                                  horizontalCell.originFrameInUpdating.origin.y,
+                                                                  horizontalCell.originFrameInUpdating.size.width,
+                                                                  horizontalCell.originFrameInUpdating.size.height);
                              }
                              completion:^(BOOL finished) {
-                                 [videoEditCell changeRelationWithCell:intersectCell];
+                                 [horizontalCell changeRelationWithCell:intersectCell];
                              }];
         }
     } else {
         [self recoveryCellsFrameExceptCell:nil];
     }
     
-    for (GKVideoEditCell * subview in self.scrollView.subviews) {
-        if (![subview isKindOfClass:[GKVideoEditCell class]]) {
+    for (GKHorizontalCell * subview in self.scrollView.subviews) {
+        if (![subview isKindOfClass:[GKHorizontalCell class]]) {
             continue;
         }
         [subview endUpdating];
     }
 }
 
-- (void)videoEditCell:(GKVideoEditCell *)videoEditCell
+- (void)horizontalCell:(GKHorizontalCell *)horizontalCell
   moveCanceledAtPoint:(CGPoint)point
 {
     
 }
 
-- (void)recoveryCellsFrameExceptCell:(GKVideoEditCell *)videoEditCell
+- (void)recoveryCellsFrameExceptCell:(GKHorizontalCell *)horizontalCell
 {
     [UIView animateWithDuration:0.3f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         for (GKVideoEditCell * subview in self.scrollView.subviews) {
-                             if (![subview isKindOfClass:[GKVideoEditCell class]]) {
+                         for (GKHorizontalCell * subview in self.scrollView.subviews) {
+                             if (![subview isKindOfClass:[GKHorizontalCell class]]) {
                                  continue;
                              }
-                             if (subview == videoEditCell) {
+                             if (subview == horizontalCell) {
                                  continue;
                              }
                              subview.frame = subview.originFrameInUpdating;
@@ -206,28 +206,28 @@
                      }];
 }
 
-- (void)doMovementFrom:(GKVideoEditCell *)fromCell to:(GKVideoEditCell *)toCell
+- (void)doMovementFrom:(GKHorizontalCell *)fromCell to:(GKHorizontalCell *)toCell
 {
-    GKVideoEditDirection direction = [fromCell directionForCell:toCell];
+    GKHorizontalDirection direction = [fromCell directionForCell:toCell];
     static BOOL IN_MOVING_ANIMATION = NO;
     if (IN_MOVING_ANIMATION == NO) {
         IN_MOVING_ANIMATION = YES;
         // 向右移动
-        if (direction == GKVideoEditDirectionRight) {
+        if (direction == GKHorizontalDirectionRight) {
             [UIView animateWithDuration:0.3f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 GKVideoEditCell * curCell = fromCell;
+                                 GKHorizontalCell * curCell = fromCell;
                                  CGFloat xOffset = fromCell.originFrameInUpdating.origin.x;
                                  while (curCell) {
-                                     GKVideoEditCell * rightCell = curCell.rightCell;
+                                     GKHorizontalCell * rightCell = curCell.rightCell;
                                      
                                      UIEdgeInsets cellEdge = UIEdgeInsetsZero;
                                      // Cell Left Edge Insets
-                                     if ([self.layout respondsToSelector:@selector(videoEditScrollView:insetForItemAtIndexPath:)]) {
-                                         cellEdge = [self.layout videoEditScrollView:self
-                                                             insetForItemAtIndexPath:nil];
+                                     if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
+                                         cellEdge = [self.layout horizontalScrollView:self
+                                                              insetForItemAtIndexPath:nil];
                                      }
                                      if (curCell != fromCell) {
                                          xOffset += cellEdge.left;
@@ -252,21 +252,21 @@
                              }];
         }
         // 向左移动
-        else if (direction == GKVideoEditDirectionLeft) {
+        else if (direction == GKHorizontalDirectionLeft) {
             [UIView animateWithDuration:0.3f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 GKVideoEditCell * curCell = fromCell;
+                                 GKHorizontalCell * curCell = fromCell;
                                  CGFloat xOffset = CGRectGetMaxX(fromCell.originFrameInUpdating);
                                  while (curCell) {
-                                     GKVideoEditCell * leftCell = curCell.leftCell;
+                                     GKHorizontalCell * leftCell = curCell.leftCell;
                                      
                                      UIEdgeInsets cellEdge = UIEdgeInsetsZero;
                                      // Cell Left Edge Insets
-                                     if ([self.layout respondsToSelector:@selector(videoEditScrollView:insetForItemAtIndexPath:)]) {
-                                         cellEdge = [self.layout videoEditScrollView:self
-                                                             insetForItemAtIndexPath:nil];
+                                     if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
+                                         cellEdge = [self.layout horizontalScrollView:self
+                                                              insetForItemAtIndexPath:nil];
                                      }
                                      if (curCell != fromCell) {
                                          xOffset -= cellEdge.left;
@@ -295,14 +295,14 @@
 
 #pragma mark - Get Intersect Cell
 
-- (GKVideoEditCell *)getIntersectCellByCell:(GKVideoEditCell *)videoEditCell withPoint:(CGPoint)point
+- (GKHorizontalCell *)getIntersectCellByCell:(GKHorizontalCell *)horizontalCell withPoint:(CGPoint)point
 {
-    GKVideoEditCell * intersectCell = nil;
-    for (GKVideoEditCell * subview in self.scrollView.subviews) {
-        if (![subview isKindOfClass:[GKVideoEditCell class]]) {
+    GKHorizontalCell * intersectCell = nil;
+    for (GKHorizontalCell * subview in self.scrollView.subviews) {
+        if (![subview isKindOfClass:[GKHorizontalCell class]]) {
             continue;
         }
-        if (subview == videoEditCell) {
+        if (subview == horizontalCell) {
             continue;
         }
         if (CGRectContainsPoint(subview.originFrameInUpdating, point)) {
