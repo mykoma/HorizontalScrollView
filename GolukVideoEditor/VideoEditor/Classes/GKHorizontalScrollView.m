@@ -269,7 +269,7 @@
                                                               insetForItemAtIndexPath:nil];
                                      }
                                      if (curCell != fromCell) {
-                                         xOffset -= cellEdge.left;
+                                         xOffset -= cellEdge.right;
                                      }
                                      
                                      leftCell.frame = CGRectMake(xOffset - CGRectGetWidth(leftCell.frame),
@@ -278,7 +278,7 @@
                                                                   leftCell.frame.size.height);
                                      
                                      xOffset -= leftCell.frame.size.width;
-                                     xOffset -= cellEdge.right;
+                                     xOffset -= cellEdge.left;
                                      
                                      // Next
                                      curCell = curCell.leftCell;

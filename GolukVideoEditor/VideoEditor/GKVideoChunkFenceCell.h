@@ -8,6 +8,11 @@
 
 #import "GKHorizontalCell.h"
 
+@class GKVideoChunkCell;
+
 @interface GKVideoChunkFenceCell : GKHorizontalCell
+
+@property (nonatomic, weak) GKVideoChunkCell * leftChunkCell;
+@property (nonatomic, weak) GKVideoChunkCell * rightChunkCell;
 
 @end

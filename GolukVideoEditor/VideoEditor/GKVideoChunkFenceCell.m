@@ -7,6 +7,7 @@
 //
 
 #import "GKVideoChunkFenceCell.h"
+#import "GKVideoChunkCell.h"
 
 @implementation GKVideoChunkFenceCell
 
@@ -14,6 +15,26 @@
 {
     [super setup];
     self.backgroundColor = [UIColor yellowColor];
+}
+
+- (void)setLeftChunkCell:(GKVideoChunkCell *)leftChunkCell
+{
+    self.leftCell = leftChunkCell;
+}
+
+- (GKVideoChunkCell *)leftChunkCell
+{
+    return (GKVideoChunkCell *)self.leftCell;
+}
+
+- (void)setRightChunkCell:(GKVideoChunkCell *)rightChunkCell
+{
+    self.rightCell = rightChunkCell;
+}
+
+- (GKVideoChunkCell *)rightChunkCell
+{
+    return (GKVideoChunkCell *)self.rightCell;
 }
 
 @end

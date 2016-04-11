@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "GKVideoChunkCell.h"
 #import "GKVideoChunkFenceCell.h"
-#import "GKHorizontalScrollView.h"
+#import "GKVideoEditScrollView.h"
 
 @interface ViewController ()
 <
@@ -18,7 +18,7 @@ GKHorizontalScrollViewLayout,
 GKHorizontalScrollViewDelegate
 >
 
-@property (nonatomic, strong) GKHorizontalScrollView * horizontalScrollView;
+@property (nonatomic, strong) GKVideoEditScrollView * videoEditScrollView;
 
 @end
 
@@ -26,19 +26,19 @@ GKHorizontalScrollViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.horizontalScrollView = [[GKHorizontalScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
-    self.horizontalScrollView.dataSource = self;
-    self.horizontalScrollView.layout = self;
-    self.horizontalScrollView.delegate = self;
+    self.videoEditScrollView = [[GKVideoEditScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
+    self.videoEditScrollView.dataSource = self;
+    self.videoEditScrollView.layout = self;
+    self.videoEditScrollView.delegate = self;
     
-    self.horizontalScrollView.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:self.horizontalScrollView];
+    self.videoEditScrollView.backgroundColor = [UIColor blueColor];
+    [self.view addSubview:self.videoEditScrollView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.horizontalScrollView reloadData];
+    [self.videoEditScrollView reloadData];
 }
 
 #pragma mark - GKHorizontalScrollDataSource
@@ -81,10 +81,10 @@ GKHorizontalScrollViewDelegate
     return CGSizeMake(20, 50);
 }
 
-//- (UIEdgeInsets)edgeInsetsOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-//{
-//    return UIEdgeInsetsMake(0, 10, 0, 10);
-//}
+- (UIEdgeInsets)edgeInsetsOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+{
+    return UIEdgeInsetsMake(0, 10, 0, 10);
+}
 
 - (UIEdgeInsets)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
             insetForItemAtIndexPath:(NSIndexPath *)indexPath

@@ -7,6 +7,7 @@
 //
 
 #import "GKVideoChunkCell.h"
+#import "GKVideoChunkFenceCell.h"
 
 @interface GKVideoChunkCell ()
 
@@ -18,6 +19,65 @@
 {
     [super setup];
     self.backgroundColor = [UIColor redColor];
+}
+
+- (void)setLeftFenceCell:(GKVideoChunkFenceCell *)leftFenceCell
+{
+    self.leftCell = leftFenceCell;
+}
+
+- (GKVideoChunkFenceCell *)leftFenceCell
+{
+    return (GKVideoChunkFenceCell *)self.leftCell;
+}
+
+- (void)setRightFenceCell:(GKVideoChunkFenceCell *)rightFenceCell
+{
+    self.rightCell = rightFenceCell;
+}
+
+- (GKVideoChunkFenceCell *)rightFenceCell
+{
+    return (GKVideoChunkFenceCell *)self.rightCell;
+}
+
+- (void)changeRelationWithCell:(GKVideoChunkCell *)cell
+{
+    GKHorizontalDirection direction = [self directionForCell:cell];
+
+    if (direction == GKHorizontalDirectionLeft) {
+        GKHorizontalCell * fenceCell = self.leftCell;
+        // 连接右边两个 cell
+        self.rightCell.leftCell = fenceCell.leftCell;
+        fenceCell.leftCell.rightCell = self.rightCell;
+        // 连接左边4个 cell
+        
+        GKHorizontalCell * tempFenceCell = cell.leftCell;
+        tempFenceCell.rightCell = self;
+        self.leftCell = tempFenceCell;
+        
+        self.rightCell = fenceCell;
+        fenceCell.leftCell = self;
+        
+        cell.leftCell = fenceCell;
+        fenceCell.rightCell = cell;
+    } else if (direction == GKHorizontalDirectionRight) {
+        GKHorizontalCell * fenceCell = self.rightFenceCell;
+        // 连接左边两个 cell
+        self.leftCell.rightCell = fenceCell.rightCell;
+        fenceCell.rightCell.leftCell = self.leftCell;
+        
+        // 连接右边4个 cell
+        GKHorizontalCell * tempFenceCell = cell.rightCell;
+        tempFenceCell.leftCell = self;
+        self.rightCell = tempFenceCell;
+        
+        fenceCell.rightCell = self;
+        self.leftCell = fenceCell;
+        
+        fenceCell.leftCell = cell;
+        cell.rightCell = fenceCell;
+    }
 }
 
 - (BOOL)canMove
