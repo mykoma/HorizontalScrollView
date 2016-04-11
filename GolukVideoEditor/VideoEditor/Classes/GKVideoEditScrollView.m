@@ -67,7 +67,7 @@
             // Cell Left Edge Insets
             if ([self.layout respondsToSelector:@selector(videoEditScrollView:insetForItemAtIndexPath:)]) {
                 cellEdge = [self.layout videoEditScrollView:self
-                                insetForItemAtIndexPath:indexPath];
+                                    insetForItemAtIndexPath:indexPath];
             }
             self.xOffset += cellEdge.left;
             
@@ -132,7 +132,7 @@
     if ([intersectCell canExchange]) {
         [self doMovementFrom:videoEditCell to:intersectCell];
     } else {
-        [self recoveryVideoEditCellsFrameExceptCell:videoEditCell];
+        [self recoveryCellsFrameExceptCell:videoEditCell];
     }
 }
 
@@ -169,7 +169,7 @@
                              }];
         }
     } else {
-        [self recoveryVideoEditCellsFrameExceptCell:nil];
+        [self recoveryCellsFrameExceptCell:nil];
     }
     
     for (GKVideoEditCell * subview in self.scrollView.subviews) {
@@ -186,7 +186,7 @@
     
 }
 
-- (void)recoveryVideoEditCellsFrameExceptCell:(GKVideoEditCell *)videoEditCell
+- (void)recoveryCellsFrameExceptCell:(GKVideoEditCell *)videoEditCell
 {
     [UIView animateWithDuration:0.3f
                           delay:0
@@ -208,31 +208,82 @@
 
 - (void)doMovementFrom:(GKVideoEditCell *)fromCell to:(GKVideoEditCell *)toCell
 {
+    GKVideoEditDirection direction = [fromCell directionForCell:toCell];
     static BOOL IN_MOVING_ANIMATION = NO;
     if (IN_MOVING_ANIMATION == NO) {
         IN_MOVING_ANIMATION = YES;
-        if ([fromCell directionForCell:toCell] == GKVideoEditDirectionRight) {
+        if (direction == GKVideoEditDirectionRight) {
             [UIView animateWithDuration:0.3f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 toCell.frame = CGRectOffset(toCell.originFrameInUpdating,
-                                                             fromCell.originFrameInUpdating.origin.x - toCell.originFrameInUpdating.origin.x,
-                                                             0);
-                             }
-                             completion:^(BOOL finished) {
+                                 GKVideoEditCell * curCell = fromCell;
+                                 CGFloat xOffset = fromCell.originFrameInUpdating.origin.x;
+                                 while (curCell) {
+                                     GKVideoEditCell * rightCell = curCell.rightCell;
+                                     
+                                     UIEdgeInsets cellEdge = UIEdgeInsetsZero;
+                                     // Cell Left Edge Insets
+                                     if ([self.layout respondsToSelector:@selector(videoEditScrollView:insetForItemAtIndexPath:)]) {
+                                         cellEdge = [self.layout videoEditScrollView:self
+                                                             insetForItemAtIndexPath:nil];
+                                     }
+                                     if (curCell != fromCell) {
+                                         xOffset += cellEdge.left;
+                                     }
+                                     
+                                     rightCell.frame = CGRectMake(xOffset,
+                                                                  0,
+                                                                  rightCell.frame.size.width,
+                                                                  rightCell.frame.size.height);
+                                     
+                                     xOffset += rightCell.frame.size.width;
+                                     xOffset += cellEdge.right;
+                                     
+                                     // Next
+                                     curCell = curCell.rightCell;
+                                     if (curCell == toCell) {
+                                         break;
+                                     }
+                                 }
+                             } completion:^(BOOL finished) {
                                  IN_MOVING_ANIMATION = NO;
                              }];
-        } else if ([fromCell directionForCell:toCell] == GKVideoEditDirectionLeft) {
+        } else if (direction == GKVideoEditDirectionLeft) {
             [UIView animateWithDuration:0.3f
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 toCell.frame = CGRectMake(CGRectGetMaxX(fromCell.originFrameInUpdating) - toCell.originFrameInUpdating.size.width, 0,
-                                                           toCell.originFrameInUpdating.size.width,
-                                                           toCell.originFrameInUpdating.size.height);
-                             }
-                             completion:^(BOOL finished) {
+                                 GKVideoEditCell * curCell = fromCell;
+                                 CGFloat xOffset = CGRectGetMaxX(fromCell.originFrameInUpdating);
+                                 while (curCell) {
+                                     GKVideoEditCell * leftCell = curCell.leftCell;
+                                     
+                                     UIEdgeInsets cellEdge = UIEdgeInsetsZero;
+                                     // Cell Left Edge Insets
+                                     if ([self.layout respondsToSelector:@selector(videoEditScrollView:insetForItemAtIndexPath:)]) {
+                                         cellEdge = [self.layout videoEditScrollView:self
+                                                             insetForItemAtIndexPath:nil];
+                                     }
+                                     if (curCell != fromCell) {
+                                         xOffset -= cellEdge.left;
+                                     }
+                                     
+                                     leftCell.frame = CGRectMake(xOffset - CGRectGetWidth(leftCell.frame),
+                                                                  0,
+                                                                  leftCell.frame.size.width,
+                                                                  leftCell.frame.size.height);
+                                     
+                                     xOffset -= leftCell.frame.size.width;
+                                     xOffset -= cellEdge.right;
+                                     
+                                     // Next
+                                     curCell = curCell.leftCell;
+                                     if (curCell == toCell) {
+                                         break;
+                                     }
+                                 }
+                             } completion:^(BOOL finished) {
                                  IN_MOVING_ANIMATION = NO;
                              }];
         }
