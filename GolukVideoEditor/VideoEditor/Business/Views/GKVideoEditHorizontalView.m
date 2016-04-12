@@ -35,7 +35,7 @@ GKHorizontalScrollViewDelegate
     if (self) {
         self.viewModel = [[GKVideoEditHorizontalViewModel alloc] init];
         
-        self.scrollView = [[GKVideoHorizontalScrollView alloc] initWithFrame:frame];
+        self.scrollView = [[GKVideoHorizontalScrollView alloc] initWithFrame:self.bounds];
         self.scrollView.dataSource = self;
         self.scrollView.delegate = self;
         self.scrollView.layout = self;
@@ -107,7 +107,7 @@ GKHorizontalScrollViewDelegate
 
 - (CGRect)rectOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
-    return CGRectMake(0, 10, CGRectGetWidth(self.frame), HEIGHT_OF_HORIZONTAL_CELL);
+    return CGRectMake(0, 50, CGRectGetWidth(self.frame), HEIGHT_OF_HORIZONTAL_CELL);
 }
 
 - (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
@@ -130,13 +130,13 @@ GKHorizontalScrollViewDelegate
 
 - (UIEdgeInsets)edgeInsetsOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
-    return UIEdgeInsetsMake(0, 10, 0, 10);
+    return UIEdgeInsetsMake(0, 50, 0, 10);
 }
 
 - (UIEdgeInsets)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
              insetForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UIEdgeInsetsMake(0, 5, 0, 5);
+    return UIEdgeInsetsMake(0, 0, 0, 5);
 }
 
 @end

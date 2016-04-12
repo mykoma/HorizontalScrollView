@@ -33,7 +33,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)setup
 {
     [super setup];
-    self.backgroundColor = [UIColor redColor];
+    self.backgroundColor = [UIColor greenColor];
 }
 
 - (void)setLeftFenceCell:(GKVideoFenceCell *)leftFenceCell

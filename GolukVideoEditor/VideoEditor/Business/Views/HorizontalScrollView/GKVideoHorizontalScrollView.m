@@ -12,9 +12,32 @@
 
 @interface GKVideoHorizontalScrollView ()
 
+@property (nonatomic, strong) UIImageView * frameMarker;
+
 @end
 
 @implementation GKVideoHorizontalScrollView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _frameMarker = [[UIImageView alloc] init];
+        _frameMarker.backgroundColor = [UIColor redColor];
+        [self addSubview:_frameMarker];
+    }
+    return self;
+}
+
+- (void)reloadData
+{
+    [super reloadData];
+    CGFloat x = 0.0f;
+    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
+        x = [self.layout edgeInsetsOfHorizontalScrollView:self].left;
+    }
+    self.frameMarker.frame = CGRectMake(x, 0, 5, CGRectGetHeight(self.frame));
+}
 
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated
 {
