@@ -107,7 +107,7 @@ GKHorizontalScrollViewDelegate
 
 - (CGRect)rectOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
-    return CGRectMake(0, 50, CGRectGetWidth(self.frame), HEIGHT_OF_HORIZONTAL_CELL);
+    return CGRectMake(0, 100, CGRectGetWidth(self.frame), HEIGHT_OF_HORIZONTAL_CELL);
 }
 
 - (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView

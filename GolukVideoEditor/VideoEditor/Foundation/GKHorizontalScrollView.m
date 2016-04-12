@@ -64,9 +64,17 @@
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         GKHorizontalCell * cell = [self.dataSource horizontalScrollView:self
                                                  cellForRowAtIndexPath:indexPath];
-        [self.cells addObject:cell];
-        cell.delegate = self;
         NSAssert(cell != nil, nil);
+        
+        cell.delegate = self;
+        [self.cells addObject:cell];
+        
+        // 如果没有 firstCell， 则设置
+        if (self.firstCell == nil) {
+            self.firstCell = cell;
+        }
+        
+        // 给 cell 布局
         if (cell != nil) {
             UIEdgeInsets cellEdge = UIEdgeInsetsZero;
             // Cell Left Edge Insets
@@ -157,6 +165,8 @@
                                                                   horizontalCell.originFrameInUpdating.size.height);
                              }
                              completion:^(BOOL finished) {
+                                 [self attemptToUdpateFirstCellByMovingCell:horizontalCell
+                                                          withIntersectCell:intersectCell];
                                  [horizontalCell changeRelationWithCell:intersectCell];
                              }];
         } else if ([horizontalCell directionForCell:intersectCell] == GKHorizontalDirectionLeft) {
@@ -170,6 +180,8 @@
                                                                   horizontalCell.originFrameInUpdating.size.height);
                              }
                              completion:^(BOOL finished) {
+                                 [self attemptToUdpateFirstCellByMovingCell:horizontalCell
+                                                          withIntersectCell:intersectCell];
                                  [horizontalCell changeRelationWithCell:intersectCell];
                              }];
         }
@@ -189,6 +201,19 @@
   moveCanceledAtPoint:(CGPoint)point
 {
     
+}
+
+- (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)movingCell
+                           withIntersectCell:(GKHorizontalCell *)intersectCell
+{
+    // 如果firstCell是movingCell
+    if (self.firstCell == movingCell) {
+        self.firstCell = movingCell.rightCell;
+    }
+    // 如果firstCell是intersectCell
+    else if (self.firstCell == intersectCell) {
+        self.firstCell = movingCell;
+    }
 }
 
 - (void)recoveryCellsFrameExceptCell:(GKHorizontalCell *)horizontalCell

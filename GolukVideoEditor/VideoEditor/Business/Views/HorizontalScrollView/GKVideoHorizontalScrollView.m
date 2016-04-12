@@ -9,6 +9,7 @@
 #import "GKVideoHorizontalScrollView.h"
 #import "GKVideoChunkCell.h"
 #import "GKVideoFenceCell.h"
+#import "GKVideoTailerCell.h"
 
 @interface GKVideoHorizontalScrollView ()
 
@@ -36,16 +37,63 @@
     if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
         x = [self.layout edgeInsetsOfHorizontalScrollView:self].left;
     }
-    self.frameMarker.frame = CGRectMake(x, 0, 5, CGRectGetHeight(self.frame));
+    self.frameMarker.frame = CGRectMake(x, 0, 1, CGRectGetHeight(self.frame));
 }
 
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated
 {
-    CGFloat width = [GKVideoChunkCell widthOfOneSecond];
-    [self scrollToOffset:timeInterval * width animated:animated];
+    [self scrollToOffset:[self seekForTimeInterval:timeInterval] animated:animated];
+}
+
+- (CGFloat)seekForTimeInterval:(NSTimeInterval)timeInterval
+{
+    CGFloat xPosition = 0.0f;
+    NSTimeInterval additionTimeInterval = 0.0f;
+    GKVideoChunkCell * curCell = (GKVideoChunkCell *)self.firstCell;
+    while (curCell) {
+        CGFloat durationOfRate = curCell.cellModel.endPercent - curCell.cellModel.beginPercent;
+        // 如果在这个 curCell 的duration中间
+        if (additionTimeInterval <= timeInterval
+            && timeInterval <= additionTimeInterval + curCell.cellModel.duration * durationOfRate) {
+            break;
+        }
+        additionTimeInterval += curCell.cellModel.duration * durationOfRate;
+        
+        // 如果当前 cell 是最后一个 cell 了， 那么 break
+        if (![curCell.rightFenceCell.rightChunkCell isKindOfClass:[GKVideoChunkCell class]]) {
+            curCell = nil;
+            break;
+        }
+        curCell = curCell.rightFenceCell.rightChunkCell;
+    }
+    // 如果不是GKVideoChunkCell， 那么返回0
+    if (![curCell isKindOfClass:[GKVideoChunkCell class]]) {
+        return 0.0f;
+    }
+    NSTimeInterval offsetOfTimeInterval = timeInterval - additionTimeInterval;
+    CGFloat leftEdge = 0.0f;
+    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
+        leftEdge = [self.layout edgeInsetsOfHorizontalScrollView:self].left;
+    }
+    
+    xPosition = CGRectGetMinX(curCell.frame) - leftEdge + [GKVideoChunkCell widthOfOneSecond] * offsetOfTimeInterval;
+    return xPosition;
 }
 
 #pragma mark - Override
+
+- (void)attemptToUdpateFirstCellByMovingCell:(GKVideoChunkCell *)movingCell
+                           withIntersectCell:(GKVideoChunkCell *)intersectCell
+{
+    // 如果firstCell是movingCell
+    if (self.firstCell == movingCell) {
+        self.firstCell = movingCell.rightFenceCell.rightChunkCell;
+    }
+    // 如果firstCell是intersectCell
+    else if (self.firstCell == intersectCell) {
+        self.firstCell = movingCell;
+    }
+}
 
 - (void)doMovementFrom:(GKVideoChunkCell *)fromCell to:(GKVideoChunkCell *)toCell
 {

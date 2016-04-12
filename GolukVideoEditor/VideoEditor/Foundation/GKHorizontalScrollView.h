@@ -63,6 +63,11 @@
 @property (nonatomic, weak) IBOutlet id <GKHorizontalScrollViewLayout> layout;
 @property (nonatomic, weak) IBOutlet id <GKHorizontalScrollViewDelegate> delegate;
 
+@property (nonatomic, weak) GKHorizontalCell * firstCell;
+
+- (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)moving
+                           withIntersectCell:(GKHorizontalCell *)intersectCell;
+
 - (void)reloadData;
 
 - (void)scrollToOffset:(CGFloat)offset animated:(BOOL)animated;
