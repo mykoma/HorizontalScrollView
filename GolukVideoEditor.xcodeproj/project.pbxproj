@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		184ECCF31CBCD7E700565918 /* GKVideoChunkCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCDA1CBCD7E700565918 /* GKVideoChunkCellModel.m */; };
-		184ECCF41CBCD7E700565918 /* GKVideoEditScrollViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCDC1CBCD7E700565918 /* GKVideoEditScrollViewModel.m */; };
+		184ECCF41CBCD7E700565918 /* GKVideoEditHorizontalViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCDC1CBCD7E700565918 /* GKVideoEditHorizontalViewModel.m */; };
 		184ECCF51CBCD7E700565918 /* GKVideoAddChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE01CBCD7E700565918 /* GKVideoAddChunkCell.m */; };
 		184ECCF61CBCD7E700565918 /* GKVideoChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE21CBCD7E700565918 /* GKVideoChunkCell.m */; };
 		184ECCF71CBCD7E700565918 /* GKVideoFenceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE41CBCD7E700565918 /* GKVideoFenceCell.m */; };
@@ -29,8 +29,8 @@
 /* Begin PBXFileReference section */
 		184ECCD91CBCD7E700565918 /* GKVideoChunkCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCellModel.h; sourceTree = "<group>"; };
 		184ECCDA1CBCD7E700565918 /* GKVideoChunkCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCellModel.m; sourceTree = "<group>"; };
-		184ECCDB1CBCD7E700565918 /* GKVideoEditScrollViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditScrollViewModel.h; sourceTree = "<group>"; };
-		184ECCDC1CBCD7E700565918 /* GKVideoEditScrollViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditScrollViewModel.m; sourceTree = "<group>"; };
+		184ECCDB1CBCD7E700565918 /* GKVideoEditHorizontalViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditHorizontalViewModel.h; sourceTree = "<group>"; };
+		184ECCDC1CBCD7E700565918 /* GKVideoEditHorizontalViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditHorizontalViewModel.m; sourceTree = "<group>"; };
 		184ECCDF1CBCD7E700565918 /* GKVideoAddChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoAddChunkCell.h; sourceTree = "<group>"; };
 		184ECCE01CBCD7E700565918 /* GKVideoAddChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoAddChunkCell.m; sourceTree = "<group>"; };
 		184ECCE11CBCD7E700565918 /* GKVideoChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCell.h; sourceTree = "<group>"; };
@@ -95,8 +95,8 @@
 			children = (
 				184ECCD91CBCD7E700565918 /* GKVideoChunkCellModel.h */,
 				184ECCDA1CBCD7E700565918 /* GKVideoChunkCellModel.m */,
-				184ECCDB1CBCD7E700565918 /* GKVideoEditScrollViewModel.h */,
-				184ECCDC1CBCD7E700565918 /* GKVideoEditScrollViewModel.m */,
+				184ECCDB1CBCD7E700565918 /* GKVideoEditHorizontalViewModel.h */,
+				184ECCDC1CBCD7E700565918 /* GKVideoEditHorizontalViewModel.m */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 				186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */,
 				184ECCFD1CBCD7E700565918 /* GKHorizontalScrollView.m in Sources */,
 				184ECCF91CBCD7E700565918 /* GKVideoTimeCell.m in Sources */,
-				184ECCF41CBCD7E700565918 /* GKVideoEditScrollViewModel.m in Sources */,
+				184ECCF41CBCD7E700565918 /* GKVideoEditHorizontalViewModel.m in Sources */,
 				186FA1FB1CBA2B89009EA660 /* main.m in Sources */,
 				184ECCF71CBCD7E700565918 /* GKVideoFenceCell.m in Sources */,
 			);

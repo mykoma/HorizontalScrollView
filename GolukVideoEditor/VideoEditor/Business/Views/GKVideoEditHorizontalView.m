@@ -7,15 +7,117 @@
 //
 
 #import "GKVideoEditHorizontalView.h"
+#import "GKVideoHorizontalScrollView.h"
+#import "GKVideoChunkCell.h"
+#import "GKVideoFenceCell.h"
+#import "GKVideoAddChunkCell.h"
+#import "GKVideoTailerCell.h"
+#import "GKVideoTimeCell.h"
+
+@interface GKVideoEditHorizontalView ()
+<
+GKHorizontalScrollDataSource,
+GKHorizontalScrollViewLayout,
+GKHorizontalScrollViewDelegate
+>
+
+@property (nonatomic, strong) GKVideoHorizontalScrollView * scrollView;
+
+@end
 
 @implementation GKVideoEditHorizontalView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.viewModel = [[GKVideoEditHorizontalViewModel alloc] init];
+        
+        self.scrollView = [[GKVideoHorizontalScrollView alloc] initWithFrame:frame];
+        self.scrollView.dataSource = self;
+        self.scrollView.delegate = self;
+        self.scrollView.layout = self;
+        [self addSubview:self.scrollView];
+    }
+    return self;
 }
-*/
+
+- (void)loadData
+{
+    [self buildInnerViewModels];
+    [self.scrollView reloadData];
+}
+
+#pragma mark - ViewModel
+
+- (void)buildInnerViewModels
+{
+    [self.viewModel.innerCellModels removeAllObjects];
+    
+    for (GKVideoChunkCellModel * chunkCellModel in self.viewModel.chunkCellModels) {
+        [self.viewModel.innerCellModels addObject:chunkCellModel];
+        [self.viewModel.innerCellModels addObject:[GKVideoFenceCellModel new]];
+    }
+    
+    [self.viewModel.innerCellModels addObject:[GKVideoTailerCellModel new]];
+    [self.viewModel.innerCellModels addObject:[GKVideoAddChunkCellModel new]];
+    [self.viewModel.innerCellModels addObject:[GKVideoTimeCellModel new]];
+}
+
+#pragma mark - GKHorizontalScrollDataSource
+
+- (NSInteger)countOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+{
+    return self.viewModel.innerCellModels.count;
+}
+
+- (GKHorizontalCell *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+                     cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id cellModel = self.viewModel.innerCellModels[indexPath.row];
+    if ([cellModel isKindOfClass:[GKVideoChunkCellModel class]]) {
+        return [[GKVideoChunkCell alloc] init];
+    } else if ([cellModel isKindOfClass:[GKVideoFenceCellModel class]]) {
+        return [[GKVideoFenceCell alloc] init];
+    } else if ([cellModel isKindOfClass:[GKVideoAddChunkCellModel class]]) {
+        return [[GKVideoAddChunkCell alloc] init];
+    } else if ([cellModel isKindOfClass:[GKVideoTailerCellModel class]]) {
+        return [[GKVideoTailerCell alloc] init];
+    } else if ([cellModel isKindOfClass:[GKVideoTimeCellModel class]]) {
+        return [[GKVideoTimeCell alloc] init];
+    }
+    return [[GKHorizontalCell alloc] init];
+}
+
+#pragma mark - GKHorizontalScrollViewLayout
+
+- (CGRect)rectOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+{
+    return CGRectMake(0, 10, CGRectGetWidth(self.frame), 50);
+}
+
+- (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+        sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row % 2 == 0) {
+        if ((indexPath.row / 2 ) % 2 == 1) {
+            return CGSizeMake(100, 50);
+        } else {
+            return CGSizeMake(70, 50);
+        }
+    }
+    return CGSizeMake(20, 50);
+}
+
+- (UIEdgeInsets)edgeInsetsOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+{
+    return UIEdgeInsetsMake(0, 10, 0, 10);
+}
+
+- (UIEdgeInsets)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+             insetForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UIEdgeInsetsMake(0, 5, 0, 5);
+}
 
 @end

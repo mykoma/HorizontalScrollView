@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GKVideoEditHorizontalViewModel.h"
 
 @interface GKVideoEditHorizontalView : UIView
+
+@property (nonatomic, strong) GKVideoEditHorizontalViewModel * viewModel;
+
+- (void)loadData;
 
 @end

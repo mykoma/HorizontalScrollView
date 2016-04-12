@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GKVideoChunkCellModel.h"
 
-@interface GKVideoEditScrollViewModel : NSObject
+@interface GKVideoEditHorizontalViewModel : NSObject
 
 /**
  * 外部传入的 chunk cell model

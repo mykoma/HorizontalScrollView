@@ -6,9 +6,9 @@
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoEditScrollViewModel.h"
+#import "GKVideoEditHorizontalViewModel.h"
 
-@implementation GKVideoEditScrollViewModel
+@implementation GKVideoEditHorizontalViewModel
 
 - (instancetype)init
 {
