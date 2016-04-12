@@ -17,3 +17,7 @@
 }
 
 @end
+
+@implementation GKVideoChunkTailerCellModel
+
+@end
