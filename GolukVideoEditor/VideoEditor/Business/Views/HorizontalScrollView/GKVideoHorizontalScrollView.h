@@ -7,7 +7,6 @@
 //
 
 #import "GKHorizontalScrollView.h"
-#import "GKVideoEditScrollViewModel.h"
 
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView
 

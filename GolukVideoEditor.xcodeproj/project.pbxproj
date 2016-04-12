@@ -7,35 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18336FFD1CBBB70F0073EE6E /* GKVideoHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18336FFC1CBBB70F0073EE6E /* GKVideoHorizontalScrollView.m */; };
-		183370001CBC12380073EE6E /* GKVideoTailerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18336FFF1CBC12380073EE6E /* GKVideoTailerCell.m */; };
-		183370041CBCA2670073EE6E /* GKVideoEditScrollViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183370031CBCA2670073EE6E /* GKVideoEditScrollViewModel.m */; };
-		183370071CBCA27F0073EE6E /* GKVideoChunkCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183370061CBCA27F0073EE6E /* GKVideoChunkCellModel.m */; };
-		184ECCD21CBCCCA900565918 /* GKVideoTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCD11CBCCCA900565918 /* GKVideoTimeCell.m */; };
+		184ECCF31CBCD7E700565918 /* GKVideoChunkCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCDA1CBCD7E700565918 /* GKVideoChunkCellModel.m */; };
+		184ECCF41CBCD7E700565918 /* GKVideoEditScrollViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCDC1CBCD7E700565918 /* GKVideoEditScrollViewModel.m */; };
+		184ECCF51CBCD7E700565918 /* GKVideoAddChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE01CBCD7E700565918 /* GKVideoAddChunkCell.m */; };
+		184ECCF61CBCD7E700565918 /* GKVideoChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE21CBCD7E700565918 /* GKVideoChunkCell.m */; };
+		184ECCF71CBCD7E700565918 /* GKVideoFenceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE41CBCD7E700565918 /* GKVideoFenceCell.m */; };
+		184ECCF81CBCD7E700565918 /* GKVideoTailerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE61CBCD7E700565918 /* GKVideoTailerCell.m */; };
+		184ECCF91CBCD7E700565918 /* GKVideoTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCE81CBCD7E700565918 /* GKVideoTimeCell.m */; };
+		184ECCFA1CBCD7E700565918 /* GKVideoEditHorizontalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCEA1CBCD7E700565918 /* GKVideoEditHorizontalView.m */; };
+		184ECCFB1CBCD7E700565918 /* GKVideoHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCED1CBCD7E700565918 /* GKVideoHorizontalScrollView.m */; };
+		184ECCFC1CBCD7E700565918 /* GKHorizontalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCF01CBCD7E700565918 /* GKHorizontalCell.m */; };
+		184ECCFD1CBCD7E700565918 /* GKHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCF21CBCD7E700565918 /* GKHorizontalScrollView.m */; };
 		186FA1FB1CBA2B89009EA660 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FA1CBA2B89009EA660 /* main.m */; };
 		186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FD1CBA2B89009EA660 /* AppDelegate.m */; };
 		186FA2011CBA2B89009EA660 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2001CBA2B89009EA660 /* ViewController.m */; };
 		186FA2041CBA2B89009EA660 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2021CBA2B89009EA660 /* Main.storyboard */; };
 		186FA2061CBA2B89009EA660 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2051CBA2B89009EA660 /* Assets.xcassets */; };
 		186FA2091CBA2B89009EA660 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186FA2071CBA2B89009EA660 /* LaunchScreen.storyboard */; };
-		186FA21C1CBA30E4009EA660 /* GKHorizontalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2191CBA30E4009EA660 /* GKHorizontalCell.m */; };
-		186FA21D1CBA30E4009EA660 /* GKHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA21B1CBA30E4009EA660 /* GKHorizontalScrollView.m */; };
-		186FA2201CBA3113009EA660 /* GKVideoChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */; };
-		186FA2231CBA3179009EA660 /* GKVideoFenceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2221CBA3179009EA660 /* GKVideoFenceCell.m */; };
-		186FA2291CBA3235009EA660 /* GKVideoAddChunkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2281CBA3235009EA660 /* GKVideoAddChunkCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		18336FFB1CBBB70F0073EE6E /* GKVideoHorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoHorizontalScrollView.h; sourceTree = "<group>"; };
-		18336FFC1CBBB70F0073EE6E /* GKVideoHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoHorizontalScrollView.m; sourceTree = "<group>"; };
-		18336FFE1CBC12380073EE6E /* GKVideoTailerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoTailerCell.h; sourceTree = "<group>"; };
-		18336FFF1CBC12380073EE6E /* GKVideoTailerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoTailerCell.m; sourceTree = "<group>"; };
-		183370021CBCA2670073EE6E /* GKVideoEditScrollViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditScrollViewModel.h; sourceTree = "<group>"; };
-		183370031CBCA2670073EE6E /* GKVideoEditScrollViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditScrollViewModel.m; sourceTree = "<group>"; };
-		183370051CBCA27F0073EE6E /* GKVideoChunkCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCellModel.h; sourceTree = "<group>"; };
-		183370061CBCA27F0073EE6E /* GKVideoChunkCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCellModel.m; sourceTree = "<group>"; };
-		184ECCD01CBCCCA900565918 /* GKVideoTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoTimeCell.h; sourceTree = "<group>"; };
-		184ECCD11CBCCCA900565918 /* GKVideoTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoTimeCell.m; sourceTree = "<group>"; };
+		184ECCD91CBCD7E700565918 /* GKVideoChunkCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCellModel.h; sourceTree = "<group>"; };
+		184ECCDA1CBCD7E700565918 /* GKVideoChunkCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCellModel.m; sourceTree = "<group>"; };
+		184ECCDB1CBCD7E700565918 /* GKVideoEditScrollViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditScrollViewModel.h; sourceTree = "<group>"; };
+		184ECCDC1CBCD7E700565918 /* GKVideoEditScrollViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditScrollViewModel.m; sourceTree = "<group>"; };
+		184ECCDF1CBCD7E700565918 /* GKVideoAddChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoAddChunkCell.h; sourceTree = "<group>"; };
+		184ECCE01CBCD7E700565918 /* GKVideoAddChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoAddChunkCell.m; sourceTree = "<group>"; };
+		184ECCE11CBCD7E700565918 /* GKVideoChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCell.h; sourceTree = "<group>"; };
+		184ECCE21CBCD7E700565918 /* GKVideoChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCell.m; sourceTree = "<group>"; };
+		184ECCE31CBCD7E700565918 /* GKVideoFenceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoFenceCell.h; sourceTree = "<group>"; };
+		184ECCE41CBCD7E700565918 /* GKVideoFenceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoFenceCell.m; sourceTree = "<group>"; };
+		184ECCE51CBCD7E700565918 /* GKVideoTailerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoTailerCell.h; sourceTree = "<group>"; };
+		184ECCE61CBCD7E700565918 /* GKVideoTailerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoTailerCell.m; sourceTree = "<group>"; };
+		184ECCE71CBCD7E700565918 /* GKVideoTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoTimeCell.h; sourceTree = "<group>"; };
+		184ECCE81CBCD7E700565918 /* GKVideoTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoTimeCell.m; sourceTree = "<group>"; };
+		184ECCE91CBCD7E700565918 /* GKVideoEditHorizontalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditHorizontalView.h; sourceTree = "<group>"; };
+		184ECCEA1CBCD7E700565918 /* GKVideoEditHorizontalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditHorizontalView.m; sourceTree = "<group>"; };
+		184ECCEC1CBCD7E700565918 /* GKVideoHorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoHorizontalScrollView.h; sourceTree = "<group>"; };
+		184ECCED1CBCD7E700565918 /* GKVideoHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoHorizontalScrollView.m; sourceTree = "<group>"; };
+		184ECCEF1CBCD7E700565918 /* GKHorizontalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalCell.h; sourceTree = "<group>"; };
+		184ECCF01CBCD7E700565918 /* GKHorizontalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalCell.m; sourceTree = "<group>"; };
+		184ECCF11CBCD7E700565918 /* GKHorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalScrollView.h; sourceTree = "<group>"; };
+		184ECCF21CBCD7E700565918 /* GKHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalScrollView.m; sourceTree = "<group>"; };
 		186FA1F61CBA2B89009EA660 /* GolukVideoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolukVideoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		186FA1FA1CBA2B89009EA660 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		186FA1FC1CBA2B89009EA660 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -46,16 +59,6 @@
 		186FA2051CBA2B89009EA660 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		186FA2081CBA2B89009EA660 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		186FA20A1CBA2B89009EA660 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		186FA2181CBA30E4009EA660 /* GKHorizontalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalCell.h; sourceTree = "<group>"; };
-		186FA2191CBA30E4009EA660 /* GKHorizontalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalCell.m; sourceTree = "<group>"; };
-		186FA21A1CBA30E4009EA660 /* GKHorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalScrollView.h; sourceTree = "<group>"; };
-		186FA21B1CBA30E4009EA660 /* GKHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalScrollView.m; sourceTree = "<group>"; };
-		186FA21E1CBA3113009EA660 /* GKVideoChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCell.h; sourceTree = "<group>"; };
-		186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCell.m; sourceTree = "<group>"; };
-		186FA2211CBA3179009EA660 /* GKVideoFenceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoFenceCell.h; sourceTree = "<group>"; };
-		186FA2221CBA3179009EA660 /* GKVideoFenceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoFenceCell.m; sourceTree = "<group>"; };
-		186FA2271CBA3235009EA660 /* GKVideoAddChunkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoAddChunkCell.h; sourceTree = "<group>"; };
-		186FA2281CBA3235009EA660 /* GKVideoAddChunkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoAddChunkCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,15 +72,81 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		183370011CBCA24B0073EE6E /* ViewModels */ = {
+		184ECCD61CBCD7E700565918 /* VideoEditor */ = {
 			isa = PBXGroup;
 			children = (
-				183370021CBCA2670073EE6E /* GKVideoEditScrollViewModel.h */,
-				183370031CBCA2670073EE6E /* GKVideoEditScrollViewModel.m */,
-				183370051CBCA27F0073EE6E /* GKVideoChunkCellModel.h */,
-				183370061CBCA27F0073EE6E /* GKVideoChunkCellModel.m */,
+				184ECCD71CBCD7E700565918 /* Business */,
+				184ECCEE1CBCD7E700565918 /* Foundation */,
+			);
+			path = VideoEditor;
+			sourceTree = "<group>";
+		};
+		184ECCD71CBCD7E700565918 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				184ECCD81CBCD7E700565918 /* ViewModels */,
+				184ECCDD1CBCD7E700565918 /* Views */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
+		184ECCD81CBCD7E700565918 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				184ECCD91CBCD7E700565918 /* GKVideoChunkCellModel.h */,
+				184ECCDA1CBCD7E700565918 /* GKVideoChunkCellModel.m */,
+				184ECCDB1CBCD7E700565918 /* GKVideoEditScrollViewModel.h */,
+				184ECCDC1CBCD7E700565918 /* GKVideoEditScrollViewModel.m */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		184ECCDD1CBCD7E700565918 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				184ECCDE1CBCD7E700565918 /* Cells */,
+				184ECCE91CBCD7E700565918 /* GKVideoEditHorizontalView.h */,
+				184ECCEA1CBCD7E700565918 /* GKVideoEditHorizontalView.m */,
+				184ECCEB1CBCD7E700565918 /* HorizontalScrollView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		184ECCDE1CBCD7E700565918 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				184ECCDF1CBCD7E700565918 /* GKVideoAddChunkCell.h */,
+				184ECCE01CBCD7E700565918 /* GKVideoAddChunkCell.m */,
+				184ECCE11CBCD7E700565918 /* GKVideoChunkCell.h */,
+				184ECCE21CBCD7E700565918 /* GKVideoChunkCell.m */,
+				184ECCE31CBCD7E700565918 /* GKVideoFenceCell.h */,
+				184ECCE41CBCD7E700565918 /* GKVideoFenceCell.m */,
+				184ECCE51CBCD7E700565918 /* GKVideoTailerCell.h */,
+				184ECCE61CBCD7E700565918 /* GKVideoTailerCell.m */,
+				184ECCE71CBCD7E700565918 /* GKVideoTimeCell.h */,
+				184ECCE81CBCD7E700565918 /* GKVideoTimeCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		184ECCEB1CBCD7E700565918 /* HorizontalScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				184ECCEC1CBCD7E700565918 /* GKVideoHorizontalScrollView.h */,
+				184ECCED1CBCD7E700565918 /* GKVideoHorizontalScrollView.m */,
+			);
+			path = HorizontalScrollView;
+			sourceTree = "<group>";
+		};
+		184ECCEE1CBCD7E700565918 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				184ECCEF1CBCD7E700565918 /* GKHorizontalCell.h */,
+				184ECCF01CBCD7E700565918 /* GKHorizontalCell.m */,
+				184ECCF11CBCD7E700565918 /* GKHorizontalScrollView.h */,
+				184ECCF21CBCD7E700565918 /* GKHorizontalScrollView.m */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		186FA1ED1CBA2B89009EA660 = {
@@ -99,7 +168,7 @@
 		186FA1F81CBA2B89009EA660 /* GolukVideoEditor */ = {
 			isa = PBXGroup;
 			children = (
-				186FA2101CBA2B9C009EA660 /* VideoEditor */,
+				184ECCD61CBCD7E700565918 /* VideoEditor */,
 				186FA1FC1CBA2B89009EA660 /* AppDelegate.h */,
 				186FA1FD1CBA2B89009EA660 /* AppDelegate.m */,
 				186FA1FF1CBA2B89009EA660 /* ViewController.h */,
@@ -119,38 +188,6 @@
 				186FA1FA1CBA2B89009EA660 /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		186FA2101CBA2B9C009EA660 /* VideoEditor */ = {
-			isa = PBXGroup;
-			children = (
-				183370011CBCA24B0073EE6E /* ViewModels */,
-				186FA2171CBA30E4009EA660 /* Classes */,
-				186FA21E1CBA3113009EA660 /* GKVideoChunkCell.h */,
-				186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */,
-				186FA2211CBA3179009EA660 /* GKVideoFenceCell.h */,
-				186FA2221CBA3179009EA660 /* GKVideoFenceCell.m */,
-				186FA2271CBA3235009EA660 /* GKVideoAddChunkCell.h */,
-				186FA2281CBA3235009EA660 /* GKVideoAddChunkCell.m */,
-				18336FFB1CBBB70F0073EE6E /* GKVideoHorizontalScrollView.h */,
-				18336FFC1CBBB70F0073EE6E /* GKVideoHorizontalScrollView.m */,
-				18336FFE1CBC12380073EE6E /* GKVideoTailerCell.h */,
-				18336FFF1CBC12380073EE6E /* GKVideoTailerCell.m */,
-				184ECCD01CBCCCA900565918 /* GKVideoTimeCell.h */,
-				184ECCD11CBCCCA900565918 /* GKVideoTimeCell.m */,
-			);
-			path = VideoEditor;
-			sourceTree = "<group>";
-		};
-		186FA2171CBA30E4009EA660 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				186FA2181CBA30E4009EA660 /* GKHorizontalCell.h */,
-				186FA2191CBA30E4009EA660 /* GKHorizontalCell.m */,
-				186FA21A1CBA30E4009EA660 /* GKHorizontalScrollView.h */,
-				186FA21B1CBA30E4009EA660 /* GKHorizontalScrollView.m */,
-			);
-			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,19 +260,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184ECCFA1CBCD7E700565918 /* GKVideoEditHorizontalView.m in Sources */,
+				184ECCFC1CBCD7E700565918 /* GKHorizontalCell.m in Sources */,
+				184ECCFB1CBCD7E700565918 /* GKVideoHorizontalScrollView.m in Sources */,
 				186FA2011CBA2B89009EA660 /* ViewController.m in Sources */,
+				184ECCF51CBCD7E700565918 /* GKVideoAddChunkCell.m in Sources */,
+				184ECCF61CBCD7E700565918 /* GKVideoChunkCell.m in Sources */,
+				184ECCF81CBCD7E700565918 /* GKVideoTailerCell.m in Sources */,
+				184ECCF31CBCD7E700565918 /* GKVideoChunkCellModel.m in Sources */,
 				186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */,
+				184ECCFD1CBCD7E700565918 /* GKHorizontalScrollView.m in Sources */,
+				184ECCF91CBCD7E700565918 /* GKVideoTimeCell.m in Sources */,
+				184ECCF41CBCD7E700565918 /* GKVideoEditScrollViewModel.m in Sources */,
 				186FA1FB1CBA2B89009EA660 /* main.m in Sources */,
-				186FA2291CBA3235009EA660 /* GKVideoAddChunkCell.m in Sources */,
-				183370001CBC12380073EE6E /* GKVideoTailerCell.m in Sources */,
-				186FA2231CBA3179009EA660 /* GKVideoFenceCell.m in Sources */,
-				18336FFD1CBBB70F0073EE6E /* GKVideoHorizontalScrollView.m in Sources */,
-				183370041CBCA2670073EE6E /* GKVideoEditScrollViewModel.m in Sources */,
-				186FA21D1CBA30E4009EA660 /* GKHorizontalScrollView.m in Sources */,
-				183370071CBCA27F0073EE6E /* GKVideoChunkCellModel.m in Sources */,
-				186FA21C1CBA30E4009EA660 /* GKHorizontalCell.m in Sources */,
-				184ECCD21CBCCCA900565918 /* GKVideoTimeCell.m in Sources */,
-				186FA2201CBA3113009EA660 /* GKVideoChunkCell.m in Sources */,
+				184ECCF71CBCD7E700565918 /* GKVideoFenceCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
