@@ -18,4 +18,6 @@
 
 @property (nonatomic, strong) GKVideoChunkCellModel * cellModel;
 
++ (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel;
+
 @end

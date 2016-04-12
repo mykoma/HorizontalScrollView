@@ -9,6 +9,9 @@
 #import "GKVideoChunkCell.h"
 #import "GKVideoFenceCell.h"
 
+CGFloat HEIGHT_OF_HORIZONTAL_CELL = 42;
+NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
+
 @interface GKVideoChunkCell ()
 
 @end
@@ -39,6 +42,13 @@
 - (GKVideoFenceCell *)rightFenceCell
 {
     return (GKVideoFenceCell *)self.rightCell;
+}
+
++ (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel
+{
+    CGFloat widthOfPicture = (16 * HEIGHT_OF_HORIZONTAL_CELL) / 9;
+    CGFloat widthOfOneSecond = widthOfPicture / SECOND_COUNT_OF_ONE_PICTURE;
+    return widthOfOneSecond * cellModel.duration * (cellModel.endPercent - cellModel.beginPercent);
 }
 
 - (void)changeRelationWithCell:(GKVideoChunkCell *)cell
