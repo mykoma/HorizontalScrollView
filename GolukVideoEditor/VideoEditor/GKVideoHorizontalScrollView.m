@@ -6,41 +6,15 @@
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoEditScrollView.h"
+#import "GKVideoHorizontalScrollView.h"
 #import "GKVideoChunkCell.h"
-#import "GKVideoChunkFenceCell.h"
-#import "GKVideoChunkTailerCell.h"
-#import "GKVideoAddChunkCell.h"
-#import "GKVideoChunkTimeCell.h"
+#import "GKVideoFenceCell.h"
 
-@interface GKVideoEditScrollView ()
-
+@interface GKVideoHorizontalScrollView ()
 
 @end
 
-@implementation GKVideoEditScrollView
-
-#pragma mark - ViewModel
-
-- (void)setViewModel:(GKVideoEditScrollViewModel *)viewModel
-{
-    _viewModel = viewModel;
-    [self buildInnerViewModels];
-}
-
-- (void)buildInnerViewModels
-{
-    [self.viewModel.innerCellModels removeAllObjects];
-    
-    for (GKVideoChunkCellModel * chunkCellModel in self.viewModel.chunkCellModels) {
-        [self.viewModel.innerCellModels addObject:chunkCellModel];
-        [self.viewModel.innerCellModels addObject:[GKVideoChunkFenceCellModel new]];
-    }
-    
-    [self.viewModel.innerCellModels addObject:[GKVideoChunkTailerCellModel new]];
-    [self.viewModel.innerCellModels addObject:[GKVideoAddChunkCellModel new]];
-    [self.viewModel.innerCellModels addObject:[GKVideoChunkTimeCellModel new]];
-}
+@implementation GKVideoHorizontalScrollView
 
 #pragma mark - Override
 
@@ -56,7 +30,7 @@
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 GKVideoChunkFenceCell * chunkFenceCell = fromCell.rightFenceCell;
+                                 GKVideoFenceCell * chunkFenceCell = fromCell.rightFenceCell;
                                  
                                  GKHorizontalCell * curCell = chunkFenceCell;
                                  // 起始的 x 值
@@ -105,7 +79,7 @@
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
-                                 GKVideoChunkFenceCell * chunkFenceCell = fromCell.leftFenceCell;
+                                 GKVideoFenceCell * chunkFenceCell = fromCell.leftFenceCell;
                                  
                                  GKHorizontalCell * curCell = chunkFenceCell;
                                  // 起始的 x 值

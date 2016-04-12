@@ -1,5 +1,5 @@
 //
-//  GKVideoChunkFenceCell.h
+//  GKVideoFenceCell.h
 //  GolukVideoEditor
 //
 //  Created by apple on 16/4/10.
@@ -10,13 +10,13 @@
 
 @class GKVideoChunkCell;
 
-@interface GKVideoChunkFenceCellModel : NSObject
+@interface GKVideoFenceCellModel : NSObject
 
 @end
 
-@interface GKVideoChunkFenceCell : GKHorizontalCell
+@interface GKVideoFenceCell : GKHorizontalCell
 
-@property (nonatomic, strong) GKVideoChunkFenceCellModel * cellModel;
+@property (nonatomic, strong) GKVideoFenceCellModel * cellModel;
 
 @property (nonatomic, weak) GKVideoChunkCell * leftChunkCell;
 @property (nonatomic, weak) GKVideoChunkCell * rightChunkCell;

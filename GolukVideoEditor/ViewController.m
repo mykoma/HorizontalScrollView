@@ -8,10 +8,10 @@
 
 #import "ViewController.h"
 #import "GKVideoChunkCell.h"
-#import "GKVideoChunkFenceCell.h"
+#import "GKVideoFenceCell.h"
 #import "GKVideoAddChunkCell.h"
-#import "GKVideoChunkTailerCell.h"
-#import "GKVideoEditScrollView.h"
+#import "GKVideoTailerCell.h"
+#import "GKVideoHorizontalScrollView.h"
 
 @interface ViewController ()
 <
@@ -20,7 +20,7 @@ GKHorizontalScrollViewLayout,
 GKHorizontalScrollViewDelegate
 >
 
-@property (nonatomic, strong) GKVideoEditScrollView * videoEditScrollView;
+@property (nonatomic, strong) GKVideoHorizontalScrollView * videoEditScrollView;
 
 @property (nonatomic, strong) NSMutableArray * dataSource;
 
@@ -32,16 +32,16 @@ GKHorizontalScrollViewDelegate
     [super viewDidLoad];
     
     self.dataSource = [@[@"GKVideoChunkCell",
-                         @"GKVideoChunkFenceCell",
+                         @"GKVideoFenceCell",
                          @"GKVideoChunkCell",
-                         @"GKVideoChunkFenceCell",
+                         @"GKVideoFenceCell",
                          @"GKVideoChunkCell",
-                         @"GKVideoChunkFenceCell",
+                         @"GKVideoFenceCell",
                          @"GKVideoChunkCell",
-                         @"GKVideoChunkTailerCell",
+                         @"GKVideoTailerCell",
                          @"GKVideoAddChunkCell"] mutableCopy];
     
-    self.videoEditScrollView = [[GKVideoEditScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
+    self.videoEditScrollView = [[GKVideoHorizontalScrollView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
     self.videoEditScrollView.dataSource = self;
     self.videoEditScrollView.layout = self;
     self.videoEditScrollView.delegate = self;

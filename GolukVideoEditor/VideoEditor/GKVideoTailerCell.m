@@ -1,14 +1,14 @@
 //
-//  GKVideoChunkTailerCell.m
+//  GKVideoTailerCell.m
 //  GolukVideoEditor
 //
 //  Created by apple on 16/4/12.
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoChunkTailerCell.h"
+#import "GKVideoTailerCell.h"
 
-@implementation GKVideoChunkTailerCell
+@implementation GKVideoTailerCell
 
 - (void)setup
 {
@@ -18,6 +18,6 @@
 
 @end
 
-@implementation GKVideoChunkTailerCellModel
+@implementation GKVideoTailerCellModel
 
 @end

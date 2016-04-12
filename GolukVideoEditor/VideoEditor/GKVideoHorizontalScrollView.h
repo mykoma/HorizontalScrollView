@@ -9,8 +9,6 @@
 #import "GKHorizontalScrollView.h"
 #import "GKVideoEditScrollViewModel.h"
 
-@interface GKVideoEditScrollView : GKHorizontalScrollView
-
-@property (nonatomic, strong) GKVideoEditScrollViewModel * viewModel;
+@interface GKVideoHorizontalScrollView : GKHorizontalScrollView
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "GKVideoChunkCell.h"
-#import "GKVideoChunkFenceCell.h"
+#import "GKVideoFenceCell.h"
 
 @interface GKVideoChunkCell ()
 
@@ -21,24 +21,24 @@
     self.backgroundColor = [UIColor redColor];
 }
 
-- (void)setLeftFenceCell:(GKVideoChunkFenceCell *)leftFenceCell
+- (void)setLeftFenceCell:(GKVideoFenceCell *)leftFenceCell
 {
     self.leftCell = leftFenceCell;
 }
 
-- (GKVideoChunkFenceCell *)leftFenceCell
+- (GKVideoFenceCell *)leftFenceCell
 {
-    return (GKVideoChunkFenceCell *)self.leftCell;
+    return (GKVideoFenceCell *)self.leftCell;
 }
 
-- (void)setRightFenceCell:(GKVideoChunkFenceCell *)rightFenceCell
+- (void)setRightFenceCell:(GKVideoFenceCell *)rightFenceCell
 {
     self.rightCell = rightFenceCell;
 }
 
-- (GKVideoChunkFenceCell *)rightFenceCell
+- (GKVideoFenceCell *)rightFenceCell
 {
-    return (GKVideoChunkFenceCell *)self.rightCell;
+    return (GKVideoFenceCell *)self.rightCell;
 }
 
 - (void)changeRelationWithCell:(GKVideoChunkCell *)cell

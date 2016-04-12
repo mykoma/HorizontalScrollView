@@ -1,15 +1,15 @@
 //
-//  GKVideoChunkFenceCell.m
+//  GKVideoFenceCell.m
 //  GolukVideoEditor
 //
 //  Created by apple on 16/4/10.
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoChunkFenceCell.h"
+#import "GKVideoFenceCell.h"
 #import "GKVideoChunkCell.h"
 
-@implementation GKVideoChunkFenceCell
+@implementation GKVideoFenceCell
 
 - (void)setup
 {
@@ -39,6 +39,6 @@
 
 @end
 
-@implementation GKVideoChunkFenceCellModel
+@implementation GKVideoFenceCellModel
 
 @end

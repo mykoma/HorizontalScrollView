@@ -1,14 +1,14 @@
 //
-//  GKVideoChunkTimeCell.m
+//  GKVideoTimeCell.m
 //  GolukVideoEditor
 //
 //  Created by apple on 16/4/12.
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoChunkTimeCell.h"
+#import "GKVideoTimeCell.h"
 
-@implementation GKVideoChunkTimeCell
+@implementation GKVideoTimeCell
 
 - (void)setup
 {
@@ -18,6 +18,6 @@
 
 @end
 
-@implementation GKVideoChunkTimeCellModel
+@implementation GKVideoTimeCellModel
 
 @end
