@@ -38,9 +38,9 @@
     [self addSubview:self.scrollView];
 }
 
-- (void)scrollToOffset:(CGFloat)offset
+- (void)scrollToOffset:(CGFloat)offset animated:(BOOL)animated
 {
-    self.scrollView.contentOffset = CGPointMake(offset, 0);
+    [self.scrollView setContentOffset:CGPointMake(offset, 0) animated:animated];
 }
 
 - (void)reloadData

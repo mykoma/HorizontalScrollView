@@ -16,10 +16,10 @@
 
 @implementation GKVideoHorizontalScrollView
 
-- (void)scrollToTimeInterval:(NSTimeInterval)timeInterval
+- (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated
 {
     CGFloat width = [GKVideoChunkCell widthOfOneSecond];
-    [self scrollToOffset:timeInterval * width];
+    [self scrollToOffset:timeInterval * width animated:animated];
 }
 
 #pragma mark - Override

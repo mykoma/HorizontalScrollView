@@ -52,7 +52,12 @@ GKHorizontalScrollViewDelegate
 
 - (void)updateTemp
 {
-    [self.scrollView scrollToTimeInterval:self.viewModel.timeIntervalOfFrame];
+    [self.scrollView scrollToTimeInterval:self.viewModel.timeIntervalOfFrame animated:NO];
+}
+
+- (void)updateTempAnimation
+{
+    [self.scrollView scrollToTimeInterval:self.viewModel.timeIntervalOfFrame animated:YES];
 }
 
 #pragma mark - ViewModel

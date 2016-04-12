@@ -42,6 +42,15 @@
     [self.videoEditView.viewModel.chunkCellModels addObject:model3];
     [self.videoEditView.viewModel.chunkCellModels addObject:model4];
     [self.view addSubview:self.videoEditView];
+    
+    UIButton * playBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    playBtn.backgroundColor = [UIColor redColor];
+    playBtn.frame = CGRectMake(0, CGRectGetMaxY(self.videoEditView.frame) + 10, 100, 30);
+    [self.view addSubview:playBtn];
+    
+    [playBtn addTarget:self
+                action:@selector(play)
+      forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -72,6 +81,12 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     [self.videoEditView updateTemp];
     
     timeOffset += timeInterval;
+}
+
+- (void)play
+{
+    self.videoEditView.viewModel.timeIntervalOfFrame = 3.0f;
+    [self.videoEditView updateTempAnimation];
 }
 
 @end

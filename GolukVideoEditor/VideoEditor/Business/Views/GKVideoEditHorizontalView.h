@@ -17,5 +17,6 @@
 
 // TO DELETE
 - (void)updateTemp;
+- (void)updateTempAnimation;
 
 @end

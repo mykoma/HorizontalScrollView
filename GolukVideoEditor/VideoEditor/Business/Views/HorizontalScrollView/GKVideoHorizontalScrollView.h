@@ -10,6 +10,6 @@
 
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView
 
-- (void)scrollToTimeInterval:(NSTimeInterval)timeInterval;
+- (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated;
 
 @end
