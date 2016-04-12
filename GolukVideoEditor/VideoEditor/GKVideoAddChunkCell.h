@@ -8,6 +8,12 @@
 
 #import "GKHorizontalCell.h"
 
+@interface GKVideoAddChunkCellModel : NSObject
+
+@end
+
 @interface GKVideoAddChunkCell : GKHorizontalCell
+
+@property (nonatomic, strong) GKVideoAddChunkCellModel * cellModel;
 
 @end

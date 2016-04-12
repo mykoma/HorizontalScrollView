@@ -10,7 +10,13 @@
 
 @class GKVideoChunkCell;
 
+@interface GKVideoChunkFenceCellModel : NSObject
+
+@end
+
 @interface GKVideoChunkFenceCell : GKHorizontalCell
+
+@property (nonatomic, strong) GKVideoChunkFenceCellModel * cellModel;
 
 @property (nonatomic, weak) GKVideoChunkCell * leftChunkCell;
 @property (nonatomic, weak) GKVideoChunkCell * rightChunkCell;

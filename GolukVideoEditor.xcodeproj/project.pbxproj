@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		18336FFD1CBBB70F0073EE6E /* GKVideoEditScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18336FFC1CBBB70F0073EE6E /* GKVideoEditScrollView.m */; };
 		183370001CBC12380073EE6E /* GKVideoChunkTailerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18336FFF1CBC12380073EE6E /* GKVideoChunkTailerCell.m */; };
+		183370041CBCA2670073EE6E /* GKVideoEditScrollViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183370031CBCA2670073EE6E /* GKVideoEditScrollViewModel.m */; };
+		183370071CBCA27F0073EE6E /* GKVideoChunkCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183370061CBCA27F0073EE6E /* GKVideoChunkCellModel.m */; };
+		184ECCD21CBCCCA900565918 /* GKVideoChunkTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCD11CBCCCA900565918 /* GKVideoChunkTimeCell.m */; };
 		186FA1FB1CBA2B89009EA660 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FA1CBA2B89009EA660 /* main.m */; };
 		186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FD1CBA2B89009EA660 /* AppDelegate.m */; };
 		186FA2011CBA2B89009EA660 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2001CBA2B89009EA660 /* ViewController.m */; };
@@ -27,6 +30,12 @@
 		18336FFC1CBBB70F0073EE6E /* GKVideoEditScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditScrollView.m; sourceTree = "<group>"; };
 		18336FFE1CBC12380073EE6E /* GKVideoChunkTailerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkTailerCell.h; sourceTree = "<group>"; };
 		18336FFF1CBC12380073EE6E /* GKVideoChunkTailerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkTailerCell.m; sourceTree = "<group>"; };
+		183370021CBCA2670073EE6E /* GKVideoEditScrollViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditScrollViewModel.h; sourceTree = "<group>"; };
+		183370031CBCA2670073EE6E /* GKVideoEditScrollViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditScrollViewModel.m; sourceTree = "<group>"; };
+		183370051CBCA27F0073EE6E /* GKVideoChunkCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkCellModel.h; sourceTree = "<group>"; };
+		183370061CBCA27F0073EE6E /* GKVideoChunkCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkCellModel.m; sourceTree = "<group>"; };
+		184ECCD01CBCCCA900565918 /* GKVideoChunkTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoChunkTimeCell.h; sourceTree = "<group>"; };
+		184ECCD11CBCCCA900565918 /* GKVideoChunkTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoChunkTimeCell.m; sourceTree = "<group>"; };
 		186FA1F61CBA2B89009EA660 /* GolukVideoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolukVideoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		186FA1FA1CBA2B89009EA660 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		186FA1FC1CBA2B89009EA660 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -60,6 +69,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		183370011CBCA24B0073EE6E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				183370021CBCA2670073EE6E /* GKVideoEditScrollViewModel.h */,
+				183370031CBCA2670073EE6E /* GKVideoEditScrollViewModel.m */,
+				183370051CBCA27F0073EE6E /* GKVideoChunkCellModel.h */,
+				183370061CBCA27F0073EE6E /* GKVideoChunkCellModel.m */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		186FA1ED1CBA2B89009EA660 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +124,7 @@
 		186FA2101CBA2B9C009EA660 /* VideoEditor */ = {
 			isa = PBXGroup;
 			children = (
+				183370011CBCA24B0073EE6E /* ViewModels */,
 				186FA2171CBA30E4009EA660 /* Classes */,
 				186FA21E1CBA3113009EA660 /* GKVideoChunkCell.h */,
 				186FA21F1CBA3113009EA660 /* GKVideoChunkCell.m */,
@@ -115,6 +136,8 @@
 				18336FFC1CBBB70F0073EE6E /* GKVideoEditScrollView.m */,
 				18336FFE1CBC12380073EE6E /* GKVideoChunkTailerCell.h */,
 				18336FFF1CBC12380073EE6E /* GKVideoChunkTailerCell.m */,
+				184ECCD01CBCCCA900565918 /* GKVideoChunkTimeCell.h */,
+				184ECCD11CBCCCA900565918 /* GKVideoChunkTimeCell.m */,
 			);
 			path = VideoEditor;
 			sourceTree = "<group>";
@@ -207,8 +230,11 @@
 				183370001CBC12380073EE6E /* GKVideoChunkTailerCell.m in Sources */,
 				186FA2231CBA3179009EA660 /* GKVideoChunkFenceCell.m in Sources */,
 				18336FFD1CBBB70F0073EE6E /* GKVideoEditScrollView.m in Sources */,
+				183370041CBCA2670073EE6E /* GKVideoEditScrollViewModel.m in Sources */,
 				186FA21D1CBA30E4009EA660 /* GKHorizontalScrollView.m in Sources */,
+				183370071CBCA27F0073EE6E /* GKVideoChunkCellModel.m in Sources */,
 				186FA21C1CBA30E4009EA660 /* GKHorizontalCell.m in Sources */,
+				184ECCD21CBCCCA900565918 /* GKVideoChunkTimeCell.m in Sources */,
 				186FA2201CBA3113009EA660 /* GKVideoChunkCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
