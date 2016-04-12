@@ -37,6 +37,13 @@
     return (GKVideoChunkCell *)self.rightCell;
 }
 
+#pragma mark - Override
+
+- (BOOL)skipWhenScroll
+{
+    return YES;
+}
+
 @end
 
 @implementation GKVideoFenceCellModel

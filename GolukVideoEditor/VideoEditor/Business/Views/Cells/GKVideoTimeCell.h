@@ -6,13 +6,13 @@
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKHorizontalCell.h"
+#import "GKVideoHorizontalCell.h"
 
 @interface GKVideoTimeCellModel : NSObject
 
 @end
 
-@interface GKVideoTimeCell : GKHorizontalCell
+@interface GKVideoTimeCell : GKVideoHorizontalCell
 
 @property (nonatomic, strong) GKVideoTimeCellModel * cellModel;
 

@@ -67,11 +67,11 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 {
     [super viewDidAppear:animated];
     
-//    [NSTimer scheduledTimerWithTimeInterval:timeInterval
-//                                     target:self
-//                                   selector:@selector(update)
-//                                   userInfo:nil
-//                                    repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                     target:self
+                                   selector:@selector(update)
+                                   userInfo:nil
+                                    repeats:YES];
 }
 
 - (void)update
