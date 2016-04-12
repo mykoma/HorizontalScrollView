@@ -43,6 +43,50 @@
     [self.scrollView setContentOffset:CGPointMake(offset, 0) animated:animated];
 }
 
+- (void)removeCell:(GKHorizontalCell *)cell
+{
+    static BOOL IN_MOVING_ANIMATION = NO;
+    if (IN_MOVING_ANIMATION == NO) {
+        IN_MOVING_ANIMATION = YES;
+        [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             GKHorizontalCell * curCell = cell;
+                             CGFloat xOffset = cell.frame.origin.x;
+                             while (curCell) {
+                                 GKHorizontalCell * rightCell = curCell.rightCell;
+                                 
+                                 UIEdgeInsets cellEdge = UIEdgeInsetsZero;
+                                 // Cell Left Edge Insets
+                                 if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
+                                     cellEdge = [self.layout horizontalScrollView:self
+                                                          insetForItemAtIndexPath:nil];
+                                 }
+                                 xOffset += cellEdge.left;
+                                 
+                                 rightCell.frame = CGRectMake(xOffset,
+                                                              0,
+                                                              rightCell.frame.size.width,
+                                                              rightCell.frame.size.height);
+                                 
+                                 xOffset += rightCell.frame.size.width;
+                                 xOffset += cellEdge.right;
+                                 
+                                 // Next
+                                 curCell = curCell.rightCell;
+                             }
+                         } completion:^(BOOL finished) {
+                             IN_MOVING_ANIMATION = NO;
+                             GKHorizontalCell * leftCell = cell.leftCell;
+                             GKHorizontalCell * rightCell = cell.rightCell;
+                             leftCell.rightCell = rightCell;
+                             rightCell.leftCell = leftCell;
+                             [cell removeFromSuperview];
+                         }];
+    }
+}
+
 - (void)reloadData
 {
     // Clear

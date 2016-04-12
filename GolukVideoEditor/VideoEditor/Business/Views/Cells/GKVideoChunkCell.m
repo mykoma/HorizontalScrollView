@@ -14,6 +14,8 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 @interface GKVideoChunkCell ()
 
+@property (nonatomic, strong) UIButton * touchBtn;
+
 @end
 
 @implementation GKVideoChunkCell
@@ -33,8 +35,24 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)setup
 {
     [super setup];
+    
+    self.touchBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self addSubview:self.touchBtn];
+    
+    [self.touchBtn addTarget:self
+                      action:@selector(touchDown:)
+            forControlEvents:UIControlEventTouchDown];
+    
     self.backgroundColor = [UIColor greenColor];
 }
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    self.touchBtn.frame = self.bounds;
+}
+
+#pragma mark - Setter & Getter
 
 - (void)setLeftFenceCell:(GKVideoFenceCell *)leftFenceCell
 {
@@ -55,6 +73,17 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 {
     return (GKVideoFenceCell *)self.rightCell;
 }
+
+#pragma mark - Actions
+
+- (void)touchDown:(id)sender
+{
+    if (self.touchDown) {
+        self.touchDown(self.cellModel);
+    }
+}
+
+#pragma mark - Override
 
 - (void)changeRelationWithCell:(GKVideoChunkCell *)cell
 {

@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) GKVideoChunkCellModel * cellModel;
 
+@property (nonatomic, copy) void (^touchDown)(GKVideoChunkCellModel *cellModel);
+
 + (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel;
 
 + (CGFloat)widthOfOneSecond;

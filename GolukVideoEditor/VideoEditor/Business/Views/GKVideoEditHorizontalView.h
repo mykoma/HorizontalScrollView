@@ -14,6 +14,7 @@
 @property (nonatomic, strong) GKVideoEditHorizontalViewModel * viewModel;
 
 - (void)loadData;
+- (void)removeSelectedCell;
 
 // TO DELETE
 - (void)updateTemp;

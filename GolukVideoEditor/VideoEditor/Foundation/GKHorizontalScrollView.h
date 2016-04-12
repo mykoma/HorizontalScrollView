@@ -65,11 +65,18 @@
 
 @property (nonatomic, weak) GKHorizontalCell * firstCell;
 
-- (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)moving
-                           withIntersectCell:(GKHorizontalCell *)intersectCell;
-
 - (void)reloadData;
 
 - (void)scrollToOffset:(CGFloat)offset animated:(BOOL)animated;
+
+
+/*****************************
+ * Override
+ *****************************/
+
+- (void)removeCell:(GKHorizontalCell *)cell;
+
+- (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)moving
+                           withIntersectCell:(GKHorizontalCell *)intersectCell;
 
 @end

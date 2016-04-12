@@ -17,6 +17,8 @@
     self.backgroundColor = [UIColor yellowColor];
 }
 
+#pragma mark - Setter & Getter
+
 - (void)setLeftChunkCell:(GKVideoChunkCell *)leftChunkCell
 {
     self.leftCell = leftChunkCell;

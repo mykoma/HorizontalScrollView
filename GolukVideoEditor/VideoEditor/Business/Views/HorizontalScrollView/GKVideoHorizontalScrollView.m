@@ -13,7 +13,7 @@
 
 @interface GKVideoHorizontalScrollView ()
 
-@property (nonatomic, strong) UIImageView * frameMarker;
+@property (nonatomic, strong) UIImageView      * frameMarker;
 
 @end
 
@@ -38,6 +38,55 @@
         x = [self.layout edgeInsetsOfHorizontalScrollView:self].left;
     }
     self.frameMarker.frame = CGRectMake(x, 0, 1, CGRectGetHeight(self.frame));
+}
+
+- (void)removeCell:(GKVideoChunkCell *)cell
+{
+    static BOOL IN_MOVING_ANIMATION = NO;
+    if (IN_MOVING_ANIMATION == NO) {
+        IN_MOVING_ANIMATION = YES;
+        [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             // 将要删除的 cell 的右边部分的 cell，向左移动
+                             GKHorizontalCell * curCell = cell.rightFenceCell;
+                             CGFloat xOffset = cell.frame.origin.x;
+                             while (curCell) {
+                                 GKHorizontalCell * rightCell = curCell.rightCell;
+                                 
+                                 UIEdgeInsets cellEdge = UIEdgeInsetsZero;
+                                 // Cell Left Edge Insets
+                                 if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
+                                     cellEdge = [self.layout horizontalScrollView:self
+                                                          insetForItemAtIndexPath:nil];
+                                 }
+                                 xOffset += cellEdge.left;
+                                 
+                                 rightCell.frame = CGRectMake(xOffset,
+                                                              0,
+                                                              rightCell.frame.size.width,
+                                                              rightCell.frame.size.height);
+                                 
+                                 xOffset += rightCell.frame.size.width;
+                                 xOffset += cellEdge.right;
+                                 
+                                 // Next
+                                 curCell = curCell.rightCell;
+                             }
+                         } completion:^(BOOL finished) {
+                             IN_MOVING_ANIMATION = NO;
+                             // 改变关系
+                             GKHorizontalCell * leftFenceCell = cell.leftFenceCell;
+                             GKHorizontalCell * rightChunkCell = cell.rightFenceCell.rightChunkCell;
+                             leftFenceCell.rightCell = rightChunkCell;
+                             rightChunkCell.leftCell = leftFenceCell;
+                             
+                             // 移除 cells
+                             [cell.rightFenceCell removeFromSuperview];
+                             [cell removeFromSuperview];
+                         }];
+    }
 }
 
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated

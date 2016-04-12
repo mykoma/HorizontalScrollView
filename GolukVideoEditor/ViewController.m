@@ -51,6 +51,15 @@
     [playBtn addTarget:self
                 action:@selector(play)
       forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton * removeBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    removeBtn.backgroundColor = [UIColor magentaColor];
+    removeBtn.frame = CGRectMake(CGRectGetMaxX(playBtn.frame) + 10, CGRectGetMaxY(self.videoEditView.frame) + 10, 100, 30);
+    [self.view addSubview:removeBtn];
+    
+    [removeBtn addTarget:self
+                action:@selector(remove)
+      forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -67,11 +76,6 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 {
     [super viewDidAppear:animated];
     
-    [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                     target:self
-                                   selector:@selector(update)
-                                   userInfo:nil
-                                    repeats:YES];
 }
 
 - (void)update
@@ -85,8 +89,19 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 
 - (void)play
 {
-    self.videoEditView.viewModel.timeIntervalOfFrame = 3.0f;
-    [self.videoEditView updateTempAnimation];
+//    self.videoEditView.viewModel.timeIntervalOfFrame = 3.0f;
+//    [self.videoEditView updateTempAnimation];
+    
+    [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                     target:self
+                                   selector:@selector(update)
+                                   userInfo:nil
+                                    repeats:YES];
+}
+
+- (void)remove
+{
+    [self.videoEditView removeSelectedCell];
 }
 
 @end

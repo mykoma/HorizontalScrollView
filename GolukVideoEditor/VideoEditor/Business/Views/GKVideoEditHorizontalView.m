@@ -24,6 +24,7 @@ GKHorizontalScrollViewDelegate
 >
 
 @property (nonatomic, strong) GKVideoHorizontalScrollView * scrollView;
+@property (nonatomic, weak  ) GKVideoChunkCell * selectedCell;
 
 @end
 
@@ -48,6 +49,11 @@ GKHorizontalScrollViewDelegate
 {
     [self buildInnerViewModels];
     [self.scrollView reloadData];
+}
+
+- (void)removeSelectedCell
+{
+    [self.scrollView removeCell:self.selectedCell];
 }
 
 - (void)updateTemp
@@ -90,6 +96,11 @@ GKHorizontalScrollViewDelegate
     if ([cellModel isKindOfClass:[GKVideoChunkCellModel class]]) {
         GKVideoChunkCell * cell = [[GKVideoChunkCell alloc] init];
         cell.cellModel = cellModel;
+        __weak typeof(self) weakSelf = self;
+        __weak typeof(cell) weakCell = cell;
+        [cell setTouchDown:^(GKVideoChunkCellModel * cellModel) {
+            weakSelf.selectedCell = weakCell;
+        }];
         return cell;
     } else if ([cellModel isKindOfClass:[GKVideoFenceCellModel class]]) {
         return [[GKVideoFenceCell alloc] init];
