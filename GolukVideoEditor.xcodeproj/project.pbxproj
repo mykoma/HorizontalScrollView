@@ -104,9 +104,9 @@
 		184ECCDD1CBCD7E700565918 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				184ECCDE1CBCD7E700565918 /* Cells */,
 				184ECCE91CBCD7E700565918 /* GKVideoEditHorizontalView.h */,
 				184ECCEA1CBCD7E700565918 /* GKVideoEditHorizontalView.m */,
+				184ECCDE1CBCD7E700565918 /* Cells */,
 				184ECCEB1CBCD7E700565918 /* HorizontalScrollView */,
 			);
 			path = Views;

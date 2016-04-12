@@ -65,4 +65,6 @@
 
 - (void)reloadData;
 
+- (void)scrollToOffset:(CGFloat)offset;
+
 @end

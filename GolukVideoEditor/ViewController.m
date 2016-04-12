@@ -44,10 +44,34 @@
     [self.view addSubview:self.videoEditView];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.videoEditView loadData];
+}
+
+static NSTimeInterval timeOffset = 0.0f;
+
+static NSTimeInterval timeInterval = 1.0f / 60;
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.videoEditView loadData];
+    
+    [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                     target:self
+                                   selector:@selector(update)
+                                   userInfo:nil
+                                    repeats:YES];
+}
+
+- (void)update
+{
+    self.videoEditView.viewModel.timeIntervalOfFrame = timeOffset;
+    // TO DELETE
+    [self.videoEditView updateTemp];
+    
+    timeOffset += timeInterval;
 }
 
 @end

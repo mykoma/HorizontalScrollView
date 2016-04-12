@@ -15,4 +15,7 @@
 
 - (void)loadData;
 
+// TO DELETE
+- (void)updateTemp;
+
 @end

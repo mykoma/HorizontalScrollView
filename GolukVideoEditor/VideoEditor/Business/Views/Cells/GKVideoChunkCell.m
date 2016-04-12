@@ -18,6 +18,18 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 @implementation GKVideoChunkCell
 
++ (CGFloat)widthOfOneSecond
+{
+    CGFloat widthOfPicture = (16 * HEIGHT_OF_HORIZONTAL_CELL) / 9;
+    CGFloat widthOfOneSecond = widthOfPicture / SECOND_COUNT_OF_ONE_PICTURE;
+    return widthOfOneSecond;
+}
+
++ (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel
+{
+    return [[self class] widthOfOneSecond] * cellModel.duration * (cellModel.endPercent - cellModel.beginPercent);
+}
+
 - (void)setup
 {
     [super setup];
@@ -42,13 +54,6 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (GKVideoFenceCell *)rightFenceCell
 {
     return (GKVideoFenceCell *)self.rightCell;
-}
-
-+ (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel
-{
-    CGFloat widthOfPicture = (16 * HEIGHT_OF_HORIZONTAL_CELL) / 9;
-    CGFloat widthOfOneSecond = widthOfPicture / SECOND_COUNT_OF_ONE_PICTURE;
-    return widthOfOneSecond * cellModel.duration * (cellModel.endPercent - cellModel.beginPercent);
 }
 
 - (void)changeRelationWithCell:(GKVideoChunkCell *)cell

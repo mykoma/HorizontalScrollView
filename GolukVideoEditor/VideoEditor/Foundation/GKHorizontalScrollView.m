@@ -38,6 +38,11 @@
     [self addSubview:self.scrollView];
 }
 
+- (void)scrollToOffset:(CGFloat)offset
+{
+    self.scrollView.contentOffset = CGPointMake(offset, 0);
+}
+
 - (void)reloadData
 {
     // Clear

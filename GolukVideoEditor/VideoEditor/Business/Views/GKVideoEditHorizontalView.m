@@ -50,6 +50,11 @@ GKHorizontalScrollViewDelegate
     [self.scrollView reloadData];
 }
 
+- (void)updateTemp
+{
+    [self.scrollView scrollToTimeInterval:self.viewModel.timeIntervalOfFrame];
+}
+
 #pragma mark - ViewModel
 
 - (void)buildInnerViewModels

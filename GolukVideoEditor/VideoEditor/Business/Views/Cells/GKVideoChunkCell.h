@@ -20,4 +20,6 @@
 
 + (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel;
 
++ (CGFloat)widthOfOneSecond;
+
 @end
