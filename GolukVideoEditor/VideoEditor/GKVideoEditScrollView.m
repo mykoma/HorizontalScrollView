@@ -9,8 +9,40 @@
 #import "GKVideoEditScrollView.h"
 #import "GKVideoChunkCell.h"
 #import "GKVideoChunkFenceCell.h"
+#import "GKVideoChunkTailerCell.h"
+#import "GKVideoAddChunkCell.h"
+#import "GKVideoChunkTimeCell.h"
+
+@interface GKVideoEditScrollView ()
+
+
+@end
 
 @implementation GKVideoEditScrollView
+
+#pragma mark - ViewModel
+
+- (void)setViewModel:(GKVideoEditScrollViewModel *)viewModel
+{
+    _viewModel = viewModel;
+    [self buildInnerViewModels];
+}
+
+- (void)buildInnerViewModels
+{
+    [self.viewModel.innerCellModels removeAllObjects];
+    
+    for (GKVideoChunkCellModel * chunkCellModel in self.viewModel.chunkCellModels) {
+        [self.viewModel.innerCellModels addObject:chunkCellModel];
+        [self.viewModel.innerCellModels addObject:[GKVideoChunkFenceCellModel new]];
+    }
+    
+    [self.viewModel.innerCellModels addObject:[GKVideoChunkTailerCellModel new]];
+    [self.viewModel.innerCellModels addObject:[GKVideoAddChunkCellModel new]];
+    [self.viewModel.innerCellModels addObject:[GKVideoChunkTimeCellModel new]];
+}
+
+#pragma mark - Override
 
 - (void)doMovementFrom:(GKVideoChunkCell *)fromCell to:(GKVideoChunkCell *)toCell
 {
