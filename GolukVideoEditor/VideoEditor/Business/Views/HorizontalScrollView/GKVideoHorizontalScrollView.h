@@ -27,6 +27,8 @@
 
 @required
 
+- (CGFloat)defaultOffsetOfFrameMarkerOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView;
+
 - (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
               sizeForItemModel:(id)itemModel;
 
@@ -54,5 +56,7 @@ cellModelAfterInterceptDividedModels:(NSArray *)cellModels;
 @property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollViewDelegate> delegate;
 
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated;
+
+- (void)attemptToDivideCellAtCurrentFrame;
 
 @end

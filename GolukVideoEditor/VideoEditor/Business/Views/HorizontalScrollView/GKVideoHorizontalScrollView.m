@@ -33,11 +33,16 @@
 - (void)reloadData
 {
     [super reloadData];
-    CGFloat x = 0.0f;
-    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
-        x = [self.layout edgeInsetsOfHorizontalScrollView:self].left;
+    CGFloat offsetOfFrameMarker = 0.0f;
+    if ([self.layout respondsToSelector:@selector(defaultOffsetOfFrameMarkerOfHorizontalScrollView:)]) {
+        offsetOfFrameMarker = [self.layout defaultOffsetOfFrameMarkerOfHorizontalScrollView:self];
     }
-    self.frameMarker.frame = CGRectMake(x, 0, 1, CGRectGetHeight(self.frame));
+    self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 1, CGRectGetHeight(self.frame));
+}
+
+- (CGFloat)offsetOfCurrentFrame
+{
+    return CGRectGetMidX(self.frameMarker.frame);
 }
 
 - (void)removeCell:(GKVideoChunkCell *)cell
@@ -89,7 +94,12 @@
     }
 }
 
-- (void)attemptToDivideCellAtOffset:(CGFloat)offset
+- (void)attemptToDivideCellAtCurrentFrame
+{
+    [self attemptToDivideCellWithOffset:[self offsetOfCurrentFrame]];
+}
+
+- (void)attemptToDivideCellWithOffset:(CGFloat)offset
 {
     GKHorizontalCell * cell = [self seekCellForOffset:offset];
     
@@ -99,11 +109,8 @@
     }
     
     // 计算offset 在 cell 中的比率
-    CGFloat offsetWithEdge = offset;
-    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
-        offsetWithEdge += [self.layout edgeInsetsOfHorizontalScrollView:self].left;
-    }
-    CGFloat rate = (offsetWithEdge - CGRectGetMinX(cell.frame)) / CGRectGetWidth(cell.frame);
+    CGFloat leftWidth = ([self offsetOfCurrentFrame] + self.contentOffsetOfScrollView - CGRectGetMinX(cell.frame));
+    CGFloat rate = leftWidth / CGRectGetWidth(cell.frame);
     
     // 只允许某个区间的进行裁剪
     if (rate <= 0.1f || rate >= 0.9f) {
@@ -161,11 +168,11 @@
                                        0,
                                        CGRectGetWidth(theFirstNewCell.frame),
                                        CGRectGetHeight(theFirstNewCell.frame));
-    theSecondNewCell.frame = CGRectMake(offsetWithEdge,
+    theSecondNewCell.frame = CGRectMake(CGRectGetMaxX(theFirstNewCell.frame),
                                        0,
                                        CGRectGetWidth(theSecondNewCell.frame),
                                        CGRectGetHeight(theSecondNewCell.frame));
-    theThirdNewCell.frame = CGRectMake(offsetWithEdge,
+    theThirdNewCell.frame = CGRectMake(CGRectGetMaxX(theFirstNewCell.frame),
                                        0,
                                        CGRectGetWidth(theThirdNewCell.frame),
                                        CGRectGetHeight(theThirdNewCell.frame));
@@ -238,12 +245,8 @@
         return 0.0f;
     }
     NSTimeInterval offsetOfTimeInterval = timeInterval - additionTimeInterval;
-    CGFloat leftEdge = 0.0f;
-    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
-        leftEdge = [self.layout edgeInsetsOfHorizontalScrollView:self].left;
-    }
-    
-    xPosition = CGRectGetMinX(curCell.frame) - leftEdge + [GKVideoChunkCell widthOfOneSecond] * offsetOfTimeInterval;
+
+    xPosition = CGRectGetMinX(curCell.frame) - [self offsetOfCurrentFrame] + [GKVideoChunkCell widthOfOneSecond] * offsetOfTimeInterval;
     return xPosition;
 }
 

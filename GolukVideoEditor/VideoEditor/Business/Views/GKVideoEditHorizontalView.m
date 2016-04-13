@@ -58,8 +58,7 @@ GKVideoHorizontalScrollViewLayout
 
 - (void)divideCellAtCurrentFrame
 {
-    // TODO offset ?
-    [self.scrollView attemptToDivideCellAtOffset:self.scrollView.offsetOfScrollView];
+    [self.scrollView attemptToDivideCellAtCurrentFrame];
 }
 
 - (void)updateTemp
@@ -111,7 +110,8 @@ GKVideoHorizontalScrollViewLayout
     } else if ([itemModel isKindOfClass:[GKVideoTimeCellModel class]]) {
         return [[GKVideoTimeCell alloc] init];
     }
-    return [[GKHorizontalCell alloc] init];}
+    return [[GKHorizontalCell alloc] init];
+}
 
 #pragma mark - GKHorizontalScrollDataSource
 
@@ -145,6 +145,11 @@ GKVideoHorizontalScrollViewLayout
         return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
     }
     return CGSizeZero;
+}
+
+- (CGFloat)defaultOffsetOfFrameMarkerOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+{
+    return 70.0f;
 }
 
 #pragma mark - GKHorizontalScrollViewLayout

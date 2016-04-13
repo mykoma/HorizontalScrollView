@@ -65,7 +65,7 @@
 
 @property (nonatomic, weak) GKHorizontalCell * firstCell;
 
-@property (nonatomic, assign, readonly) CGFloat offsetOfScrollView;
+@property (nonatomic, assign, readonly) CGFloat contentOffsetOfScrollView;
 
 - (void)reloadData;
 
@@ -81,7 +81,11 @@
 
 - (void)removeCell:(GKHorizontalCell *)cell;
 
-- (void)attemptToDivideCellAtOffset:(CGFloat)offset;
+/**
+ * 如果 offset 是0， 那么删除的是当前 scrollView 的 contentOffset 的那一个 cell
+ * 然后 offset 大于0，则是伤处的是当前 contentOffset + offset 的那一个 cell
+ */
+- (void)attemptToDivideCellWithOffset:(CGFloat)offset;
 
 - (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)moving
                            withIntersectCell:(GKHorizontalCell *)intersectCell;

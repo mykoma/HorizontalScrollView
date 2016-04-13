@@ -43,7 +43,7 @@
     [self.scrollView setContentOffset:CGPointMake(offset, 0) animated:animated];
 }
 
-- (CGFloat)offsetOfScrollView
+- (CGFloat)contentOffsetOfScrollView
 {
     return self.scrollView.contentOffset.x;
 }
@@ -99,17 +99,14 @@
 
 - (GKHorizontalCell *)seekCellForOffset:(CGFloat)offset
 {
-    CGFloat offsetWithEdge = offset;
-    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
-        offsetWithEdge += [self.layout edgeInsetsOfHorizontalScrollView:self].left;
-    }
+    CGFloat seekedOffset = offset + self.scrollView.contentOffset.x;
     
     GKHorizontalCell * seekedCell= nil;
     GKHorizontalCell * curCell = self.firstCell;
     
     while (curCell) {
-        if (CGRectGetMinX(curCell.frame) <= offsetWithEdge
-            && offsetWithEdge <= CGRectGetMaxX(curCell.frame)) {
+        if (CGRectGetMinX(curCell.frame) <= seekedOffset
+            && seekedOffset <= CGRectGetMaxX(curCell.frame)) {
             seekedCell = curCell;
             break;
         }
@@ -118,7 +115,7 @@
     return seekedCell;
 }
 
-- (void)attemptToDivideCellAtOffset:(CGFloat)offset
+- (void)attemptToDivideCellWithOffset:(CGFloat)offset
 {
     // TODO
 }
