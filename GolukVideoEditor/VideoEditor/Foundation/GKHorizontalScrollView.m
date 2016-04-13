@@ -12,8 +12,8 @@
 @interface GKHorizontalScrollView () <GKHorizontalCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray <GKHorizontalCell *> * cells;
-@property (nonatomic, strong) UIScrollView * scrollView;
 @property (nonatomic, assign) CGFloat xOffset;
+@property (nonatomic, strong, readwrite) UIScrollView * scrollView;
 
 @end
 
@@ -171,9 +171,29 @@
         }
     }
     self.xOffset += scrollViewEdge.right;
-    // 设置 scrollview 的滚动区域
-    self.scrollView.contentSize = CGSizeMake(self.xOffset, 0);
+    
+    // 建立关系
     [self buildCellsRelation];
+
+    // 设置 scrollview 的滚动区域
+    [self refreshContentSize];
+}
+
+- (void)refreshContentSize
+{
+    GKHorizontalCell * curCell = self.firstCell;
+    // seek the end cell
+    while (curCell) {
+        if (curCell.rightCell == nil) {
+            break;
+        }
+        curCell = curCell.rightCell;
+    }
+    CGFloat rightEdge = 0.0f;
+    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
+        rightEdge += [self.layout edgeInsetsOfHorizontalScrollView:self].right;
+    }
+    self.scrollView.contentSize = CGSizeMake(CGRectGetMaxX(curCell.frame) + rightEdge, 0);
 }
 
 - (void)buildCellsRelation

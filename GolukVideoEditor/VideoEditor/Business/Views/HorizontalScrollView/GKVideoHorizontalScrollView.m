@@ -38,6 +38,7 @@
         offsetOfFrameMarker = [self.layout defaultOffsetOfFrameMarkerOfHorizontalScrollView:self];
     }
     self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 1, CGRectGetHeight(self.frame));
+    [self refreshContentSize];
 }
 
 - (CGFloat)offsetOfCurrentFrame
@@ -90,6 +91,7 @@
                              // 移除 cells
                              [cell.rightFenceCell removeFromSuperview];
                              [cell removeFromSuperview];
+                             [self refreshContentSize];
                          }];
     }
 }
@@ -109,7 +111,7 @@
     }
     
     // 计算offset 在 cell 中的比率
-    CGFloat leftWidth = ([self offsetOfCurrentFrame] + self.contentOffsetOfScrollView - CGRectGetMinX(cell.frame));
+    CGFloat leftWidth = ([self offsetOfCurrentFrame] + self.scrollView.contentOffset.x - CGRectGetMinX(cell.frame));
     CGFloat rate = leftWidth / CGRectGetWidth(cell.frame);
     
     // 只允许某个区间的进行裁剪
@@ -211,7 +213,16 @@
                          }
                      } completion:^(BOOL finished) {
                          [cell removeFromSuperview];
+                         [self refreshContentSize];
                      }];
+}
+
+- (void)refreshContentSize
+{
+    [super refreshContentSize];
+    // TODO ? contentSize 应该会修改
+    CGFloat contentWidth = self.scrollView.contentSize.width + (CGRectGetWidth(self.frame) - [self offsetOfCurrentFrame]);
+    self.scrollView.contentSize = CGSizeMake(contentWidth, 0);
 }
 
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated

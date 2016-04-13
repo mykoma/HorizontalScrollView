@@ -65,7 +65,7 @@
 
 @property (nonatomic, weak) GKHorizontalCell * firstCell;
 
-@property (nonatomic, assign, readonly) CGFloat contentOffsetOfScrollView;
+@property (nonatomic, strong, readonly) UIScrollView * scrollView;
 
 - (void)reloadData;
 
@@ -76,6 +76,7 @@
 /*****************************
  * Override
  *****************************/
+- (void)refreshContentSize;
 
 - (void)addCell:(GKHorizontalCell *)cell;
 
