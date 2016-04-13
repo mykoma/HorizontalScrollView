@@ -8,7 +8,50 @@
 
 #import "GKHorizontalScrollView.h"
 
+/*****************************
+ * 数据源
+ *****************************/
+@protocol GKVideoHorizontalScrollDataSource <GKHorizontalScrollDataSource>
+
+@required
+
+- (GKHorizontalCell *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+                          cellForItemModel:(id)itemModel;
+
+@end
+
+/*****************************
+ * 布局
+ *****************************/
+@protocol GKVideoHorizontalScrollViewLayout <GKHorizontalScrollViewLayout>
+
+@required
+
+- (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+              sizeForItemModel:(id)itemModel;
+
+@end
+
+/*****************************
+ * 事件处理
+ *****************************/
+@protocol GKVideoHorizontalScrollViewDelegate <GKHorizontalScrollViewDelegate>
+
+@required
+
+/**
+ * 分割视频，会返回分割后的 cellModels，交由 Delegate 处理， 再返回回来
+ */
+- (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+cellModelAfterInterceptDividedModels:(NSArray *)cellModels;
+
+@end
+
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView
+
+@property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollDataSource> dataSource;
+@property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollViewLayout> layout;
+@property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollViewDelegate> delegate;
 
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated;
 

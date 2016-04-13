@@ -45,7 +45,7 @@
     
     UIButton * playBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     playBtn.backgroundColor = [UIColor redColor];
-    playBtn.frame = CGRectMake(0, CGRectGetMaxY(self.videoEditView.frame) + 10, 100, 30);
+    playBtn.frame = CGRectMake(0, CGRectGetMaxY(self.videoEditView.frame) + 10, 50, 30);
     [self.view addSubview:playBtn];
     
     [playBtn addTarget:self
@@ -54,12 +54,21 @@
     
     UIButton * removeBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     removeBtn.backgroundColor = [UIColor magentaColor];
-    removeBtn.frame = CGRectMake(CGRectGetMaxX(playBtn.frame) + 10, CGRectGetMaxY(self.videoEditView.frame) + 10, 100, 30);
+    removeBtn.frame = CGRectMake(CGRectGetMaxX(playBtn.frame) + 10, CGRectGetMaxY(self.videoEditView.frame) + 10, 50, 30);
     [self.view addSubview:removeBtn];
     
     [removeBtn addTarget:self
                 action:@selector(remove)
       forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton * divideBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    divideBtn.backgroundColor = [UIColor yellowColor];
+    divideBtn.frame = CGRectMake(CGRectGetMaxX(removeBtn.frame) + 10, CGRectGetMaxY(self.videoEditView.frame) + 10, 50, 30);
+    [self.view addSubview:divideBtn];
+    
+    [divideBtn addTarget:self
+                  action:@selector(divide)
+        forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -102,6 +111,11 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 - (void)remove
 {
     [self.videoEditView removeSelectedCell];
+}
+
+- (void)divide
+{
+    [self.videoEditView divideCellAtCurrentFrame];
 }
 
 @end

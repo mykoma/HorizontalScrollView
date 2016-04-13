@@ -15,6 +15,7 @@
 
 - (void)loadData;
 - (void)removeSelectedCell;
+- (void)divideCellAtCurrentFrame;
 
 // TO DELETE
 - (void)updateTemp;

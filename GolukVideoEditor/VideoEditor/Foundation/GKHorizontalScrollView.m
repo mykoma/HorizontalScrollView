@@ -43,6 +43,16 @@
     [self.scrollView setContentOffset:CGPointMake(offset, 0) animated:animated];
 }
 
+- (CGFloat)offsetOfScrollView
+{
+    return self.scrollView.contentOffset.x;
+}
+
+- (void)addCell:(GKHorizontalCell *)cell
+{
+    [self.scrollView addSubview:cell];
+}
+
 - (void)removeCell:(GKHorizontalCell *)cell
 {
     static BOOL IN_MOVING_ANIMATION = NO;
@@ -85,6 +95,32 @@
                              [cell removeFromSuperview];
                          }];
     }
+}
+
+- (GKHorizontalCell *)seekCellForOffset:(CGFloat)offset
+{
+    CGFloat offsetWithEdge = offset;
+    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
+        offsetWithEdge += [self.layout edgeInsetsOfHorizontalScrollView:self].left;
+    }
+    
+    GKHorizontalCell * seekedCell= nil;
+    GKHorizontalCell * curCell = self.firstCell;
+    
+    while (curCell) {
+        if (CGRectGetMinX(curCell.frame) <= offsetWithEdge
+            && offsetWithEdge <= CGRectGetMaxX(curCell.frame)) {
+            seekedCell = curCell;
+            break;
+        }
+        curCell = curCell.rightCell;
+    }
+    return seekedCell;
+}
+
+- (void)attemptToDivideCellAtOffset:(CGFloat)offset
+{
+    // TODO
 }
 
 - (void)reloadData

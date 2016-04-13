@@ -19,8 +19,8 @@ extern CGFloat HEIGHT_OF_HORIZONTAL_CELL;
 @interface GKVideoEditHorizontalView ()
 <
 GKHorizontalScrollDataSource,
-GKHorizontalScrollViewLayout,
-GKHorizontalScrollViewDelegate
+GKHorizontalScrollViewDelegate,
+GKVideoHorizontalScrollViewLayout
 >
 
 @property (nonatomic, strong) GKVideoHorizontalScrollView * scrollView;
@@ -56,6 +56,12 @@ GKHorizontalScrollViewDelegate
     [self.scrollView removeCell:self.selectedCell];
 }
 
+- (void)divideCellAtCurrentFrame
+{
+    // TODO offset ?
+    [self.scrollView attemptToDivideCellAtOffset:self.scrollView.offsetOfScrollView];
+}
+
 - (void)updateTemp
 {
     [self.scrollView scrollToTimeInterval:self.viewModel.timeIntervalOfFrame animated:NO];
@@ -82,6 +88,31 @@ GKHorizontalScrollViewDelegate
     [self.viewModel.innerCellModels addObject:[GKVideoTimeCellModel new]];
 }
 
+#pragma mark - GKVideoHorizontalScrollDataSource
+
+- (GKHorizontalCell *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+                          cellForItemModel:(id)itemModel
+{
+    if ([itemModel isKindOfClass:[GKVideoChunkCellModel class]]) {
+        GKVideoChunkCell * cell = [[GKVideoChunkCell alloc] init];
+        cell.cellModel = itemModel;
+        __weak typeof(self) weakSelf = self;
+        __weak typeof(cell) weakCell = cell;
+        [cell setTouchDown:^(GKVideoChunkCellModel * cellModel) {
+            weakSelf.selectedCell = weakCell;
+        }];
+        return cell;
+    } else if ([itemModel isKindOfClass:[GKVideoFenceCellModel class]]) {
+        return [[GKVideoFenceCell alloc] init];
+    } else if ([itemModel isKindOfClass:[GKVideoAddChunkCellModel class]]) {
+        return [[GKVideoAddChunkCell alloc] init];
+    } else if ([itemModel isKindOfClass:[GKVideoTailerCellModel class]]) {
+        return [[GKVideoTailerCell alloc] init];
+    } else if ([itemModel isKindOfClass:[GKVideoTimeCellModel class]]) {
+        return [[GKVideoTimeCell alloc] init];
+    }
+    return [[GKHorizontalCell alloc] init];}
+
 #pragma mark - GKHorizontalScrollDataSource
 
 - (NSInteger)countOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
@@ -93,25 +124,27 @@ GKHorizontalScrollViewDelegate
                      cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id cellModel = self.viewModel.innerCellModels[indexPath.row];
-    if ([cellModel isKindOfClass:[GKVideoChunkCellModel class]]) {
-        GKVideoChunkCell * cell = [[GKVideoChunkCell alloc] init];
-        cell.cellModel = cellModel;
-        __weak typeof(self) weakSelf = self;
-        __weak typeof(cell) weakCell = cell;
-        [cell setTouchDown:^(GKVideoChunkCellModel * cellModel) {
-            weakSelf.selectedCell = weakCell;
-        }];
-        return cell;
-    } else if ([cellModel isKindOfClass:[GKVideoFenceCellModel class]]) {
-        return [[GKVideoFenceCell alloc] init];
-    } else if ([cellModel isKindOfClass:[GKVideoAddChunkCellModel class]]) {
-        return [[GKVideoAddChunkCell alloc] init];
-    } else if ([cellModel isKindOfClass:[GKVideoTailerCellModel class]]) {
-        return [[GKVideoTailerCell alloc] init];
-    } else if ([cellModel isKindOfClass:[GKVideoTimeCellModel class]]) {
-        return [[GKVideoTimeCell alloc] init];
+    return [((GKVideoHorizontalScrollView *)horizontalScrollView).dataSource horizontalScrollView:horizontalScrollView
+                                                                                 cellForItemModel:cellModel];
+}
+
+#pragma mark - GKVideoHorizontalScrollViewLayout
+
+- (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+              sizeForItemModel:(id)itemModel
+{
+    if ([itemModel isKindOfClass:[GKVideoChunkCellModel class]]) {
+        return CGSizeMake([GKVideoChunkCell widthForModel:itemModel], HEIGHT_OF_HORIZONTAL_CELL);
+    } else if ([itemModel isKindOfClass:[GKVideoFenceCellModel class]]) {
+        return CGSizeMake(10, HEIGHT_OF_HORIZONTAL_CELL);
+    } else if ([itemModel isKindOfClass:[GKVideoAddChunkCellModel class]]) {
+        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
+    } else if ([itemModel isKindOfClass:[GKVideoTailerCellModel class]]) {
+        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
+    } else if ([itemModel isKindOfClass:[GKVideoTimeCellModel class]]) {
+        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
     }
-    return [[GKHorizontalCell alloc] init];
+    return CGSizeZero;
 }
 
 #pragma mark - GKHorizontalScrollViewLayout
@@ -125,16 +158,9 @@ GKHorizontalScrollViewDelegate
         sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     id cellModel = self.viewModel.innerCellModels[indexPath.row];
-    if ([cellModel isKindOfClass:[GKVideoChunkCellModel class]]) {
-        return CGSizeMake([GKVideoChunkCell widthForModel:cellModel], HEIGHT_OF_HORIZONTAL_CELL);
-    } else if ([cellModel isKindOfClass:[GKVideoFenceCellModel class]]) {
-        return CGSizeMake(10, HEIGHT_OF_HORIZONTAL_CELL);
-    } else if ([cellModel isKindOfClass:[GKVideoAddChunkCellModel class]]) {
-        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
-    } else if ([cellModel isKindOfClass:[GKVideoTailerCellModel class]]) {
-        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
-    } else if ([cellModel isKindOfClass:[GKVideoTimeCellModel class]]) {
-        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
+    if ([horizontalScrollView isKindOfClass:[GKVideoHorizontalScrollView class]]) {
+        return [((GKVideoHorizontalScrollView *)horizontalScrollView).layout horizontalScrollView:horizontalScrollView
+                                                                                 sizeForItemModel:cellModel];
     }
     return CGSizeZero;
 }
@@ -148,6 +174,17 @@ GKHorizontalScrollViewDelegate
              insetForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return UIEdgeInsetsMake(0, 0, 0, 5);
+}
+
+#pragma mark - GKVideoHorizontalScrollViewDelegate
+
+- (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+cellModelAfterInterceptDividedModels:(NSArray *)cellModels
+{
+    NSAssert(cellModels.count == 2, nil);
+    return @[cellModels[0],
+             [GKVideoFenceCellModel new],
+             cellModels[1]];
 }
 
 @end

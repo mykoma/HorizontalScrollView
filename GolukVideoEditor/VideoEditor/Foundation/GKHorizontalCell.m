@@ -54,6 +54,12 @@
     }
 }
 
+- (NSArray *)divideAtRate:(CGFloat)rate
+{
+    // TODO
+    return nil;
+}
+
 - (GKHorizontalDirection)directionForCell:(GKHorizontalCell *)cell
 {
     GKHorizontalDirection direction = GKHorizontalDirectionNone;

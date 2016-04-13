@@ -65,16 +65,23 @@
 
 @property (nonatomic, weak) GKHorizontalCell * firstCell;
 
+@property (nonatomic, assign, readonly) CGFloat offsetOfScrollView;
+
 - (void)reloadData;
 
 - (void)scrollToOffset:(CGFloat)offset animated:(BOOL)animated;
 
+- (GKHorizontalCell *)seekCellForOffset:(CGFloat)offset;
 
 /*****************************
  * Override
  *****************************/
 
+- (void)addCell:(GKHorizontalCell *)cell;
+
 - (void)removeCell:(GKHorizontalCell *)cell;
+
+- (void)attemptToDivideCellAtOffset:(CGFloat)offset;
 
 - (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)moving
                            withIntersectCell:(GKHorizontalCell *)intersectCell;

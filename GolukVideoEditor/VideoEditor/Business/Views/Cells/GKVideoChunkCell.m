@@ -134,4 +134,30 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     return YES;
 }
 
+- (NSArray *)divideAtRate:(CGFloat)rate
+{
+    CGFloat visibleDuration = self.cellModel.duration * (self.cellModel.endPercent - self.cellModel.beginPercent);
+    CGFloat leftInvisibleDuration = self.cellModel.duration * self.cellModel.beginPercent;
+    CGFloat leftSubVisibleDuration = visibleDuration * rate;
+    CGFloat rightSubVisibleDuration = visibleDuration - leftSubVisibleDuration;
+    CGFloat rightInvisibleDuration = self.cellModel.duration * (1.0f - self.cellModel.endPercent);
+
+    // TODO Images
+    
+    // Left
+    GKVideoChunkCellModel * leftSubCellModel = [GKVideoChunkCellModel new];
+    leftSubCellModel.duration = leftInvisibleDuration + leftSubVisibleDuration;
+    leftSubCellModel.beginPercent = leftInvisibleDuration / leftSubCellModel.duration;
+    // endPercent 只会是 1.0f
+    leftSubCellModel.endPercent = 1.0f;
+
+    // Right
+    GKVideoChunkCellModel * rightSubCellModel = [GKVideoChunkCellModel new];
+    rightSubCellModel.duration = rightSubVisibleDuration + rightInvisibleDuration;
+    // beginPercent 只会是 0.0f
+    rightSubCellModel.beginPercent = 0.0f;
+    rightSubCellModel.endPercent = rightSubVisibleDuration / rightSubCellModel.duration;
+    return @[leftSubCellModel, rightSubCellModel];
+}
+
 @end
