@@ -6,13 +6,13 @@
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoHorizontalCell.h"
+#import "GKHorizontalCell.h"
 
 @interface GKVideoAddChunkCellModel : NSObject
 
 @end
 
-@interface GKVideoAddChunkCell : GKVideoHorizontalCell
+@interface GKVideoAddChunkCell : GKHorizontalCell
 
 @property (nonatomic, strong) GKVideoAddChunkCellModel * cellModel;
 

@@ -6,13 +6,13 @@
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoHorizontalCell.h"
+#import "GKHorizontalCell.h"
 
 @interface GKVideoTailerCellModel : NSObject
 
 @end
 
-@interface GKVideoTailerCell : GKVideoHorizontalCell
+@interface GKVideoTailerCell : GKHorizontalCell
 
 @property (nonatomic, strong) GKVideoTailerCellModel * cellModel;
 

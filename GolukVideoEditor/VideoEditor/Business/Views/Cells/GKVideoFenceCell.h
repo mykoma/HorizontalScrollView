@@ -6,7 +6,7 @@
 //  Copyright © 2016年 SCU. All rights reserved.
 //
 
-#import "GKVideoHorizontalCell.h"
+#import "GKHorizontalCell.h"
 
 @class GKVideoChunkCell;
 
@@ -14,7 +14,7 @@
 
 @end
 
-@interface GKVideoFenceCell : GKVideoHorizontalCell
+@interface GKVideoFenceCell : GKHorizontalCell
 
 @property (nonatomic, strong) GKVideoFenceCellModel * cellModel;
 

@@ -18,7 +18,6 @@
 		184ECCFB1CBCD7E700565918 /* GKVideoHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCED1CBCD7E700565918 /* GKVideoHorizontalScrollView.m */; };
 		184ECCFC1CBCD7E700565918 /* GKHorizontalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCF01CBCD7E700565918 /* GKHorizontalCell.m */; };
 		184ECCFD1CBCD7E700565918 /* GKHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCF21CBCD7E700565918 /* GKHorizontalScrollView.m */; };
-		184ECD001CBD1A7200565918 /* GKVideoHorizontalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184ECCFF1CBD1A7200565918 /* GKVideoHorizontalCell.m */; };
 		186FA1FB1CBA2B89009EA660 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FA1CBA2B89009EA660 /* main.m */; };
 		186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FD1CBA2B89009EA660 /* AppDelegate.m */; };
 		186FA2011CBA2B89009EA660 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2001CBA2B89009EA660 /* ViewController.m */; };
@@ -50,8 +49,6 @@
 		184ECCF01CBCD7E700565918 /* GKHorizontalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalCell.m; sourceTree = "<group>"; };
 		184ECCF11CBCD7E700565918 /* GKHorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalScrollView.h; sourceTree = "<group>"; };
 		184ECCF21CBCD7E700565918 /* GKHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalScrollView.m; sourceTree = "<group>"; };
-		184ECCFE1CBD1A7200565918 /* GKVideoHorizontalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoHorizontalCell.h; sourceTree = "<group>"; };
-		184ECCFF1CBD1A7200565918 /* GKVideoHorizontalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoHorizontalCell.m; sourceTree = "<group>"; };
 		186FA1F61CBA2B89009EA660 /* GolukVideoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolukVideoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		186FA1FA1CBA2B89009EA660 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		186FA1FC1CBA2B89009EA660 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -128,8 +125,6 @@
 				184ECCE61CBCD7E700565918 /* GKVideoTailerCell.m */,
 				184ECCE71CBCD7E700565918 /* GKVideoTimeCell.h */,
 				184ECCE81CBCD7E700565918 /* GKVideoTimeCell.m */,
-				184ECCFE1CBD1A7200565918 /* GKVideoHorizontalCell.h */,
-				184ECCFF1CBD1A7200565918 /* GKVideoHorizontalCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -274,7 +269,6 @@
 				184ECCF81CBCD7E700565918 /* GKVideoTailerCell.m in Sources */,
 				184ECCF31CBCD7E700565918 /* GKVideoChunkCellModel.m in Sources */,
 				186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */,
-				184ECD001CBD1A7200565918 /* GKVideoHorizontalCell.m in Sources */,
 				184ECCFD1CBCD7E700565918 /* GKHorizontalScrollView.m in Sources */,
 				184ECCF91CBCD7E700565918 /* GKVideoTimeCell.m in Sources */,
 				184ECCF41CBCD7E700565918 /* GKVideoEditHorizontalViewModel.m in Sources */,
