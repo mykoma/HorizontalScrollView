@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) GKVideoEditHorizontalViewModel * viewModel;
 
+@property (nonatomic, copy) void (^addChunkAction)();
+
 - (void)loadData;
 - (void)removeSelectedCell;
 - (void)divideCellAtCurrentFrame;

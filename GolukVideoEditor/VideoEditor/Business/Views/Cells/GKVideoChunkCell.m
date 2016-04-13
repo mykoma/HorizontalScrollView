@@ -79,7 +79,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)touchDown:(id)sender
 {
     if (self.touchDown) {
-        self.touchDown(self.cellModel);
+        self.touchDown();
     }
 }
 

@@ -16,4 +16,6 @@
 
 @property (nonatomic, strong) GKVideoAddChunkCellModel * cellModel;
 
+@property (nonatomic, copy) void (^touchAction)();
+
 @end

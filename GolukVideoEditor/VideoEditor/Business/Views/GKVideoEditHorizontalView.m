@@ -97,14 +97,21 @@ GKVideoHorizontalScrollViewLayout
         cell.cellModel = itemModel;
         __weak typeof(self) weakSelf = self;
         __weak typeof(cell) weakCell = cell;
-        [cell setTouchDown:^(GKVideoChunkCellModel * cellModel) {
+        [cell setTouchDown:^ {
             weakSelf.selectedCell = weakCell;
         }];
         return cell;
     } else if ([itemModel isKindOfClass:[GKVideoFenceCellModel class]]) {
         return [[GKVideoFenceCell alloc] init];
     } else if ([itemModel isKindOfClass:[GKVideoAddChunkCellModel class]]) {
-        return [[GKVideoAddChunkCell alloc] init];
+        GKVideoAddChunkCell * cell = [[GKVideoAddChunkCell alloc] init];
+        __weak typeof(self) weakSelf = self;
+        [cell setTouchAction:^{
+            if (weakSelf.addChunkAction) {
+                weakSelf.addChunkAction();
+            }
+        }];
+        return cell;
     } else if ([itemModel isKindOfClass:[GKVideoTailerCellModel class]]) {
         return [[GKVideoTailerCell alloc] init];
     } else if ([itemModel isKindOfClass:[GKVideoTimeCellModel class]]) {

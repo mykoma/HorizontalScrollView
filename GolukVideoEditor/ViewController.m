@@ -43,6 +43,21 @@
     [self.videoEditView.viewModel.chunkCellModels addObject:model4];
     [self.view addSubview:self.videoEditView];
     
+    [self.videoEditView setAddChunkAction:^{
+        // TODO Add Chunk
+    }];
+    
+    [self addBtns];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.videoEditView loadData];
+}
+
+- (void)addBtns
+{
     UIButton * playBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     playBtn.backgroundColor = [UIColor redColor];
     playBtn.frame = CGRectMake(0, CGRectGetMaxY(self.videoEditView.frame) + 10, 50, 30);
@@ -58,8 +73,8 @@
     [self.view addSubview:removeBtn];
     
     [removeBtn addTarget:self
-                action:@selector(remove)
-      forControlEvents:UIControlEventTouchUpInside];
+                  action:@selector(remove)
+        forControlEvents:UIControlEventTouchUpInside];
     
     UIButton * divideBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     divideBtn.backgroundColor = [UIColor yellowColor];
@@ -71,21 +86,9 @@
         forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.videoEditView loadData];
-}
-
 static NSTimeInterval timeOffset = 0.0f;
 
 static NSTimeInterval timeInterval = 1.0f / 60;
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
 
 - (void)update
 {
