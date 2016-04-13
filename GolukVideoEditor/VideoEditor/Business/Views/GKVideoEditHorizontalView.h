@@ -16,6 +16,7 @@
 @property (nonatomic, copy) void (^addChunkAction)();
 
 - (void)loadData;
+- (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel;
 - (void)removeSelectedCell;
 - (void)divideCellAtCurrentFrame;
 

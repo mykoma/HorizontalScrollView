@@ -46,6 +46,8 @@
  */
 - (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 cellModelAfterInterceptDividedModels:(NSArray *)cellModels;
+- (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 
 @end
 
@@ -58,5 +60,7 @@ cellModelAfterInterceptDividedModels:(NSArray *)cellModels;
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated;
 
 - (void)attemptToDivideCellAtCurrentFrame;
+
+- (void)appendCellModel:(id)cellModel;
 
 @end

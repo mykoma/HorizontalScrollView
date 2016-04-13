@@ -51,6 +51,11 @@ GKVideoHorizontalScrollViewLayout
     [self.scrollView reloadData];
 }
 
+- (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel
+{
+    [self.scrollView appendCellModel:cellModel];
+}
+
 - (void)removeSelectedCell
 {
     [self.scrollView removeCell:self.selectedCell];
@@ -197,6 +202,19 @@ cellModelAfterInterceptDividedModels:(NSArray *)cellModels
     return @[cellModels[0],
              [GKVideoFenceCellModel new],
              cellModels[1]];
+}
+
+- (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+cellModelAfterInterceptAppendModels:(NSArray *)cellModels
+{
+    NSMutableArray * mArray = [NSMutableArray new];
+    for (id cellModel in cellModels) {
+        if ([cellModel isKindOfClass:[GKVideoChunkCellModel class]]) {
+            [mArray addObject:cellModel];
+            [mArray addObject:[GKVideoFenceCellModel new]];
+        }
+    }
+    return mArray;
 }
 
 @end

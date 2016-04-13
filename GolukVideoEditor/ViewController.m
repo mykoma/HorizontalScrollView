@@ -43,8 +43,13 @@
     [self.videoEditView.viewModel.chunkCellModels addObject:model4];
     [self.view addSubview:self.videoEditView];
     
+    __weak typeof(self) weakSelf = self;
     [self.videoEditView setAddChunkAction:^{
-        // TODO Add Chunk
+        GKVideoChunkCellModel * model = [[GKVideoChunkCellModel alloc] init];
+        model.duration = 3;
+        model.beginPercent = 0.0f;
+        model.endPercent = 1.0f;
+        [weakSelf.videoEditView addChunkCellModel:model];
     }];
     
     [self addBtns];

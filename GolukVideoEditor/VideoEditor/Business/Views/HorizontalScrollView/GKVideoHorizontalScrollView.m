@@ -88,6 +88,10 @@
                              leftFenceCell.rightCell = rightChunkCell;
                              rightChunkCell.leftCell = leftFenceCell;
                              
+                             if (cell == self.firstCell) {
+                                 self.firstCell = cell.rightFenceCell.rightCell;
+                             }
+                             
                              // 移除 cells
                              [cell.rightFenceCell removeFromSuperview];
                              [cell removeFromSuperview];
@@ -99,6 +103,93 @@
 - (void)attemptToDivideCellAtCurrentFrame
 {
     [self attemptToDivideCellWithOffset:[self offsetOfCurrentFrame]];
+}
+
+- (void)appendCellModel:(id)cellModel
+{
+    // 获取新的 CellModels
+    NSArray * newCellModels = [self.delegate horizontalScrollView:self
+                              cellModelAfterInterceptAppendModels:@[cellModel]];
+    NSAssert(newCellModels.count > 0, nil);
+    
+    GKHorizontalCell * theFirstNewCell = nil;
+    GKHorizontalCell * theSecondNewCell = nil;
+    
+    GKVideoChunkCell * lastChunkCell = [self lastChunkCell];
+    
+    GKHorizontalCell * theOldRightCell = (lastChunkCell == nil) ? self.firstCell : lastChunkCell.rightFenceCell.rightCell;
+    // 根据 cellModels，得到新的 cell, 并且建立关系
+    GKHorizontalCell * prevCell = lastChunkCell.rightFenceCell;
+    for (id cellModel in newCellModels) {
+        GKHorizontalCell * newCell = [self.dataSource horizontalScrollView:self
+                                                          cellForItemModel:cellModel];
+        CGSize size = [self.layout horizontalScrollView:self
+                                       sizeForItemModel:cellModel];
+        newCell.frame = CGRectMake(0, 0, size.width, size.height);
+        [self addCell:newCell];
+        
+        // 建立关系
+        prevCell.rightCell = newCell;
+        newCell.leftCell = prevCell;
+        prevCell = newCell;
+        
+        if (theFirstNewCell == nil) {
+            theFirstNewCell = newCell;
+            continue;
+        }
+        if (theSecondNewCell == nil) {
+            theSecondNewCell = newCell;
+            continue;
+        }
+    }
+    theOldRightCell.leftCell = prevCell;
+    prevCell.rightCell = theOldRightCell;
+    
+    if (lastChunkCell == nil) {
+        self.firstCell = theFirstNewCell;
+    }
+    
+    theFirstNewCell.frame = CGRectMake(CGRectGetMinX(theOldRightCell.frame),
+                                       0,
+                                       CGRectGetWidth(theFirstNewCell.frame),
+                                       CGRectGetHeight(theFirstNewCell.frame));
+    theSecondNewCell.frame = CGRectMake(CGRectGetMinX(theFirstNewCell.frame),
+                                        0,
+                                        CGRectGetWidth(theSecondNewCell.frame),
+                                        CGRectGetHeight(theSecondNewCell.frame));
+    
+    [UIView animateWithDuration:0.3f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGFloat xOffset = theOldRightCell.frame.origin.x;
+                         GKHorizontalCell * curCell = theFirstNewCell;
+                         
+                         while (curCell) {
+                             UIEdgeInsets cellEdge = UIEdgeInsetsZero;
+                             // Cell Left Edge Insets
+                             if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
+                                 cellEdge = [self.layout horizontalScrollView:self
+                                                      insetForItemAtIndexPath:nil];
+                             }
+                             if (curCell != theFirstNewCell) {
+                                 xOffset += cellEdge.left;
+                             }
+                             
+                             curCell.frame = CGRectMake(xOffset,
+                                                        0,
+                                                        curCell.frame.size.width,
+                                                        curCell.frame.size.height);
+                             
+                             xOffset += curCell.frame.size.width;
+                             xOffset += cellEdge.right;
+                             
+                             // Next
+                             curCell = curCell.rightCell;
+                         }
+                     } completion:^(BOOL finished) {
+                         [self refreshContentSize];
+                     }];
 }
 
 - (void)attemptToDivideCellWithOffset:(CGFloat)offset
@@ -160,6 +251,8 @@
             continue;
         }
     }
+    cell.rightCell.leftCell = prevCell;
+    prevCell.rightCell = cell.rightCell;
     
     // 查看 firstCell 是不是当前 divide 的, If YES, 则重置
     if (self.firstCell == cell) {
@@ -178,9 +271,6 @@
                                        0,
                                        CGRectGetWidth(theThirdNewCell.frame),
                                        CGRectGetHeight(theThirdNewCell.frame));
-    
-    cell.rightCell.leftCell = prevCell;
-    prevCell.rightCell = cell.rightCell;
     
     [UIView animateWithDuration:0.3f
                           delay:0
@@ -383,6 +473,20 @@
                              }];
         }
     }
+}
+
+#pragma mark - Private
+
+- (GKVideoChunkCell *)lastChunkCell
+{
+    GKVideoChunkCell * curCell = (GKVideoChunkCell *)self.firstCell;
+    while ([curCell isKindOfClass:[GKVideoChunkCell class]]) {
+        if (![curCell.rightCell.rightCell isKindOfClass:[GKVideoChunkCell class]]) {
+            break;
+        }
+        curCell = curCell.rightFenceCell.rightChunkCell;
+    }
+    return [curCell isKindOfClass:[GKVideoChunkCell class]] ? curCell : nil;
 }
 
 @end
