@@ -10,7 +10,17 @@
 #import "GKVideoHorizontalScrollView.h"
 #import "GKVideoEditHorizontalViewModel.h"
 
+@protocol GKVideoEditHorizontalViewDelegate <NSObject>
+
+@optional
+
+- (void)timeIntervalOfCurrentFrame:(CGFloat)timeInterval;
+
+@end
+
 @interface GKVideoEditHorizontalView : UIView
+
+@property (nonatomic, weak) id <GKVideoEditHorizontalViewDelegate> delegate;
 
 @property (nonatomic, strong) GKVideoEditHorizontalViewModel * viewModel;
 

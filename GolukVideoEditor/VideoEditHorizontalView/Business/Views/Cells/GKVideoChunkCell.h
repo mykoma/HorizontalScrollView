@@ -24,4 +24,9 @@
 
 + (CGFloat)widthOfOneSecond;
 
+/**
+ *  offset in current cell.
+ */
+- (NSTimeInterval)timeIntervalOfVisibleOffset:(CGFloat)offset;
+
 @end

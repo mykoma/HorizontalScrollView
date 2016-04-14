@@ -9,7 +9,11 @@
 #import "GKHorizontalScrollView.h"
 #import "GKHorizontalCell.h"
 
-@interface GKHorizontalScrollView () <GKHorizontalCellDelegate>
+@interface GKHorizontalScrollView ()
+<
+GKHorizontalCellDelegate,
+UIScrollViewDelegate
+>
 
 @property (nonatomic, strong) NSMutableArray <GKHorizontalCell *> * cells;
 @property (nonatomic, assign) CGFloat xOffset;
@@ -33,7 +37,7 @@
     self.cells = [NSMutableArray new];
     self.xOffset = 0.0f;
     self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.backgroundColor = [UIColor grayColor];
+    self.scrollView.delegate = self;
     self.scrollView.clipsToBounds = NO;
     [self addSubview:self.scrollView];
 }
@@ -97,10 +101,9 @@
     }
 }
 
-- (GKHorizontalCell *)seekCellForOffset:(CGFloat)offset
+- (GKHorizontalCell *)seekCellWithLeftDistance:(CGFloat)distance
 {
-    CGFloat seekedOffset = offset + self.scrollView.contentOffset.x;
-    
+    CGFloat seekedOffset = distance + self.scrollView.contentOffset.x;
     GKHorizontalCell * seekedCell= nil;
     GKHorizontalCell * curCell = self.firstCell;
     
@@ -115,7 +118,7 @@
     return seekedCell;
 }
 
-- (void)attemptToDivideCellWithOffset:(CGFloat)offset
+- (void)attemptToDivideCellWithLeftDistance:(CGFloat)offset
 {
     // TODO
 }
@@ -438,6 +441,20 @@
         }
     }
     return intersectCell;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self horizontalScrollViewDidScroll:scrollView];
+}
+
+- (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:offsetOfContent:)]) {
+        [self.delegate horizontalScrollView:self offsetOfContent:scrollView.contentOffset.x];
+    }
 }
 
 @end

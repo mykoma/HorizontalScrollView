@@ -98,6 +98,11 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     return [[self class] widthOfOneSecond] * (self.cellModel.duration * self.cellModel.beginPercent);
 }
 
+- (NSTimeInterval)timeIntervalOfVisibleOffset:(CGFloat)offset
+{
+    return offset / [[self class] widthOfOneSecond];
+}
+
 #pragma mark - Setter & Getter
 
 - (void)setLeftFenceCell:(GKVideoFenceCell *)leftFenceCell

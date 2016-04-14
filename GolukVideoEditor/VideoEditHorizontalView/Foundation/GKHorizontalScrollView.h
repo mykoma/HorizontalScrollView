@@ -51,6 +51,9 @@
  *****************************/
 @protocol GKHorizontalScrollViewDelegate <NSObject>
 
+@optional
+
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView offsetOfContent:(CGFloat)offset;
 
 @end
 
@@ -71,7 +74,11 @@
 
 - (void)scrollToOffset:(CGFloat)offset animated:(BOOL)animated;
 
-- (GKHorizontalCell *)seekCellForOffset:(CGFloat)offset;
+/**
+ * 查找当前 scrollView 的 contentOffset 的 cell
+ * 这个 distance 是相对于 scrollView的左边距
+ */
+- (GKHorizontalCell *)seekCellWithLeftDistance:(CGFloat)distance;
 
 /*****************************
  * Override
@@ -83,12 +90,15 @@
 - (void)removeCell:(GKHorizontalCell *)cell;
 
 /**
- * 如果 offset 是0， 那么删除的是当前 scrollView 的 contentOffset 的那一个 cell
- * 然后 offset 大于0，则是伤处的是当前 contentOffset + offset 的那一个 cell
+ * 如果 distance 是0， 那么删除的是当前 scrollView 的 contentOffset 的那一个 cell
+ * 然后 distance 大于0，则是伤处的是当前 contentOffset + distance 的那一个 cell
  */
-- (void)attemptToDivideCellWithOffset:(CGFloat)offset;
+- (void)attemptToDivideCellWithLeftDistance:(CGFloat)distance;
 
 - (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)moving
                            withIntersectCell:(GKHorizontalCell *)intersectCell;
+
+- (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView;
+
 
 @end

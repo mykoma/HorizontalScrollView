@@ -102,7 +102,7 @@
 
 - (void)attemptToDivideCellAtCurrentFrame
 {
-    [self attemptToDivideCellWithOffset:[self offsetOfCurrentFrame]];
+    [self attemptToDivideCellWithLeftDistance:[self offsetOfCurrentFrame]];
 }
 
 - (void)appendCellModel:(id)cellModel
@@ -192,9 +192,9 @@
                      }];
 }
 
-- (void)attemptToDivideCellWithOffset:(CGFloat)offset
+- (void)attemptToDivideCellWithLeftDistance:(CGFloat)distance
 {
-    GKHorizontalCell * cell = [self seekCellForOffset:offset];
+    GKHorizontalCell * cell = [self seekCellWithLeftDistance:distance];
     
     // 如果不是GKVideoChunkCell
     if (![cell isKindOfClass:[GKVideoChunkCell class]]) {
@@ -483,6 +483,16 @@
     }
 }
 
+- (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [super horizontalScrollViewDidScroll:scrollView];
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:timeIntervalOfOffset:)])
+    {
+        NSTimeInterval timeInterval = [self timeIntervalOfHorizontalScrollOffset:scrollView.contentOffset.x];
+        [self.delegate horizontalScrollView:self timeIntervalOfOffset:timeInterval];
+    }
+}
+
 #pragma mark - Private
 
 - (GKVideoChunkCell *)lastChunkCell
@@ -495,6 +505,29 @@
         curCell = curCell.rightFenceCell.rightChunkCell;
     }
     return [curCell isKindOfClass:[GKVideoChunkCell class]] ? curCell : nil;
+}
+
+- (NSTimeInterval)timeIntervalOfHorizontalScrollOffset:(CGFloat)offset
+{
+    GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
+    
+    NSTimeInterval timeInterval = 0.0f;
+    GKHorizontalCell * curCell = cell.leftCell;
+    while (curCell) {
+        if ([curCell isKindOfClass:[GKVideoChunkCell class]]) {
+            GKVideoChunkCell * chunkCell = (GKVideoChunkCell *)curCell;
+            CGFloat durationOfRate = chunkCell.cellModel.endPercent - chunkCell.cellModel.beginPercent;
+            timeInterval += chunkCell.cellModel.duration * durationOfRate;
+        }
+        curCell = curCell.leftCell;
+    }
+
+    if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
+        GKVideoChunkCell * chunkCell = (GKVideoChunkCell *)cell;
+        timeInterval += [chunkCell timeIntervalOfVisibleOffset:([self offsetOfCurrentFrame] + offset - CGRectGetMinX(cell.frame))];
+    }
+    
+    return timeInterval;
 }
 
 @end

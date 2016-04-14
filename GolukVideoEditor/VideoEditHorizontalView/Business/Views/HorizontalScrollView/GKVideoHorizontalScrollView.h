@@ -40,7 +40,6 @@
 @protocol GKVideoHorizontalScrollViewDelegate <GKHorizontalScrollViewDelegate>
 
 @required
-
 /**
  * 分割视频，会返回分割后的 cellModels，交由 Delegate 处理， 再返回回来
  */
@@ -48,6 +47,11 @@
 cellModelAfterInterceptDividedModels:(NSArray *)cellModels;
 - (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
+
+@optional
+
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+        timeIntervalOfOffset:(CGFloat)timeInterval;
 
 @end
 

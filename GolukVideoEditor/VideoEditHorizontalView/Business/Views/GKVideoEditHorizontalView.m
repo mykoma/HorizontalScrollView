@@ -219,4 +219,11 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     return mArray;
 }
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView timeIntervalOfOffset:(CGFloat)timeInterval
+{
+    if ([self.delegate respondsToSelector:@selector(timeIntervalOfCurrentFrame:)]) {
+        [self.delegate timeIntervalOfCurrentFrame:timeInterval];
+    }
+}
+
 @end
