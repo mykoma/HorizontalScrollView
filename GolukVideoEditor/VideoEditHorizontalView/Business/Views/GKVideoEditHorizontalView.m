@@ -111,8 +111,8 @@ GKVideoHorizontalScrollViewLayout
         GKVideoAddChunkCell * cell = [[GKVideoAddChunkCell alloc] init];
         __weak typeof(self) weakSelf = self;
         [cell setTouchAction:^{
-            if (weakSelf.addChunkAction) {
-                weakSelf.addChunkAction();
+            if ([weakSelf.delegate respondsToSelector:@selector(didTouchAddChunk)]) {
+                [weakSelf.delegate didTouchAddChunk];
             }
         }];
         return cell;

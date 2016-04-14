@@ -16,6 +16,8 @@
 
 - (void)timeIntervalOfCurrentFrame:(CGFloat)timeInterval;
 
+- (void)didTouchAddChunk;
+
 - (void)chunkCellDeletedAtIndex:(NSInteger)index;
 
 @end
@@ -25,8 +27,6 @@
 @property (nonatomic, weak) id <GKVideoEditHorizontalViewDelegate> delegate;
 
 @property (nonatomic, strong) GKVideoEditHorizontalViewModel * viewModel;
-
-@property (nonatomic, copy) void (^addChunkAction)();
 
 - (void)loadData;
 - (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel;

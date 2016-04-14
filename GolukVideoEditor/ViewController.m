@@ -50,16 +50,6 @@
     
     [self.view addSubview:self.videoEditView];
     
-    __weak typeof(self) weakSelf = self;
-    [self.videoEditView setAddChunkAction:^{
-        GKVideoChunkCellModel * model = [[GKVideoChunkCellModel alloc] init];
-        model.duration = 12;
-        model.beginPercent = 0.0f;
-        model.endPercent = 1.0f;
-        model.images = @[[UIImage imageNamed:@"2"]];
-        [weakSelf.videoEditView addChunkCellModel:model];
-    }];
-    
     [self addBtns];
 }
 
@@ -144,6 +134,17 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 - (void)chunkCellDeletedAtIndex:(NSInteger)index
 {
     NSLog(@"Delete At   %ld", index);
+}
+
+- (void)didTouchAddChunk
+{
+    NSLog(@"didTouchAddChunk");
+    GKVideoChunkCellModel * model = [[GKVideoChunkCellModel alloc] init];
+    model.duration = 5;
+    model.beginPercent = 0.0f;
+    model.endPercent = 1.0f;
+    model.images = @[[UIImage imageNamed:@"2"]];
+    [self.videoEditView addChunkCellModel:model];
 }
 
 @end
