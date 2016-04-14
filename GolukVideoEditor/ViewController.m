@@ -47,9 +47,10 @@
     __weak typeof(self) weakSelf = self;
     [self.videoEditView setAddChunkAction:^{
         GKVideoChunkCellModel * model = [[GKVideoChunkCellModel alloc] init];
-        model.duration = 3;
+        model.duration = 12;
         model.beginPercent = 0.0f;
         model.endPercent = 1.0f;
+        model.images = @[[UIImage imageNamed:@"2"]];
         [weakSelf.videoEditView addChunkCellModel:model];
     }];
     
