@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GKVideoHorizontalScrollView.h"
 #import "GKVideoEditHorizontalViewModel.h"
 
 @interface GKVideoEditHorizontalView : UIView

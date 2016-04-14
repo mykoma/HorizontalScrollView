@@ -7,7 +7,6 @@
 //
 
 #import "GKVideoEditHorizontalView.h"
-#import "GKVideoHorizontalScrollView.h"
 #import "GKVideoChunkCell.h"
 #import "GKVideoFenceCell.h"
 #import "GKVideoAddChunkCell.h"
