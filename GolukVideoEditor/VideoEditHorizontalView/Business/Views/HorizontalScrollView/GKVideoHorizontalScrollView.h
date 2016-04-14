@@ -58,6 +58,10 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
      chunkCellDeletedAtIndex:(NSInteger)index;
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+      chunkCellMoveFromIndex:(NSInteger)fromIndex
+                     toIndex:(NSInteger)toIndex;
+
 @end
 
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView

@@ -234,4 +234,13 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     }
 }
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+      chunkCellMoveFromIndex:(NSInteger)fromIndex
+                     toIndex:(NSInteger)toIndex
+{
+    if ([self.delegate respondsToSelector:@selector(chunkCellMovedFromIndex:toIndex:)]) {
+        [self.delegate chunkCellMovedFromIndex:fromIndex toIndex:toIndex];
+    }
+}
+
 @end

@@ -279,6 +279,7 @@ UIScrollViewDelegate
                                                                   horizontalCell.originFrameInUpdating.size.height);
                              }
                              completion:^(BOOL finished) {
+                                 [self didMoveCell:horizontalCell toCell:intersectCell];
                                  [self attemptToUdpateFirstCellByMovingCell:horizontalCell
                                                           withIntersectCell:intersectCell];
                                  [horizontalCell changeRelationWithCell:intersectCell];
@@ -288,6 +289,7 @@ UIScrollViewDelegate
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
+                                 [self didMoveCell:horizontalCell toCell:intersectCell];
                                  horizontalCell.frame = CGRectMake(intersectCell.originFrameInUpdating.origin.x,
                                                                   horizontalCell.originFrameInUpdating.origin.y,
                                                                   horizontalCell.originFrameInUpdating.size.width,
@@ -309,6 +311,11 @@ UIScrollViewDelegate
         }
         [subview endUpdating];
     }
+}
+
+- (void)didMoveCell:(GKHorizontalCell *)fromCell toCell:(GKHorizontalCell *)toCell
+{
+    // Empty
 }
 
 - (void)horizontalCell:(GKHorizontalCell *)horizontalCell

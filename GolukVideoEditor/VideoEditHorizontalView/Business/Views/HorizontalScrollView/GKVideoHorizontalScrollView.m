@@ -400,6 +400,17 @@
     }
 }
 
+- (void)didMoveCell:(GKHorizontalCell *)fromCell toCell:(GKHorizontalCell *)toCell
+{
+    NSAssert([fromCell isKindOfClass:[GKVideoChunkCell class]], nil);
+    NSAssert([toCell isKindOfClass:[GKVideoChunkCell class]], nil);
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellMoveFromIndex:toIndex:)]) {
+        [self.delegate horizontalScrollView:self
+                     chunkCellMoveFromIndex:[self indexOfChunkCell:(GKVideoChunkCell *)fromCell]
+                                    toIndex:[self indexOfChunkCell:(GKVideoChunkCell *)toCell]];
+    }
+}
+
 - (void)doMovementFrom:(GKVideoChunkCell *)fromCell to:(GKVideoChunkCell *)toCell
 {
     GKHorizontalDirection direction = [fromCell directionForCell:toCell];

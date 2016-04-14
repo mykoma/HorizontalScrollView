@@ -20,6 +20,8 @@
 
 - (void)chunkCellDeletedAtIndex:(NSInteger)index;
 
+- (void)chunkCellMovedFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
+
 @end
 
 @interface GKVideoEditHorizontalView : UIView

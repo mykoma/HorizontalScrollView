@@ -136,6 +136,11 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     NSLog(@"Delete At   %ld", index);
 }
 
+- (void)chunkCellMovedFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex
+{
+    NSLog(@"Moved from   %ld   to %ld", fromIndex, toIndex);
+}
+
 - (void)didTouchAddChunk
 {
     NSLog(@"didTouchAddChunk");

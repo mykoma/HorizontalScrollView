@@ -106,5 +106,6 @@
 
 - (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView;
 
+- (void)didMoveCell:(GKHorizontalCell *)fromCell toCell:(GKHorizontalCell *)toCell;
 
 @end
