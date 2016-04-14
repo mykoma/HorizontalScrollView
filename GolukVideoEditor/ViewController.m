@@ -141,4 +141,9 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     NSLog(@"time   %f", timeInterval);
 }
 
+- (void)chunkCellDeletedAtIndex:(NSInteger)index
+{
+    NSLog(@"Delete At   %ld", index);
+}
+
 @end

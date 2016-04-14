@@ -118,6 +118,20 @@ UIScrollViewDelegate
     return seekedCell;
 }
 
+- (NSInteger)indexOfCell:(GKHorizontalCell *)cell
+{
+    NSInteger index = 0;
+    GKHorizontalCell * curCell = self.firstCell;
+    while (curCell) {
+        if (curCell == cell) {
+            break;
+        }
+        curCell = curCell.rightCell;
+        index ++;
+    }
+    return index;
+}
+
 - (void)attemptToDivideCellWithLeftDistance:(CGFloat)offset
 {
     // TODO

@@ -226,4 +226,12 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     }
 }
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+     chunkCellDeletedAtIndex:(NSInteger)index
+{
+    if ([self.delegate respondsToSelector:@selector(chunkCellDeletedAtIndex:)]) {
+        [self.delegate chunkCellDeletedAtIndex:index];
+    }
+}
+
 @end

@@ -41,6 +41,26 @@
     [self refreshContentSize];
 }
 
+- (NSInteger)indexOfChunkCell:(GKVideoChunkCell *)cell
+{
+    NSAssert([cell isKindOfClass:[GKVideoChunkCell class]], nil);
+    
+    NSInteger index = 0;
+    GKVideoChunkCell * curCell = (GKVideoChunkCell *)self.firstCell;
+    while ([curCell isKindOfClass:[GKVideoChunkCell class]]) {
+        if (curCell == cell) {
+            break;
+        }
+        if (![curCell.rightCell.rightCell isKindOfClass:[GKVideoChunkCell class]]) {
+            NSAssert(NO, @"没有找到 cell 的 index");
+            break;
+        }
+        curCell = curCell.rightFenceCell.rightChunkCell;
+        index ++;
+    }
+    return index;
+}
+
 - (CGFloat)offsetOfCurrentFrame
 {
     return CGRectGetMidX(self.frameMarker.frame);
@@ -82,6 +102,12 @@
                              }
                          } completion:^(BOOL finished) {
                              IN_MOVING_ANIMATION = NO;
+                             
+                             if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellDeletedAtIndex:)]) {
+                                 [self.delegate horizontalScrollView:self
+                                             chunkCellDeletedAtIndex:[self indexOfChunkCell:cell]];
+                             }
+                             
                              // 改变关系
                              GKHorizontalCell * leftFenceCell = cell.leftFenceCell;
                              GKHorizontalCell * rightChunkCell = cell.rightFenceCell.rightChunkCell;

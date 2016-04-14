@@ -8,6 +8,8 @@
 
 #import "GKHorizontalScrollView.h"
 
+@class GKVideoChunkCell;
+
 /*****************************
  * 数据源
  *****************************/
@@ -53,6 +55,9 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
         timeIntervalOfOffset:(CGFloat)timeInterval;
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+     chunkCellDeletedAtIndex:(NSInteger)index;
+
 @end
 
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView
@@ -62,6 +67,8 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 @property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollViewDelegate> delegate;
 
 - (void)scrollToTimeInterval:(NSTimeInterval)timeInterval animated:(BOOL)animated;
+
+- (NSInteger)indexOfChunkCell:(GKVideoChunkCell *)cell;
 
 - (void)attemptToDivideCellAtCurrentFrame;
 

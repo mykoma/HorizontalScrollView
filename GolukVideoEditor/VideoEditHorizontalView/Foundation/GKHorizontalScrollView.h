@@ -54,6 +54,7 @@
 @optional
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView offsetOfContent:(CGFloat)offset;
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView cellDeletedAtIndex:(NSInteger)index;
 
 @end
 
@@ -79,6 +80,11 @@
  * 这个 distance 是相对于 scrollView的左边距
  */
 - (GKHorizontalCell *)seekCellWithLeftDistance:(CGFloat)distance;
+
+/**
+ * 获取 cell 的 index
+ */
+- (NSInteger)indexOfCell:(GKHorizontalCell *)cell;
 
 /*****************************
  * Override

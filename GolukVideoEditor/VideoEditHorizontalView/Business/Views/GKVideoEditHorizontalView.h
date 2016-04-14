@@ -16,6 +16,8 @@
 
 - (void)timeIntervalOfCurrentFrame:(CGFloat)timeInterval;
 
+- (void)chunkCellDeletedAtIndex:(NSInteger)index;
+
 @end
 
 @interface GKVideoEditHorizontalView : UIView
