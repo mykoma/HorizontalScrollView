@@ -54,6 +54,7 @@ UIScrollViewDelegate
 
 - (void)addCell:(GKHorizontalCell *)cell
 {
+    cell.delegate = self;
     [self.scrollView addSubview:cell];
 }
 
