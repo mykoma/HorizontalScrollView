@@ -95,7 +95,7 @@
                              // 移除 cells
                              [cell.rightFenceCell removeFromSuperview];
                              [cell removeFromSuperview];
-                             [self refreshContentSize];
+                             [self adjustContentSizeAndOffset];
                          }];
     }
 }
@@ -188,7 +188,7 @@
                              curCell = curCell.rightCell;
                          }
                      } completion:^(BOOL finished) {
-                         [self refreshContentSize];
+                         [self adjustContentSizeAndOffset];
                      }];
 }
 
@@ -303,14 +303,22 @@
                          }
                      } completion:^(BOOL finished) {
                          [cell removeFromSuperview];
-                         [self refreshContentSize];
+                         [self adjustContentSizeAndOffset];
                      }];
+}
+
+- (void)adjustContentSizeAndOffset
+{
+    // Workaround.
+    // Bug: refreshContentSize 更新 contentSize 会被改变，目前详细原因未知
+    CGPoint recordOffset = self.scrollView.contentOffset;
+    [self refreshContentSize];
+    self.scrollView.contentOffset = recordOffset;
 }
 
 - (void)refreshContentSize
 {
     [super refreshContentSize];
-    // TODO ? contentSize 应该会修改
     CGFloat contentWidth = self.scrollView.contentSize.width + (CGRectGetWidth(self.frame) - [self offsetOfCurrentFrame]);
     self.scrollView.contentSize = CGSizeMake(contentWidth, 0);
 }

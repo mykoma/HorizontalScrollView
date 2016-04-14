@@ -160,7 +160,10 @@ GKVideoHorizontalScrollViewLayout
 
 - (CGFloat)defaultOffsetOfFrameMarkerOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
-    return [horizontalScrollView.layout edgeInsetsOfHorizontalScrollView:horizontalScrollView].left;
+    if ([horizontalScrollView.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
+        return [horizontalScrollView.layout edgeInsetsOfHorizontalScrollView:horizontalScrollView].left;
+    }
+    return 50;
 }
 
 #pragma mark - GKHorizontalScrollViewLayout
