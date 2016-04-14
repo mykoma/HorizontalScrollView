@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1831E93E1CBF90C000B47536 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1831E93D1CBF90C000B47536 /* 2.png */; };
 		186FA1FB1CBA2B89009EA660 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FA1CBA2B89009EA660 /* main.m */; };
 		186FA1FE1CBA2B89009EA660 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA1FD1CBA2B89009EA660 /* AppDelegate.m */; };
 		186FA2011CBA2B89009EA660 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FA2001CBA2B89009EA660 /* ViewController.m */; };
@@ -24,9 +25,11 @@
 		188D6D841CBF3E6800F1D59B /* GKVideoHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D6D761CBF3E6800F1D59B /* GKVideoHorizontalScrollView.m */; };
 		188D6D851CBF3E6800F1D59B /* GKHorizontalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D6D791CBF3E6800F1D59B /* GKHorizontalCell.m */; };
 		188D6D861CBF3E6800F1D59B /* GKHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188D6D7B1CBF3E6800F1D59B /* GKHorizontalScrollView.m */; };
+		188D6DBB1CBF6CBD00F1D59B /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 188D6DBA1CBF6CBD00F1D59B /* 1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1831E93D1CBF90C000B47536 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
 		186FA1F61CBA2B89009EA660 /* GolukVideoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolukVideoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		186FA1FA1CBA2B89009EA660 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		186FA1FC1CBA2B89009EA660 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -59,6 +62,7 @@
 		188D6D791CBF3E6800F1D59B /* GKHorizontalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalCell.m; sourceTree = "<group>"; };
 		188D6D7A1CBF3E6800F1D59B /* GKHorizontalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHorizontalScrollView.h; sourceTree = "<group>"; };
 		188D6D7B1CBF3E6800F1D59B /* GKHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalScrollView.m; sourceTree = "<group>"; };
+		188D6DBA1CBF6CBD00F1D59B /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,8 @@
 				186FA2051CBA2B89009EA660 /* Assets.xcassets */,
 				186FA2071CBA2B89009EA660 /* LaunchScreen.storyboard */,
 				186FA20A1CBA2B89009EA660 /* Info.plist */,
+				1831E93D1CBF90C000B47536 /* 2.png */,
+				188D6DBA1CBF6CBD00F1D59B /* 1.png */,
 				186FA1F91CBA2B89009EA660 /* Supporting Files */,
 			);
 			path = GolukVideoEditor;
@@ -248,6 +254,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				186FA2091CBA2B89009EA660 /* LaunchScreen.storyboard in Resources */,
+				188D6DBB1CBF6CBD00F1D59B /* 1.png in Resources */,
+				1831E93E1CBF90C000B47536 /* 2.png in Resources */,
 				186FA2061CBA2B89009EA660 /* Assets.xcassets in Resources */,
 				186FA2041CBA2B89009EA660 /* Main.storyboard in Resources */,
 			);

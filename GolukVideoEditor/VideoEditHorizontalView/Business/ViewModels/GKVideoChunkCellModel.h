@@ -10,7 +10,7 @@
 
 @interface GKVideoChunkCellModel : NSObject
 
-@property (nonatomic, strong) NSMutableArray <UIImage *>    * images;
+@property (nonatomic, strong) NSArray <UIImage *>           * images;
 @property (nonatomic, assign) NSTimeInterval                duration;
 @property (nonatomic, assign) CGFloat                       beginPercent;
 @property (nonatomic, assign) CGFloat                       endPercent;

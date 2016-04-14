@@ -15,14 +15,20 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 @interface GKVideoChunkCell ()
 
 @property (nonatomic, strong) UIButton * touchBtn;
+@property (nonatomic, strong) NSMutableArray <UIImageView *> * imageIVs;
 
 @end
 
 @implementation GKVideoChunkCell
 
++ (CGFloat)widthOfOnePicture
+{
+    return (16 * HEIGHT_OF_HORIZONTAL_CELL) / 9;
+}
+
 + (CGFloat)widthOfOneSecond
 {
-    CGFloat widthOfPicture = (16 * HEIGHT_OF_HORIZONTAL_CELL) / 9;
+    CGFloat widthOfPicture = [self widthOfOnePicture];
     CGFloat widthOfOneSecond = widthOfPicture / SECOND_COUNT_OF_ONE_PICTURE;
     return widthOfOneSecond;
 }
@@ -35,6 +41,8 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)setup
 {
     [super setup];
+    self.clipsToBounds = YES;
+    self.imageIVs = [NSMutableArray new];
     
     self.touchBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [self addSubview:self.touchBtn];
@@ -46,10 +54,48 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     self.backgroundColor = [UIColor greenColor];
 }
 
-- (void)setFrame:(CGRect)frame
+- (void)setCellModel:(GKVideoChunkCellModel *)cellModel
 {
-    [super setFrame:frame];
+    _cellModel = cellModel;
+    [self.imageIVs enumerateObjectsUsingBlock:^(UIImageView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    [self.imageIVs removeAllObjects];
+    
+    NSInteger imageCount = ceil(self.cellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
+    NSInteger indexOfImage = 0;
+    for (NSInteger index = 0; index < imageCount; index ++) {
+        indexOfImage = index;
+        if (indexOfImage >= cellModel.images.count) {
+            indexOfImage = cellModel.images.count - 1;
+        }
+        if (indexOfImage >= 0 && indexOfImage < self.cellModel.images.count) {
+            UIImage * image = self.cellModel.images[indexOfImage];
+            UIImageView * imageIV = [[UIImageView alloc] initWithImage:image];
+            [self.imageIVs addObject:imageIV];
+            [self insertSubview:imageIV
+                   belowSubview:self.touchBtn];
+        }
+    }
+}
+
+- (void)layoutSubviews
+{
     self.touchBtn.frame = self.bounds;
+
+    UIImageView * prevIV = nil;
+    for (UIImageView * imageView in self.imageIVs) {
+        imageView.frame = CGRectMake(CGRectGetMaxX(prevIV.frame) - [self offsetOfImageIV],
+                                     0,
+                                     [[self class] widthOfOnePicture],
+                                     HEIGHT_OF_HORIZONTAL_CELL);
+        prevIV = imageView;
+    }
+}
+
+- (CGFloat)offsetOfImageIV
+{
+    return [[self class] widthOfOneSecond] * (self.cellModel.duration * self.cellModel.beginPercent);
 }
 
 #pragma mark - Setter & Getter
@@ -142,14 +188,26 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     CGFloat rightSubVisibleDuration = visibleDuration - leftSubVisibleDuration;
     CGFloat rightInvisibleDuration = self.cellModel.duration * (1.0f - self.cellModel.endPercent);
 
-    // TODO Images
-    
     // Left
     GKVideoChunkCellModel * leftSubCellModel = [GKVideoChunkCellModel new];
     leftSubCellModel.duration = leftInvisibleDuration + leftSubVisibleDuration;
     leftSubCellModel.beginPercent = leftInvisibleDuration / leftSubCellModel.duration;
     // endPercent 只会是 1.0f
     leftSubCellModel.endPercent = 1.0f;
+    // 计算图片的最大 index
+    NSInteger ceilImageIndex = ceil(leftSubCellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
+    NSMutableArray <UIImage *> * mArray = [NSMutableArray new];
+    NSInteger indexOfImage = 0;
+    for (NSInteger index = 0; index < ceilImageIndex; index ++) {
+        indexOfImage = index;
+        if (indexOfImage >= self.cellModel.images.count) {
+            indexOfImage = self.cellModel.images.count - 1;
+        }
+        if (indexOfImage >= 0 && indexOfImage < self.cellModel.images.count) {
+            [mArray addObject:self.cellModel.images[indexOfImage]];
+        }
+    }
+    leftSubCellModel.images = mArray;
 
     // Right
     GKVideoChunkCellModel * rightSubCellModel = [GKVideoChunkCellModel new];
@@ -157,6 +215,25 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     // beginPercent 只会是 0.0f
     rightSubCellModel.beginPercent = 0.0f;
     rightSubCellModel.endPercent = rightSubVisibleDuration / rightSubCellModel.duration;
+    // 计算图片的起始 index
+    NSInteger floorImageIndex = floor(leftSubCellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
+    // 计算需要几张图片
+    NSInteger needImageCount = ceil(rightSubCellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
+    NSInteger index = 0;
+    indexOfImage = 0;
+    mArray = [NSMutableArray new];
+    while (index < needImageCount) {
+        indexOfImage = index + floorImageIndex;
+        if (indexOfImage >= self.cellModel.images.count) {
+            indexOfImage = self.cellModel.images.count - 1;
+        }
+        if (indexOfImage >= 0 && indexOfImage < self.cellModel.images.count) {
+            [mArray addObject:self.cellModel.images[indexOfImage]];
+        }
+        index ++;
+    }
+    rightSubCellModel.images = mArray;
+    
     return @[leftSubCellModel, rightSubCellModel];
 }
 

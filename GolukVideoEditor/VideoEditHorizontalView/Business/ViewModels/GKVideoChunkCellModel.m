@@ -14,7 +14,6 @@
 {
     self = [super init];
     if (self) {
-        _images = [NSMutableArray new];
         _beginPercent = 0.0f;
         _endPercent = 1.0f;
         _duration = 0.0f;

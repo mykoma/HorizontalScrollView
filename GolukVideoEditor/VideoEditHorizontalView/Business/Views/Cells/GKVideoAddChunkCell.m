@@ -28,9 +28,8 @@
     self.backgroundColor = [UIColor cyanColor];
 }
 
-- (void)setFrame:(CGRect)frame
+- (void)layoutSubviews
 {
-    [super setFrame:frame];
     self.touchBtn.frame = self.bounds;
 }
 
