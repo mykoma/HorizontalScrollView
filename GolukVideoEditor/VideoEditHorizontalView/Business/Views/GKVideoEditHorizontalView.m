@@ -50,6 +50,7 @@ GKVideoHorizontalScrollViewLayout
 {
     [self buildInnerViewModels];
     [self.horizontalScrollView reloadData];
+    [self refreshTimeCellModel];
 }
 
 - (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel
@@ -133,7 +134,9 @@ GKVideoHorizontalScrollViewLayout
     } else if ([itemModel isKindOfClass:[GKVideoTailerCellModel class]]) {
         return [[GKVideoTailerCell alloc] init];
     } else if ([itemModel isKindOfClass:[GKVideoTimeCellModel class]]) {
-        return [[GKVideoTimeCell alloc] init];
+        GKVideoTimeCell * cell = [[GKVideoTimeCell alloc] init];
+        cell.cellModel = itemModel;
+        return cell;
     }
     return [[GKHorizontalCell alloc] init];
 }
