@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, GKHorizontalDirection)
 @property (nonatomic, weak) IBOutlet id <GKHorizontalCellDelegate> delegate;
 @property (nonatomic, assign, readonly) CGRect originFrameInUpdating;
 
+@property (nonatomic, assign) BOOL enableMove;
+
 @property (nonatomic, weak) GKHorizontalCell * leftCell;
 @property (nonatomic, weak) GKHorizontalCell * rightCell;
 

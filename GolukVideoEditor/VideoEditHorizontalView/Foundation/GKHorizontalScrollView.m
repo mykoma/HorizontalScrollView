@@ -48,6 +48,7 @@ UIScrollViewDelegate
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.delegate = self;
     self.scrollView.clipsToBounds = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
     [self addSubview:self.scrollView];
 }
 

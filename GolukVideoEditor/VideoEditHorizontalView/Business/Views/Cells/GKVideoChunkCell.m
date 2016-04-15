@@ -18,10 +18,9 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 @interface GKVideoChunkCell ()
 
 @property (nonatomic, assign) GKVideoChunkCellState state;
-@property (nonatomic, strong) UIButton * touchBtn;
 @property (nonatomic, strong) NSMutableArray <UIImageView *> * imageIVs;
-@property (nonatomic, strong) UIButton * leftEditBtn;
-@property (nonatomic, strong) UIButton * rightEditBtn;
+@property (nonatomic, strong) UIView * leftEditView;
+@property (nonatomic, strong) UIView * rightEditView;
 @property (nonatomic, strong) UIView * topEditLine;
 @property (nonatomic, strong) UIView * bottomEditLine;
 
@@ -86,38 +85,37 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
                                                object:nil];
     self.imageIVs = [NSMutableArray new];
     
-    self.touchBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self addSubview:self.touchBtn];
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                  action:@selector(touchDown:)];
+    [self addGestureRecognizer:tapGesture];
     
-    [self.touchBtn addTarget:self
-                      action:@selector(touchDown:)
-            forControlEvents:UIControlEventTouchDown];
 }
 
 #pragma mark - Lazy Load
 
-- (UIButton *)leftEditBtn
+- (UIView *)leftEditView
 {
-    if (_leftEditBtn == nil) {
-        _leftEditBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _leftEditBtn.backgroundColor = [[self class] editColor];
-        [_leftEditBtn addTarget:self
-                         action:@selector(touchDown:)
-               forControlEvents:UIControlEventTouchDown];
+    if (_leftEditView == nil) {
+        _leftEditView = [UIButton buttonWithType:UIButtonTypeCustom];
+        _leftEditView.backgroundColor = [[self class] editColor];
+        UIPanGestureRecognizer * gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                   action:@selector(leftEditGestureMoved:)];
+        [_leftEditView addGestureRecognizer:gesture];
     }
-    return _leftEditBtn;
+    return _leftEditView;
 }
 
-- (UIButton *)rightEditBtn
+- (UIView *)rightEditView
 {
-    if (_rightEditBtn == nil) {
-        _rightEditBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _rightEditBtn.backgroundColor = [[self class] editColor];
-        [_rightEditBtn addTarget:self
-                          action:@selector(touchDown:)
-                forControlEvents:UIControlEventTouchDown];
+    if (_rightEditView == nil) {
+        _rightEditView = [UIButton buttonWithType:UIButtonTypeCustom];
+        _rightEditView.backgroundColor = [[self class] editColor];
+
+        UIPanGestureRecognizer * gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                   action:@selector(rightEditGestureMoved:)];
+        [_rightEditView addGestureRecognizer:gesture];
     }
-    return _rightEditBtn;
+    return _rightEditView;
 }
 
 - (UIView *)topEditLine
@@ -143,6 +141,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)handleResignEditNotification:(NSNotification *)notification
 {
     self.state = GKVideoChunkCellStateNormal;
+    self.enableMove = YES;
 }
 
 - (void)handleBecomeEditNotification:(NSNotification *)notification
@@ -150,6 +149,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     if (notification.object != self) {
         self.state = GKVideoChunkCellStateNormal;
     }
+    self.enableMove = NO;
 }
 
 #pragma mark -
@@ -173,8 +173,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
             UIImage * image = self.cellModel.images[indexOfImage];
             UIImageView * imageIV = [[UIImageView alloc] initWithImage:image];
             [self.imageIVs addObject:imageIV];
-            [self insertSubview:imageIV
-                   belowSubview:self.touchBtn];
+            [self addSubview:imageIV];
         }
     }
 }
@@ -191,8 +190,6 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)layoutSubviews
 {
-    self.touchBtn.frame = self.bounds;
-
     UIImageView * prevIV = nil;
     for (UIImageView * imageView in self.imageIVs) {
         imageView.frame = CGRectMake(CGRectGetMaxX(prevIV.frame) - [self offsetOfImageIV],
@@ -212,19 +209,19 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)layoutForNormalState
 {
     self.layer.cornerRadius = 0.0f;
-    
+
     [UIView animateWithDuration:0.1f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         _leftEditBtn.alpha    = 0.0f;
-                         _rightEditBtn.alpha   = 0.0f;
+                         _leftEditView.alpha    = 0.0f;
+                         _rightEditView.alpha   = 0.0f;
                          _topEditLine.alpha    = 0.0f;
                          _bottomEditLine.alpha = 0.0f;
                      } completion:^(BOOL finished) {
                          // 这儿不调用 self. 是为了避免调用懒加载
-                         [_leftEditBtn removeFromSuperview];
-                         [_rightEditBtn removeFromSuperview];
+                         [_leftEditView removeFromSuperview];
+                         [_rightEditView removeFromSuperview];
                          [_topEditLine removeFromSuperview];
                          [_bottomEditLine removeFromSuperview];
                      }];
@@ -236,34 +233,34 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     static CGFloat editLineHeight = 1.0f;
     self.layer.cornerRadius = 4.0f;
     
-    self.leftEditBtn.alpha    = 0.0f;
-    self.rightEditBtn.alpha   = 0.0f;
+    self.leftEditView.alpha    = 0.0f;
+    self.rightEditView.alpha   = 0.0f;
     self.topEditLine.alpha    = 0.0f;
     self.bottomEditLine.alpha = 0.0f;
     
-    self.leftEditBtn.frame = CGRectMake(0, 0,
-                                        editBtnWidth,
-                                        CGRectGetHeight(self.bounds));
-    self.rightEditBtn.frame = CGRectMake(CGRectGetWidth(self.bounds) - editBtnWidth,
-                                         0,
+    self.leftEditView.frame = CGRectMake(0, 0,
                                          editBtnWidth,
                                          CGRectGetHeight(self.bounds));
+    self.rightEditView.frame = CGRectMake(CGRectGetWidth(self.bounds) - editBtnWidth,
+                                          0,
+                                          editBtnWidth,
+                                          CGRectGetHeight(self.bounds));
     self.topEditLine.frame = CGRectMake(0, 0,
                                         CGRectGetWidth(self.bounds),
                                         editLineHeight);
     self.bottomEditLine.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - editLineHeight,
                                            CGRectGetWidth(self.bounds),
                                            editLineHeight);
-    [self addSubview:self.leftEditBtn];
-    [self addSubview:self.rightEditBtn];
+    [self addSubview:self.leftEditView];
+    [self addSubview:self.rightEditView];
     [self addSubview:self.topEditLine];
     [self addSubview:self.bottomEditLine];
     [UIView animateWithDuration:0.1f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.leftEditBtn.alpha    = 1.0f;
-                         self.rightEditBtn.alpha   = 1.0f;
+                         self.leftEditView.alpha    = 1.0f;
+                         self.rightEditView.alpha   = 1.0f;
                          self.topEditLine.alpha    = 1.0f;
                          self.bottomEditLine.alpha = 1.0f;
                      } completion:^(BOOL finished) {
@@ -314,6 +311,18 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     if (self.touchDown) {
         self.touchDown();
     }
+}
+
+#pragma mark - Gesture
+
+- (void)leftEditGestureMoved:(id)sender
+{
+    // TODO
+}
+
+- (void)rightEditGestureMoved:(id)sender
+{
+    // TODO
 }
 
 #pragma mark - Override

@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign) CGPoint priorPoint;
 @property (nonatomic, assign, readwrite) CGRect originFrameInUpdating;
+@property (nonatomic, strong) UILongPressGestureRecognizer * longGesture;
 
 @end
 
@@ -46,11 +47,25 @@
     self.originFrameInUpdating = CGRectZero;
 }
 
+- (void)setEnableMove:(BOOL)enableMove
+{
+    if (enableMove == NO) {
+        [self removeGestureRecognizer:self.longGesture];
+    } else {
+        if (![self.gestureRecognizers containsObject:self.longGesture]) {
+            if (self.longGesture == nil) {
+                self.longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(handleLongGesture:)];
+            }
+            [self addGestureRecognizer:self.longGesture];
+        }
+    }
+}
+
 - (void)setup
 {
     if ([self canMove]) {
-        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongGesture:)];
-        [self addGestureRecognizer:longGesture];
+        self.enableMove = YES;
     }
 }
 
