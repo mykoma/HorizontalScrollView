@@ -26,6 +26,12 @@
     self.durationLabel.textColor = [UIColor whiteColor];
 }
 
+- (void)dealloc
+{
+    [self.cellModel removeObserver:self
+                        forKeyPath:@"totalDuration"];
+}
+
 - (void)setCellModel:(GKVideoTimeCellModel *)cellModel
 {
     [_cellModel removeObserver:self
