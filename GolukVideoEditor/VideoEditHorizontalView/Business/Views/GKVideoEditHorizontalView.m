@@ -22,7 +22,7 @@ GKHorizontalScrollViewDelegate,
 GKVideoHorizontalScrollViewLayout
 >
 
-@property (nonatomic, strong) GKVideoHorizontalScrollView * scrollView;
+@property (nonatomic, strong) GKVideoHorizontalScrollView * horizontalScrollView;
 @property (nonatomic, weak  ) GKVideoChunkCell * selectedCell;
 
 @end
@@ -35,11 +35,11 @@ GKVideoHorizontalScrollViewLayout
     if (self) {
         self.viewModel = [[GKVideoEditHorizontalViewModel alloc] init];
         
-        self.scrollView = [[GKVideoHorizontalScrollView alloc] initWithFrame:self.bounds];
-        self.scrollView.dataSource = self;
-        self.scrollView.delegate = self;
-        self.scrollView.layout = self;
-        [self addSubview:self.scrollView];
+        self.horizontalScrollView = [[GKVideoHorizontalScrollView alloc] initWithFrame:self.bounds];
+        self.horizontalScrollView.dataSource = self;
+        self.horizontalScrollView.delegate = self;
+        self.horizontalScrollView.layout = self;
+        [self addSubview:self.horizontalScrollView];
     }
     return self;
 }
@@ -47,22 +47,22 @@ GKVideoHorizontalScrollViewLayout
 - (void)loadData
 {
     [self buildInnerViewModels];
-    [self.scrollView reloadData];
+    [self.horizontalScrollView reloadData];
 }
 
 - (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel
 {
-    [self.scrollView appendCellModel:cellModel];
+    [self.horizontalScrollView appendCellModel:cellModel];
 }
 
 - (void)removeSelectedCell
 {
-    [self.scrollView removeCell:self.selectedCell];
+    [self.horizontalScrollView removeCell:self.selectedCell];
 }
 
 - (void)divideCellAtCurrentFrame
 {
-    [self.scrollView attemptToDivideCellAtCurrentFrame];
+    [self.horizontalScrollView attemptToDivideCellAtCurrentFrame];
 }
 
 - (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval
@@ -72,7 +72,7 @@ GKVideoHorizontalScrollViewLayout
 
 - (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval animation:(BOOL)animation
 {
-    [self.scrollView scrollToTimeInterval:timeInterval animated:animation];
+    [self.horizontalScrollView scrollToTimeInterval:timeInterval animated:animation];
 }
 
 #pragma mark - ViewModel
