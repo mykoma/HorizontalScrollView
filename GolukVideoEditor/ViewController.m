@@ -95,9 +95,7 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 
 - (void)update
 {
-    self.videoEditView.viewModel.timeIntervalOfFrame = timeOffset;
-    // TO DELETE
-    [self.videoEditView updateTemp];
+    [self.videoEditView updateCurrentFrameToTimeInterval:timeOffset];
     
     timeOffset += timeInterval;
 }

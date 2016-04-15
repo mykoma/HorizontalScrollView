@@ -34,9 +34,7 @@
 - (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel;
 - (void)removeSelectedCell;
 - (void)divideCellAtCurrentFrame;
-
-// TO DELETE
-- (void)updateTemp;
-- (void)updateTempAnimation;
+- (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval;
+- (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval animation:(BOOL)animation;
 
 @end

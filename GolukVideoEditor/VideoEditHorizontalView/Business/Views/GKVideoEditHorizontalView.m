@@ -65,14 +65,14 @@ GKVideoHorizontalScrollViewLayout
     [self.scrollView attemptToDivideCellAtCurrentFrame];
 }
 
-- (void)updateTemp
+- (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval
 {
-    [self.scrollView scrollToTimeInterval:self.viewModel.timeIntervalOfFrame animated:NO];
+    [self updateCurrentFrameToTimeInterval:timeInterval animation:NO];
 }
 
-- (void)updateTempAnimation
+- (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval animation:(BOOL)animation
 {
-    [self.scrollView scrollToTimeInterval:self.viewModel.timeIntervalOfFrame animated:YES];
+    [self.scrollView scrollToTimeInterval:timeInterval animated:animation];
 }
 
 #pragma mark - ViewModel
