@@ -22,7 +22,7 @@
     [super viewDidLoad];
     
     self.videoEditView = [[GKVideoEditHorizontalView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 200)];
-    self.videoEditView.backgroundColor = [UIColor blueColor];
+    self.videoEditView.backgroundColor = [UIColor blackColor];
     self.videoEditView.delegate  = self;
     
     GKVideoChunkCellModel * model1 = [[GKVideoChunkCellModel alloc] init];

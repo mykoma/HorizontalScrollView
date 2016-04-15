@@ -32,7 +32,7 @@
 
 @required
 
-- (CGRect)rectOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView;
+- (CGRect)rectOfScrollView:(GKHorizontalScrollView *)horizontalScrollView;
 
 - (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
         sizeForItemAtIndexPath:(NSIndexPath *)indexPath;

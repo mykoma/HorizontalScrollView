@@ -144,7 +144,7 @@ UIScrollViewDelegate
     [self.cells removeAllObjects];
     
     // scrollView 布局
-    CGRect scrollAreaFrame = [self.layout rectOfHorizontalScrollView:self];
+    CGRect scrollAreaFrame = [self.layout rectOfScrollView:self];
     self.scrollView.frame = scrollAreaFrame;
     
     // 检查是否有 edge， 开始计算 xOffset

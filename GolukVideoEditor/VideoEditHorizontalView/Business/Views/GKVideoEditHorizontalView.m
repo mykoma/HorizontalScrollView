@@ -168,9 +168,11 @@ GKVideoHorizontalScrollViewLayout
 
 #pragma mark - GKHorizontalScrollViewLayout
 
-- (CGRect)rectOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+- (CGRect)rectOfScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
-    return CGRectMake(0, 100, CGRectGetWidth(self.frame), HEIGHT_OF_HORIZONTAL_CELL);
+    return CGRectMake(0,
+                      CGRectGetMidY(self.bounds) - HEIGHT_OF_HORIZONTAL_CELL / 2,
+                      CGRectGetWidth(self.bounds), HEIGHT_OF_HORIZONTAL_CELL);
 }
 
 - (CGSize)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
