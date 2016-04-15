@@ -50,13 +50,13 @@ GKVideoHorizontalScrollViewLayout
 {
     [self buildInnerViewModels];
     [self.horizontalScrollView reloadData];
-    [self refreshTimeCellModel];
+    [self refreshTotalDuration];
 }
 
 - (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel
 {
     [self.horizontalScrollView appendCellModel:cellModel];
-    [self refreshTimeCellModel];
+    [self refreshTotalDuration];
 }
 
 - (void)removeSelectedCell
@@ -79,10 +79,9 @@ GKVideoHorizontalScrollViewLayout
     [self.horizontalScrollView scrollToTimeInterval:timeInterval animated:animation];
 }
 
-- (void)refreshTimeCellModel
+- (void)refreshTotalDuration
 {
     self.timeCellModel.totalDuration = [self.horizontalScrollView totalTimeDuration];
-    NSLog(@"totalDuration  %lf", self.timeCellModel.totalDuration);
 }
 
 #pragma mark - ViewModel
@@ -117,7 +116,7 @@ GKVideoHorizontalScrollViewLayout
             weakSelf.selectedCell = weakCell;
         }];
         [cell setVisibleChanged:^{
-            [weakSelf refreshTimeCellModel];
+            [weakSelf refreshTotalDuration];
         }];
         return cell;
     } else if ([itemModel isKindOfClass:[GKVideoFenceCellModel class]]) {
@@ -251,7 +250,7 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     if ([self.delegate respondsToSelector:@selector(chunkCellDidDeleteAtIndex:)]) {
         [self.delegate chunkCellDidDeleteAtIndex:index];
     }
-    [self refreshTimeCellModel];
+    [self refreshTotalDuration];
 }
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
