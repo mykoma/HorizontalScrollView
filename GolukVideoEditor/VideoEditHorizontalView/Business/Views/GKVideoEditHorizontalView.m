@@ -262,4 +262,19 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     }
 }
 
+- (void)didTouchDownBackground:(GKHorizontalScrollView *)horizontalScrollView
+{
+    if ([self.delegate respondsToSelector:@selector(didTouchDownBackground)]) {
+        [self.delegate didTouchDownBackground];
+    }
+}
+
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+               changeStateTo:(GKVideoHorizontalState)state
+{
+    if ([self.delegate respondsToSelector:@selector(didChangeToState:)]) {
+        [self.delegate didChangeToState:state];
+    }
+}
+
 @end

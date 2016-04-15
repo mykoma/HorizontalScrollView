@@ -9,6 +9,14 @@
 #import "GKHorizontalCell.h"
 #import "GKVideoChunkCellModel.h"
 
+extern NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT;
+
+typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
+{
+    GKVideoChunkCellStateNormal = 0,
+    GKVideoChunkCellStateEdit
+};
+
 @class GKVideoFenceCell;
 
 @interface GKVideoChunkCell : GKHorizontalCell
@@ -24,6 +32,8 @@
 + (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel;
 
 + (CGFloat)widthOfOneSecond;
+
++ (void)resignEditState;
 
 /**
  *  offset in current cell.

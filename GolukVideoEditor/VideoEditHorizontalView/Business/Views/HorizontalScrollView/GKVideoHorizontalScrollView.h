@@ -7,8 +7,13 @@
 //
 
 #import "GKHorizontalScrollView.h"
+#import "GKVideoChunkCell.h"
 
-@class GKVideoChunkCell;
+typedef NS_ENUM(NSUInteger, GKVideoHorizontalState)
+{
+    GKVideoHorizontalStateNormal = GKVideoChunkCellStateNormal,
+    GKVideoHorizontalStateEdit = GKVideoChunkCellStateEdit
+};
 
 /*****************************
  * 数据源
@@ -61,6 +66,9 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
       chunkCellMoveFromIndex:(NSInteger)fromIndex
                      toIndex:(NSInteger)toIndex;
+
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+               changeStateTo:(GKVideoHorizontalState)state;
 
 @end
 

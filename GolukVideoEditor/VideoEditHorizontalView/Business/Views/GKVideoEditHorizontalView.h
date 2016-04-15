@@ -18,6 +18,10 @@
 
 - (void)didTouchAddChunk;
 
+- (void)didTouchDownBackground;
+
+- (void)didChangeToState:(GKVideoHorizontalState)state;
+
 - (void)chunkCellDidDeleteAtIndex:(NSInteger)index;
 
 - (void)chunkCellMovedFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;

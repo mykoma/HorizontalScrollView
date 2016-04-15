@@ -53,8 +53,11 @@
 
 @optional
 
-- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView offsetOfContent:(CGFloat)offset;
-- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView cellDeletedAtIndex:(NSInteger)index;
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+             offsetOfContent:(CGFloat)offset;
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+          cellDeletedAtIndex:(NSInteger)index;
+- (void)didTouchDownBackground:(GKHorizontalScrollView *)horizontalScrollView;
 
 @end
 
@@ -107,5 +110,7 @@
 - (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView;
 
 - (void)didMoveCell:(GKHorizontalCell *)fromCell toCell:(GKHorizontalCell *)toCell;
+
+- (void)didTouchDownBackground;
 
 @end

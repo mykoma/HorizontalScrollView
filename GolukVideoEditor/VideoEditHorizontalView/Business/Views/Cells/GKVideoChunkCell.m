@@ -9,11 +9,15 @@
 #import "GKVideoChunkCell.h"
 #import "GKVideoFenceCell.h"
 
+NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_RESIGN_EDIT = @"com.goluk.videoEditor.resign.edit";
+NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT = @"com.goluk.videoEditor.become.edit";
+
 CGFloat HEIGHT_OF_HORIZONTAL_CELL = 42;
 NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 @interface GKVideoChunkCell ()
 
+@property (nonatomic, assign) GKVideoChunkCellState state;
 @property (nonatomic, strong) UIButton * touchBtn;
 @property (nonatomic, strong) NSMutableArray <UIImageView *> * imageIVs;
 
@@ -33,14 +37,34 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     return widthOfOneSecond;
 }
 
++ (void)resignEditState
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:GK_VIDEO_CHUNK_CELL_NOTIFICATION_RESIGN_EDIT
+                                                        object:nil];
+}
+
 + (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel
 {
     return [[self class] widthOfOneSecond] * cellModel.duration * (cellModel.endPercent - cellModel.beginPercent);
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)setup
 {
     [super setup];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleResignEditNotification:)
+                                                 name:GK_VIDEO_CHUNK_CELL_NOTIFICATION_RESIGN_EDIT
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleBecomeEditNotification:)
+                                                 name:GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT
+                                               object:nil];
     self.clipsToBounds = YES;
     self.imageIVs = [NSMutableArray new];
     
@@ -52,6 +76,18 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
             forControlEvents:UIControlEventTouchDown];
     
     self.backgroundColor = [UIColor greenColor];
+}
+
+- (void)handleResignEditNotification:(NSNotification *)notification
+{
+    self.state = GKVideoChunkCellStateNormal;
+}
+
+- (void)handleBecomeEditNotification:(NSNotification *)notification
+{
+    if (notification.object != self) {
+        self.state = GKVideoChunkCellStateNormal;
+    }
 }
 
 - (void)setCellModel:(GKVideoChunkCellModel *)cellModel
@@ -76,6 +112,21 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
             [self insertSubview:imageIV
                    belowSubview:self.touchBtn];
         }
+    }
+}
+
+- (void)setState:(GKVideoChunkCellState)state
+{
+    if (_state == state) {
+        return;
+    }
+    _state = state;
+    if (state == GKVideoChunkCellStateEdit) {
+        self.layer.borderColor = [UIColor redColor].CGColor;
+        self.layer.borderWidth = 2.0f;
+    } else {
+        self.layer.borderColor = [UIColor clearColor].CGColor;
+        self.layer.borderWidth = 0.0f;
     }
 }
 
@@ -129,6 +180,11 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)touchDown:(id)sender
 {
+    if (self.state == GKVideoChunkCellStateNormal) {
+        self.state = GKVideoChunkCellStateEdit;
+        [[NSNotificationCenter defaultCenter] postNotificationName:GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT
+                                                            object:self];
+    }
     if (self.touchDown) {
         self.touchDown();
     }

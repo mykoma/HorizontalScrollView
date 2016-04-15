@@ -17,6 +17,7 @@ UIScrollViewDelegate
 
 @property (nonatomic, strong) NSMutableArray <GKHorizontalCell *> * cells;
 @property (nonatomic, assign) CGFloat xOffset;
+@property (nonatomic, weak  ) UIButton * backgroundBtn;
 @property (nonatomic, strong, readwrite) UIScrollView * scrollView;
 
 @end
@@ -36,10 +37,23 @@ UIScrollViewDelegate
 {
     self.cells = [NSMutableArray new];
     self.xOffset = 0.0f;
+    
+    UIButton * backgroundBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backgroundBtn addTarget:self
+                      action:@selector(touchDownBackgroundBtn:)
+            forControlEvents:UIControlEventTouchDown];
+    [self addSubview:backgroundBtn];
+    self.backgroundBtn = backgroundBtn;
+    
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.delegate = self;
     self.scrollView.clipsToBounds = NO;
     [self addSubview:self.scrollView];
+}
+
+- (void)layoutSubviews
+{
+    self.backgroundBtn.frame = self.bounds;
 }
 
 - (void)scrollToOffset:(CGFloat)offset animated:(BOOL)animated
@@ -158,7 +172,7 @@ UIScrollViewDelegate
     for (NSInteger index = 0; index < rowCount; index++) {
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         GKHorizontalCell * cell = [self.dataSource horizontalScrollView:self
-                                                 cellForRowAtIndexPath:indexPath];
+                                                  cellForRowAtIndexPath:indexPath];
         NSAssert(cell != nil, nil);
         
         cell.delegate = self;
@@ -236,6 +250,13 @@ UIScrollViewDelegate
             rightCell.leftCell = currentCell;
             currentCell.rightCell = rightCell;
         }
+    }
+}
+
+- (void)didTouchDownBackground
+{
+    if ([self.delegate respondsToSelector:@selector(didTouchDownBackground:)]) {
+        [self.delegate didTouchDownBackground:self];
     }
 }
 
@@ -477,6 +498,13 @@ UIScrollViewDelegate
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:offsetOfContent:)]) {
         [self.delegate horizontalScrollView:self offsetOfContent:scrollView.contentOffset.x];
     }
+}
+
+#pragma mark - Action
+
+- (void)touchDownBackgroundBtn:(id)sender
+{
+    [self didTouchDownBackground];
 }
 
 @end

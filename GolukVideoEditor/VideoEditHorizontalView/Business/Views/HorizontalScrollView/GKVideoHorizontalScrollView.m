@@ -14,6 +14,7 @@
 @interface GKVideoHorizontalScrollView ()
 
 @property (nonatomic, strong) UIImageView      * frameMarker;
+@property (nonatomic, assign) GKVideoHorizontalState state;
 
 @end
 
@@ -25,6 +26,13 @@
     if (self) {
         _frameMarker = [[UIImageView alloc] init];
         _frameMarker.backgroundColor = [UIColor redColor];
+        _state = GKVideoHorizontalStateNormal;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(chunkCellBecomeEdit:)
+                                                     name:GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT
+                                                   object:nil];
+        
         [self addSubview:_frameMarker];
     }
     return self;
@@ -550,6 +558,18 @@
     }
 }
 
+- (void)didTouchDownBackground
+{
+    [super didTouchDownBackground];
+    [GKVideoChunkCell resignEditState];
+    if (self.state != GKVideoChunkCellStateNormal) {
+        self.state = GKVideoHorizontalStateNormal;
+        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
+            [self.delegate horizontalScrollView:self changeStateTo:self.state];
+        }
+    }
+}
+
 #pragma mark - Private
 
 - (GKVideoChunkCell *)lastChunkCell
@@ -567,7 +587,7 @@
 - (NSTimeInterval)timeIntervalOfHorizontalScrollOffset:(CGFloat)offset
 {
     GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
-    
+
     NSTimeInterval timeInterval = 0.0f;
     GKHorizontalCell * curCell = cell.leftCell;
     while (curCell) {
@@ -583,8 +603,18 @@
         GKVideoChunkCell * chunkCell = (GKVideoChunkCell *)cell;
         timeInterval += [chunkCell timeIntervalOfVisibleOffset:([self offsetOfCurrentFrame] + offset - CGRectGetMinX(cell.frame))];
     }
-    
+
     return timeInterval;
+}
+
+- (void)chunkCellBecomeEdit:(NSNotification *)notification
+{
+    if (self.state != GKVideoHorizontalStateEdit) {
+        self.state = GKVideoHorizontalStateEdit;
+        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
+            [self.delegate horizontalScrollView:self changeStateTo:self.state];
+        }
+    }
 }
 
 @end

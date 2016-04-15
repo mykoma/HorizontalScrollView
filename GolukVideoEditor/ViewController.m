@@ -150,4 +150,14 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     [self.videoEditView addChunkCellModel:model];
 }
 
+- (void)didTouchDownBackground
+{
+    NSLog(@"didTouchDownBackground");
+}
+
+- (void)didChangeToState:(GKVideoHorizontalState)state
+{
+    NSLog(@"didChangeToState   %ld", state);
+}
+
 @end
