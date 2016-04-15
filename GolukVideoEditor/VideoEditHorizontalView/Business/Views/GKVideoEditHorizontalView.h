@@ -18,7 +18,7 @@
 
 - (void)didTouchAddChunk;
 
-- (void)chunkCellDeletedAtIndex:(NSInteger)index;
+- (void)chunkCellDidDeleteAtIndex:(NSInteger)index;
 
 - (void)chunkCellMovedFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
 

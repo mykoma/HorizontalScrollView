@@ -25,6 +25,8 @@ GKVideoHorizontalScrollViewLayout
 @property (nonatomic, strong) GKVideoHorizontalScrollView * horizontalScrollView;
 @property (nonatomic, weak  ) GKVideoChunkCell * selectedCell;
 
+@property (nonatomic, weak  ) GKVideoTimeCellModel * timeCellModel;
+
 @end
 
 @implementation GKVideoEditHorizontalView
@@ -53,6 +55,7 @@ GKVideoHorizontalScrollViewLayout
 - (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel
 {
     [self.horizontalScrollView appendCellModel:cellModel];
+    [self refreshTimeCellModel];
 }
 
 - (void)removeSelectedCell
@@ -75,6 +78,12 @@ GKVideoHorizontalScrollViewLayout
     [self.horizontalScrollView scrollToTimeInterval:timeInterval animated:animation];
 }
 
+- (void)refreshTimeCellModel
+{
+    self.timeCellModel.totalDuration = [self.horizontalScrollView totalTimeDuration];
+    NSLog(@"totalDuration  %lf", self.timeCellModel.totalDuration);
+}
+
 #pragma mark - ViewModel
 
 - (void)buildInnerViewModels
@@ -88,7 +97,9 @@ GKVideoHorizontalScrollViewLayout
     
     [self.viewModel.innerCellModels addObject:[GKVideoTailerCellModel new]];
     [self.viewModel.innerCellModels addObject:[GKVideoAddChunkCellModel new]];
-    [self.viewModel.innerCellModels addObject:[GKVideoTimeCellModel new]];
+    GKVideoTimeCellModel * timeCellModel = [GKVideoTimeCellModel new];
+    self.timeCellModel = timeCellModel;
+    [self.viewModel.innerCellModels addObject:timeCellModel];
 }
 
 #pragma mark - GKVideoHorizontalScrollDataSource
@@ -103,6 +114,9 @@ GKVideoHorizontalScrollViewLayout
         __weak typeof(cell) weakCell = cell;
         [cell setTouchDown:^ {
             weakSelf.selectedCell = weakCell;
+        }];
+        [cell setVisibleChanged:^{
+            [weakSelf refreshTimeCellModel];
         }];
         return cell;
     } else if ([itemModel isKindOfClass:[GKVideoFenceCellModel class]]) {
@@ -229,11 +243,12 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
 }
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-     chunkCellDeletedAtIndex:(NSInteger)index
+   chunkCellDidDeleteAtIndex:(NSInteger)index
 {
-    if ([self.delegate respondsToSelector:@selector(chunkCellDeletedAtIndex:)]) {
-        [self.delegate chunkCellDeletedAtIndex:index];
+    if ([self.delegate respondsToSelector:@selector(chunkCellDidDeleteAtIndex:)]) {
+        [self.delegate chunkCellDidDeleteAtIndex:index];
     }
+    [self refreshTimeCellModel];
 }
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView

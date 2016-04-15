@@ -10,6 +10,8 @@
 
 @interface GKVideoTimeCellModel : NSObject
 
+@property (nonatomic, assign) NSTimeInterval totalDuration;
+
 @end
 
 @interface GKVideoTimeCell : GKHorizontalCell

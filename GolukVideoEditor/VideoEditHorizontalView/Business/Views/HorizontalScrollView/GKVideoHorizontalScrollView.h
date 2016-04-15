@@ -56,7 +56,7 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
         timeIntervalOfOffset:(CGFloat)timeInterval;
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-     chunkCellDeletedAtIndex:(NSInteger)index;
+   chunkCellDidDeleteAtIndex:(NSInteger)index;
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
       chunkCellMoveFromIndex:(NSInteger)fromIndex
@@ -77,5 +77,7 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 - (void)attemptToDivideCellAtCurrentFrame;
 
 - (void)appendCellModel:(id)cellModel;
+
+- (NSTimeInterval)totalTimeDuration;
 
 @end

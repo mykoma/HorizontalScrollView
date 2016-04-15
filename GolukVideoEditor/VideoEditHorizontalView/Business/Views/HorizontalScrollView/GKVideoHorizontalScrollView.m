@@ -102,11 +102,7 @@
                              }
                          } completion:^(BOOL finished) {
                              IN_MOVING_ANIMATION = NO;
-                             
-                             if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellDeletedAtIndex:)]) {
-                                 [self.delegate horizontalScrollView:self
-                                             chunkCellDeletedAtIndex:[self indexOfChunkCell:cell]];
-                             }
+                             NSInteger indexOfChunkCell = [self indexOfChunkCell:cell];
                              
                              // 改变关系
                              GKHorizontalCell * leftFenceCell = cell.leftFenceCell;
@@ -121,6 +117,12 @@
                              // 移除 cells
                              [cell.rightFenceCell removeFromSuperview];
                              [cell removeFromSuperview];
+                             
+                             if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellDidDeleteAtIndex:)]) {
+                                 [self.delegate horizontalScrollView:self
+                                           chunkCellDidDeleteAtIndex:indexOfChunkCell];
+                             }
+                             
                              [self adjustContentSizeAndOffset];
                          }];
     }
@@ -368,8 +370,8 @@
         }
         additionTimeInterval += curCell.cellModel.duration * durationOfRate;
         
-        // 如果当前 cell 是最后一个 cell 了， 那么 break
-        if (![curCell.rightFenceCell.rightChunkCell isKindOfClass:[GKVideoChunkCell class]]) {
+        // 如果当前 curCell 是最后一个 cell 了， 那么 break
+        if (![curCell.rightCell.rightCell isKindOfClass:[GKVideoChunkCell class]]) {
             curCell = nil;
             break;
         }
@@ -383,6 +385,24 @@
 
     xPosition = CGRectGetMinX(curCell.frame) - [self offsetOfCurrentFrame] + [GKVideoChunkCell widthOfOneSecond] * offsetOfTimeInterval;
     return xPosition;
+}
+
+- (NSTimeInterval)totalTimeDuration
+{
+    // totalDuration 不包含视频尾
+    NSTimeInterval totalDuration = 0.0f;
+    GKVideoChunkCell * curCell = (GKVideoChunkCell *)self.firstCell;
+    while ([curCell isKindOfClass:[GKVideoChunkCell class]]) {
+        CGFloat durationOfRate = curCell.cellModel.endPercent - curCell.cellModel.beginPercent;
+        totalDuration += durationOfRate * curCell.cellModel.duration;
+        
+        // 如果当前 curCell 是最后一个 cell 了， 那么 break
+        if (![curCell.rightCell.rightCell isKindOfClass:[GKVideoChunkCell class]]) {
+            break;
+        }
+        curCell = curCell.rightFenceCell.rightChunkCell;
+    }
+    return totalDuration;
 }
 
 #pragma mark - Override
