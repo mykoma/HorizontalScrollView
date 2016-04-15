@@ -20,10 +20,27 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 @property (nonatomic, assign) GKVideoChunkCellState state;
 @property (nonatomic, strong) UIButton * touchBtn;
 @property (nonatomic, strong) NSMutableArray <UIImageView *> * imageIVs;
+@property (nonatomic, strong) UIButton * leftEditBtn;
+@property (nonatomic, strong) UIButton * rightEditBtn;
+@property (nonatomic, strong) UIView * topEditLine;
+@property (nonatomic, strong) UIView * bottomEditLine;
 
 @end
 
 @implementation GKVideoChunkCell
+
++ (UIColor *)editColor
+{
+    static UIColor * editColor;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        editColor = [UIColor colorWithRed:0xff/255.0f
+                                    green:0xcc/255.0f
+                                     blue:0x00/255.0f
+                                    alpha:1];
+    });
+    return editColor;
+}
 
 + (CGFloat)widthOfOnePicture
 {
@@ -56,6 +73,8 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)setup
 {
     [super setup];
+    self.backgroundColor = [UIColor clearColor];
+    self.clipsToBounds = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleResignEditNotification:)
                                                  name:GK_VIDEO_CHUNK_CELL_NOTIFICATION_RESIGN_EDIT
@@ -65,7 +84,6 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
                                              selector:@selector(handleBecomeEditNotification:)
                                                  name:GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT
                                                object:nil];
-    self.clipsToBounds = YES;
     self.imageIVs = [NSMutableArray new];
     
     self.touchBtn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -74,9 +92,53 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     [self.touchBtn addTarget:self
                       action:@selector(touchDown:)
             forControlEvents:UIControlEventTouchDown];
-    
-    self.backgroundColor = [UIColor greenColor];
 }
+
+#pragma mark - Lazy Load
+
+- (UIButton *)leftEditBtn
+{
+    if (_leftEditBtn == nil) {
+        _leftEditBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _leftEditBtn.backgroundColor = [[self class] editColor];
+        [_leftEditBtn addTarget:self
+                         action:@selector(touchDown:)
+               forControlEvents:UIControlEventTouchDown];
+    }
+    return _leftEditBtn;
+}
+
+- (UIButton *)rightEditBtn
+{
+    if (_rightEditBtn == nil) {
+        _rightEditBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _rightEditBtn.backgroundColor = [[self class] editColor];
+        [_rightEditBtn addTarget:self
+                          action:@selector(touchDown:)
+                forControlEvents:UIControlEventTouchDown];
+    }
+    return _rightEditBtn;
+}
+
+- (UIView *)topEditLine
+{
+    if (_topEditLine == nil) {
+        _topEditLine = [[UIView alloc] init];
+        _topEditLine.backgroundColor = [[self class] editColor];
+    }
+    return _topEditLine;
+}
+
+- (UIView *)bottomEditLine
+{
+    if (_bottomEditLine == nil) {
+        _bottomEditLine = [[UIView alloc] init];
+        _bottomEditLine.backgroundColor = [[self class] editColor];
+    }
+    return _bottomEditLine;
+}
+
+#pragma mark - Notifications
 
 - (void)handleResignEditNotification:(NSNotification *)notification
 {
@@ -89,6 +151,8 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
         self.state = GKVideoChunkCellStateNormal;
     }
 }
+
+#pragma mark -
 
 - (void)setCellModel:(GKVideoChunkCellModel *)cellModel
 {
@@ -121,13 +185,8 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
         return;
     }
     _state = state;
-    if (state == GKVideoChunkCellStateEdit) {
-        self.layer.borderColor = [UIColor redColor].CGColor;
-        self.layer.borderWidth = 2.0f;
-    } else {
-        self.layer.borderColor = [UIColor clearColor].CGColor;
-        self.layer.borderWidth = 0.0f;
-    }
+    // 状态变化， 需要重新刷新 subviews 的 frame
+    [self setNeedsLayout];
 }
 
 - (void)layoutSubviews
@@ -142,6 +201,73 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
                                      HEIGHT_OF_HORIZONTAL_CELL);
         prevIV = imageView;
     }
+
+    if (self.state == GKVideoChunkCellStateNormal) {
+        [self layoutForNormalState];
+    } else if (self.state == GKVideoChunkCellStateEdit) {
+        [self layoutForEditState];
+    }
+}
+
+- (void)layoutForNormalState
+{
+    self.layer.cornerRadius = 0.0f;
+    
+    [UIView animateWithDuration:0.1f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _leftEditBtn.alpha    = 0.0f;
+                         _rightEditBtn.alpha   = 0.0f;
+                         _topEditLine.alpha    = 0.0f;
+                         _bottomEditLine.alpha = 0.0f;
+                     } completion:^(BOOL finished) {
+                         // 这儿不调用 self. 是为了避免调用懒加载
+                         [_leftEditBtn removeFromSuperview];
+                         [_rightEditBtn removeFromSuperview];
+                         [_topEditLine removeFromSuperview];
+                         [_bottomEditLine removeFromSuperview];
+                     }];
+}
+
+- (void)layoutForEditState
+{
+    static CGFloat editBtnWidth = 10.0f;
+    static CGFloat editLineHeight = 1.0f;
+    self.layer.cornerRadius = 4.0f;
+    
+    self.leftEditBtn.alpha    = 0.0f;
+    self.rightEditBtn.alpha   = 0.0f;
+    self.topEditLine.alpha    = 0.0f;
+    self.bottomEditLine.alpha = 0.0f;
+    
+    self.leftEditBtn.frame = CGRectMake(0, 0,
+                                        editBtnWidth,
+                                        CGRectGetHeight(self.bounds));
+    self.rightEditBtn.frame = CGRectMake(CGRectGetWidth(self.bounds) - editBtnWidth,
+                                         0,
+                                         editBtnWidth,
+                                         CGRectGetHeight(self.bounds));
+    self.topEditLine.frame = CGRectMake(0, 0,
+                                        CGRectGetWidth(self.bounds),
+                                        editLineHeight);
+    self.bottomEditLine.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - editLineHeight,
+                                           CGRectGetWidth(self.bounds),
+                                           editLineHeight);
+    [self addSubview:self.leftEditBtn];
+    [self addSubview:self.rightEditBtn];
+    [self addSubview:self.topEditLine];
+    [self addSubview:self.bottomEditLine];
+    [UIView animateWithDuration:0.1f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.leftEditBtn.alpha    = 1.0f;
+                         self.rightEditBtn.alpha   = 1.0f;
+                         self.topEditLine.alpha    = 1.0f;
+                         self.bottomEditLine.alpha = 1.0f;
+                     } completion:^(BOOL finished) {
+                     }];
 }
 
 - (CGFloat)offsetOfImageIV
