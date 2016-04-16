@@ -84,15 +84,9 @@ UIScrollViewDelegate
                          animations:^{
                              GKHorizontalCell * curCell = cell;
                              CGFloat xOffset = cell.frame.origin.x;
+                             UIEdgeInsets cellEdge = self.cellEdge;
                              while (curCell) {
                                  GKHorizontalCell * rightCell = curCell.rightCell;
-                                 
-                                 UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                                 // Cell Left Edge Insets
-                                 if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                     cellEdge = [self.layout horizontalScrollView:self
-                                                          insetForItemAtIndexPath:nil];
-                                 }
                                  xOffset += cellEdge.left;
                                  
                                  rightCell.frame = CGRectMake(xOffset,
@@ -148,6 +142,17 @@ UIScrollViewDelegate
     return index;
 }
 
+- (UIEdgeInsets)cellEdge
+{
+    UIEdgeInsets edge = UIEdgeInsetsZero;
+    // Cell Left Edge Insets
+    if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
+        edge = [self.layout horizontalScrollView:self
+                         insetForItemAtIndexPath:nil];
+    }
+    return edge;
+}
+
 - (void)attemptToDivideCellWithLeftDistance:(CGFloat)offset
 {
     // TODO
@@ -170,6 +175,7 @@ UIScrollViewDelegate
     }
     
     NSInteger rowCount = [self.dataSource countOfHorizontalScrollView:self];
+    UIEdgeInsets cellEdge = self.cellEdge;
     for (NSInteger index = 0; index < rowCount; index++) {
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         GKHorizontalCell * cell = [self.dataSource horizontalScrollView:self
@@ -188,12 +194,6 @@ UIScrollViewDelegate
         
         // 给 cell 布局
         if (cell != nil) {
-            UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-            // Cell Left Edge Insets
-            if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                cellEdge = [self.layout horizontalScrollView:self
-                                     insetForItemAtIndexPath:indexPath];
-            }
             self.xOffset += cellEdge.left;
             
             CGSize cellSize = [self.layout horizontalScrollView:self
@@ -401,15 +401,10 @@ UIScrollViewDelegate
                              animations:^{
                                  GKHorizontalCell * curCell = fromCell;
                                  CGFloat xOffset = fromCell.originFrameInUpdating.origin.x;
+                                 UIEdgeInsets cellEdge = self.cellEdge;
                                  while (curCell) {
                                      GKHorizontalCell * rightCell = curCell.rightCell;
                                      
-                                     UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                                     // Cell Left Edge Insets
-                                     if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                         cellEdge = [self.layout horizontalScrollView:self
-                                                              insetForItemAtIndexPath:nil];
-                                     }
                                      if (curCell != fromCell) {
                                          xOffset += cellEdge.left;
                                      }
@@ -440,15 +435,10 @@ UIScrollViewDelegate
                              animations:^{
                                  GKHorizontalCell * curCell = fromCell;
                                  CGFloat xOffset = CGRectGetMaxX(fromCell.originFrameInUpdating);
+                                 UIEdgeInsets cellEdge = self.cellEdge;
                                  while (curCell) {
                                      GKHorizontalCell * leftCell = curCell.leftCell;
                                      
-                                     UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                                     // Cell Left Edge Insets
-                                     if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                         cellEdge = [self.layout horizontalScrollView:self
-                                                              insetForItemAtIndexPath:nil];
-                                     }
                                      if (curCell != fromCell) {
                                          xOffset -= cellEdge.right;
                                      }

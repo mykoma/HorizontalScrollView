@@ -24,9 +24,9 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
 
 @optional
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell leftEditMovedOffset:(CGFloat)offset;
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell leftPositionChangedInSuperView:(CGFloat)offset;
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell rightEditMovedOffset:(CGFloat)offset;
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell rightPositionChangedInSuperView:(CGFloat)offset;
 
 - (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell;
 

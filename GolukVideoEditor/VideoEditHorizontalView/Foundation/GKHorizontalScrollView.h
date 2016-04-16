@@ -69,7 +69,7 @@
 @property (nonatomic, weak) IBOutlet id <GKHorizontalScrollDataSource> dataSource;
 @property (nonatomic, weak) IBOutlet id <GKHorizontalScrollViewLayout> layout;
 @property (nonatomic, weak) IBOutlet id <GKHorizontalScrollViewDelegate> delegate;
-
+@property (nonatomic, assign, readonly) UIEdgeInsets cellEdge;
 @property (nonatomic, weak) GKHorizontalCell * firstCell;
 
 @property (nonatomic, strong, readonly) UIScrollView * scrollView;

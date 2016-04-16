@@ -330,19 +330,17 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)leftEditGestureMoved:(UIPanGestureRecognizer *)sender
 {
-    UIView *view = sender.view;
-    CGPoint point = [sender locationInView:view.superview];
-    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:leftEditMovedOffset:)]) {
-        [self.chunkCellDelegate chunkCell:self leftEditMovedOffset:point.x];
+    CGPoint point = [sender locationInView:self.superview];
+    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:leftPositionChangedInSuperView:)]) {
+        [self.chunkCellDelegate chunkCell:self leftPositionChangedInSuperView:point.x];
     }
 }
 
 - (void)rightEditGestureMoved:(UITapGestureRecognizer *)sender
 {
-    UIView *view = sender.view;
-    CGPoint point = [sender locationInView:view.superview];
-    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:rightEditMovedOffset:)]) {
-        [self.chunkCellDelegate chunkCell:self rightEditMovedOffset:point.x];
+    CGPoint point = [sender locationInView:self.superview];
+    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:rightPositionChangedInSuperView:)]) {
+        [self.chunkCellDelegate chunkCell:self rightPositionChangedInSuperView:point.x];
     }
 }
 

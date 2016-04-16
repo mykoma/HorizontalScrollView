@@ -86,15 +86,10 @@
                              // 将要删除的 cell 的右边部分的 cell，向左移动
                              GKHorizontalCell * curCell = cell.rightFenceCell;
                              CGFloat xOffset = cell.frame.origin.x;
+                             UIEdgeInsets cellEdge = self.cellEdge;
                              while (curCell) {
                                  GKHorizontalCell * rightCell = curCell.rightCell;
                                  
-                                 UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                                 // Cell Left Edge Insets
-                                 if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                     cellEdge = [self.layout horizontalScrollView:self
-                                                          insetForItemAtIndexPath:nil];
-                                 }
                                  xOffset += cellEdge.left;
                                  
                                  rightCell.frame = CGRectMake(xOffset,
@@ -201,14 +196,8 @@
                      animations:^{
                          CGFloat xOffset = theOldRightCell.frame.origin.x;
                          GKHorizontalCell * curCell = theFirstNewCell;
-                         
+                         UIEdgeInsets cellEdge = self.cellEdge;
                          while (curCell) {
-                             UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                             // Cell Left Edge Insets
-                             if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                 cellEdge = [self.layout horizontalScrollView:self
-                                                      insetForItemAtIndexPath:nil];
-                             }
                              if (curCell != theFirstNewCell) {
                                  xOffset += cellEdge.left;
                              }
@@ -316,14 +305,8 @@
                      animations:^{
                          CGFloat xOffset = cell.frame.origin.x;
                          GKHorizontalCell * curCell = theFirstNewCell;
-                         
+                         UIEdgeInsets cellEdge = self.cellEdge;
                          while (curCell) {
-                             UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                             // Cell Left Edge Insets
-                             if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                 cellEdge = [self.layout horizontalScrollView:self
-                                                      insetForItemAtIndexPath:nil];
-                             }
                              if (curCell != theFirstNewCell) {
                                  xOffset += cellEdge.left;
                              }
@@ -459,14 +442,7 @@
                                  GKHorizontalCell * curCell = chunkFenceCell;
                                  // 起始的 x 值
                                  CGFloat xOffset = fromCell.originFrameInUpdating.origin.x;
-
-                                 // Cell Left Edge Insets
-                                 UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                                 if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                     cellEdge = [self.layout horizontalScrollView:self
-                                                          insetForItemAtIndexPath:nil];
-                                 }
-                                 
+                                 UIEdgeInsets cellEdge = self.cellEdge;
                                  while (curCell) {
                                      GKHorizontalCell * rightCell = curCell.rightCell;
                                      if (curCell != chunkFenceCell) {
@@ -510,12 +486,7 @@
                                  CGFloat xOffset = CGRectGetMaxX(fromCell.originFrameInUpdating);
                                  
                                  // Cell Left Edge Insets
-                                 UIEdgeInsets cellEdge = UIEdgeInsetsZero;
-                                 if ([self.layout respondsToSelector:@selector(horizontalScrollView:insetForItemAtIndexPath:)]) {
-                                     cellEdge = [self.layout horizontalScrollView:self
-                                                          insetForItemAtIndexPath:nil];
-                                 }
-                                 
+                                 UIEdgeInsets cellEdge = self.cellEdge;
                                  while (curCell) {
                                      GKHorizontalCell * leftCell = curCell.leftCell;
                                      if (curCell != chunkFenceCell) {
@@ -646,20 +617,132 @@
 
 #pragma mark - GKVideoChunkCellDelegate
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell leftEditMovedOffset:(CGFloat)offset
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell leftPositionChangedInSuperView:(CGFloat)offset
 {
-    NSLog(@"--- %lf", offset);
+    chunkCell.frame = CGRectMake(offset, 0,
+                                 CGRectGetMaxX(chunkCell.frame) - offset,
+                                 CGRectGetHeight(chunkCell.frame));
+    [self updateCellsFrameOnLeftSideFromCell:chunkCell.leftCell
+                              toTailPosition:CGRectGetMinX(chunkCell.frame) - self.cellEdge.left
+                                   animation:NO
+                                  completion:NULL];
 }
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell rightEditMovedOffset:(CGFloat)offset
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell rightPositionChangedInSuperView:(CGFloat)offset
 {
-    NSLog(@"--- %lf", offset);
+    chunkCell.frame = CGRectMake(CGRectGetMinX(chunkCell.frame), 0,
+                                 offset - CGRectGetMinX(chunkCell.frame),
+                                 CGRectGetHeight(chunkCell.frame));
+    [self updateCellsFrameOnRightSideFromCell:chunkCell.rightCell
+                               toLeadPosition:CGRectGetMaxX(chunkCell.frame) + self.cellEdge.right
+                                    animation:NO
+                                   completion:NULL];
 }
 
 - (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell
 {
     [self scrollToOffset:CGRectGetMidX(chunkCell.frame) - [self offsetOfCurrentFrame]
                 animated:YES];
+}
+
+#pragma mark - Update Cells Frame
+
+/**
+ * 更新 cell 及 cell 右边的cells， 起始点移动到 position
+ */
+- (void)updateCellsFrameOnRightSideFromCell:(GKHorizontalCell *)cell
+                             toLeadPosition:(CGFloat)position
+                                  animation:(BOOL)animation
+                                 completion:(void (^)(BOOL finished))completion
+{
+    void(^actionBlock)() = ^() {
+        GKHorizontalCell * curCell = cell;
+        CGFloat xOffset = position;
+        UIEdgeInsets cellEdge = self.cellEdge;
+        while (curCell) {
+            xOffset += cellEdge.left;
+            
+            curCell.frame = CGRectMake(xOffset,
+                                       0,
+                                       CGRectGetWidth(curCell.frame),
+                                       CGRectGetHeight(curCell.frame));
+            
+            xOffset += CGRectGetWidth(curCell.frame);
+            xOffset += cellEdge.right;
+            
+            // Next
+            curCell = curCell.rightCell;
+        }
+    };
+    static BOOL IN_MOVING_ANIMATION = NO;
+    if (animation && IN_MOVING_ANIMATION == NO) {
+        IN_MOVING_ANIMATION = YES;
+        [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             actionBlock();
+                         } completion:^(BOOL finished) {
+                             IN_MOVING_ANIMATION = NO;
+                             if (completion) {
+                                 completion(finished);
+                             }
+                         }];
+    } else {
+        actionBlock();
+        if (completion) {
+            completion(YES);
+        }
+    }
+}
+
+/**
+ * 更新 cell 及 cell 左边的cells， 末尾点移动到 position
+ */
+- (void)updateCellsFrameOnLeftSideFromCell:(GKHorizontalCell *)cell
+                            toTailPosition:(CGFloat)position
+                                 animation:(BOOL)animation
+                                completion:(void (^)(BOOL finished))completion
+{
+    void(^actionBlock)() = ^() {
+        GKHorizontalCell * curCell = cell;
+        CGFloat xOffset = position;
+        UIEdgeInsets cellEdge = self.cellEdge;
+        while (curCell) {
+            xOffset -= cellEdge.right;
+            
+            curCell.frame = CGRectMake(xOffset - CGRectGetWidth(curCell.frame),
+                                       0,
+                                       CGRectGetWidth(curCell.frame),
+                                       CGRectGetHeight(curCell.frame));
+            
+            xOffset -= CGRectGetWidth(curCell.frame);
+            xOffset -= cellEdge.left;
+            
+            // Next
+            curCell = curCell.leftCell;
+        }
+    };
+    static BOOL IN_MOVING_ANIMATION = NO;
+    if (animation && IN_MOVING_ANIMATION == NO) {
+        IN_MOVING_ANIMATION = YES;
+        [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             actionBlock();
+                         } completion:^(BOOL finished) {
+                             IN_MOVING_ANIMATION = NO;
+                             if (completion) {
+                                 completion(finished);
+                             }
+                         }];
+    } else {
+        actionBlock();
+        if (completion) {
+            completion(YES);
+        }
+    }
 }
 
 @end
