@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
 
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell rightPositionChangedInSuperView:(CGFloat)offset;
 
+- (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell;
+
 - (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell;
 
 @end

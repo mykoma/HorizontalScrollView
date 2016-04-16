@@ -153,6 +153,16 @@ UIScrollViewDelegate
     return edge;
 }
 
+- (UIEdgeInsets)edgeInsetsOfScroll
+{
+    UIEdgeInsets scrollViewEdge = UIEdgeInsetsZero;
+    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
+        scrollViewEdge = [self.layout edgeInsetsOfHorizontalScrollView:self];
+        self.xOffset += scrollViewEdge.left;
+    }
+    return scrollViewEdge;
+}
+
 - (void)attemptToDivideCellWithLeftDistance:(CGFloat)offset
 {
     // TODO
@@ -168,11 +178,7 @@ UIScrollViewDelegate
     self.scrollView.frame = scrollAreaFrame;
     
     // 检查是否有 edge， 开始计算 xOffset
-    UIEdgeInsets scrollViewEdge = UIEdgeInsetsZero;
-    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
-        scrollViewEdge = [self.layout edgeInsetsOfHorizontalScrollView:self];
-        self.xOffset += scrollViewEdge.left;
-    }
+    UIEdgeInsets scrollViewEdge = self.edgeInsetsOfScroll;
     
     NSInteger rowCount = [self.dataSource countOfHorizontalScrollView:self];
     UIEdgeInsets cellEdge = self.cellEdge;
@@ -224,10 +230,7 @@ UIScrollViewDelegate
         }
         curCell = curCell.rightCell;
     }
-    CGFloat rightEdge = 0.0f;
-    if ([self.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
-        rightEdge += [self.layout edgeInsetsOfHorizontalScrollView:self].right;
-    }
+    CGFloat rightEdge = self.edgeInsetsOfScroll.right;
     self.scrollView.contentSize = CGSizeMake(CGRectGetMaxX(curCell.frame) + rightEdge, 0);
 }
 

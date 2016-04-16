@@ -229,7 +229,7 @@
     }
     
     // 计算offset 在 cell 中的比率
-    CGFloat leftWidth = ([self offsetOfCurrentFrame] + self.scrollView.contentOffset.x - CGRectGetMinX(cell.frame));
+    CGFloat leftWidth = (distance + self.scrollView.contentOffset.x - CGRectGetMinX(cell.frame));
     CGFloat rate = leftWidth / CGRectGetWidth(cell.frame);
     
     // 只允许某个区间的进行裁剪
@@ -643,6 +643,14 @@
 {
     [self scrollToOffset:CGRectGetMidX(chunkCell.frame) - [self offsetOfCurrentFrame]
                 animated:YES];
+}
+
+- (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell
+{
+    [self updateCellsFrameOnRightSideFromCell:self.firstCell
+                               toLeadPosition:[self offsetOfCurrentFrame]
+                                    animation:NO
+                                   completion:NULL];
 }
 
 #pragma mark - Update Cells Frame
