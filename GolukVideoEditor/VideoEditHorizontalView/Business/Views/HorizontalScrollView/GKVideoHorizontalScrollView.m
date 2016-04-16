@@ -126,6 +126,7 @@
                              [cell.rightFenceCell removeFromSuperview];
                              [cell removeFromSuperview];
                              
+                             self.state = GKVideoHorizontalStateNormal;
                              if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellDidDeleteAtIndex:)]) {
                                  [self.delegate horizontalScrollView:self
                                            chunkCellDidDeleteAtIndex:indexOfChunkCell];
@@ -339,6 +340,7 @@
                          }
                      } completion:^(BOOL finished) {
                          [cell removeFromSuperview];
+                         self.state = GKVideoHorizontalStateNormal;
                          [self adjustContentSizeAndOffset];
                      }];
 }
@@ -551,6 +553,13 @@
 - (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView
 {
     [super horizontalScrollViewDidScroll:scrollView];
+    // 如果是编辑状态，那么当 cell 改变的时候， 如果当前 currentFrame 的 cell 没有被选中， 那么选中。
+    if (self.state == GKVideoHorizontalStateEdit) {
+        GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
+        if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
+            [(GKVideoChunkCell *)cell becomeToEditState];
+        }
+    }
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:timeIntervalOfOffset:)])
     {
         NSTimeInterval timeInterval = [self timeIntervalOfHorizontalScrollOffset:scrollView.contentOffset.x];
@@ -564,9 +573,6 @@
     [GKVideoChunkCell resignEditState];
     if (self.state != GKVideoChunkCellStateNormal) {
         self.state = GKVideoHorizontalStateNormal;
-        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
-            [self.delegate horizontalScrollView:self changeStateTo:self.state];
-        }
     }
 }
 
@@ -575,6 +581,17 @@
     if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
         GKVideoChunkCell * chunkCell = (GKVideoChunkCell *)cell;
         chunkCell.chunkCellDelegate = self;
+    }
+}
+
+- (void)setState:(GKVideoHorizontalState)state
+{
+    if (_state == state) {
+        return;
+    }
+    _state = state;
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
+        [self.delegate horizontalScrollView:self changeStateTo:self.state];
     }
 }
 
@@ -619,9 +636,6 @@
 {
     if (self.state != GKVideoHorizontalStateEdit) {
         self.state = GKVideoHorizontalStateEdit;
-        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
-            [self.delegate horizontalScrollView:self changeStateTo:self.state];
-        }
     }
 }
 

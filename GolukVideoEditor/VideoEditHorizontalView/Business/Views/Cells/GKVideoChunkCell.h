@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
 @property (nonatomic, strong) GKVideoChunkCellModel * cellModel;
 
 @property (nonatomic, copy) void (^touchDown)();
+@property (nonatomic, copy) void (^stateChangedToEdit)();
 @property (nonatomic, copy) void (^visibleChanged)();
 
 + (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel;
@@ -47,6 +48,8 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
 + (CGFloat)widthOfOneSecond;
 
 + (void)resignEditState;
+
+- (void)becomeToEditState;
 
 /**
  *  offset in current cell.

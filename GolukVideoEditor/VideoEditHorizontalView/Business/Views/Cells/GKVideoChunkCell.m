@@ -88,7 +88,18 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                   action:@selector(touchDown:)];
     [self addGestureRecognizer:tapGesture];
-    
+}
+
+- (void)becomeToEditState
+{
+    if (self.state == GKVideoChunkCellStateNormal) {
+        self.state = GKVideoChunkCellStateEdit;
+        if (self.stateChangedToEdit) {
+            self.stateChangedToEdit();
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT
+                                                            object:self];
+    }
 }
 
 #pragma mark - Lazy Load
@@ -303,11 +314,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)touchDown:(id)sender
 {
-    if (self.state == GKVideoChunkCellStateNormal) {
-        self.state = GKVideoChunkCellStateEdit;
-        [[NSNotificationCenter defaultCenter] postNotificationName:GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT
-                                                            object:self];
-    }
+    [self becomeToEditState];
     if (self.touchDown) {
         self.touchDown();
     }

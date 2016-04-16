@@ -61,7 +61,11 @@ GKVideoHorizontalScrollViewLayout
 
 - (void)removeSelectedCell
 {
-    [self.horizontalScrollView removeCell:self.selectedCell];
+    if (self.selectedCell) {
+        [self.horizontalScrollView removeCell:self.selectedCell];
+    } else {
+        NSLog(@"删除的 cell 的不能是nil");
+    }
 }
 
 - (void)divideCellAtCurrentFrame
@@ -113,10 +117,13 @@ GKVideoHorizontalScrollViewLayout
         __weak typeof(self) weakSelf = self;
         __weak typeof(cell) weakCell = cell;
         [cell setTouchDown:^ {
-            weakSelf.selectedCell = weakCell;
+            // TODO
         }];
         [cell setVisibleChanged:^{
             [weakSelf refreshTotalDuration];
+        }];
+        [cell setStateChangedToEdit:^{
+            weakSelf.selectedCell = weakCell;
         }];
         return cell;
     } else if ([itemModel isKindOfClass:[GKVideoFenceCellModel class]]) {
@@ -272,6 +279,9 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
                changeStateTo:(GKVideoHorizontalState)state
 {
+    if (state == GKVideoHorizontalStateNormal) {
+        self.selectedCell = nil;
+    }
     if ([self.delegate respondsToSelector:@selector(didChangeToState:)]) {
         [self.delegate didChangeToState:state];
     }
