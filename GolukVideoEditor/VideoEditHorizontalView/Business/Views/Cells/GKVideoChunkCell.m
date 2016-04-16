@@ -352,9 +352,23 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)rightEditGestureMoved:(UITapGestureRecognizer *)sender
 {
-    CGPoint point = [sender locationInView:self.superview];
-    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:rightPositionChangedInSuperView:)]) {
-        [self.chunkCellDelegate chunkCell:self rightPositionChangedInSuperView:point.x];
+    switch (sender.state) {
+        case UIGestureRecognizerStateBegan:
+        case UIGestureRecognizerStateChanged: {
+            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:rightPositionChangedInSuperView:)]) {
+                CGPoint point = [sender locationInView:self.superview];
+                [self.chunkCellDelegate chunkCell:self rightPositionChangedInSuperView:point.x];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            if ([self.chunkCellDelegate respondsToSelector:@selector(didFinishEditForChunkCell:)]) {
+                [self.chunkCellDelegate didFinishEditForChunkCell:self];
+            }
+            break;
+        }
+        default:
+            break;
     }
 }
 

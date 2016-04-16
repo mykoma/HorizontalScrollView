@@ -647,10 +647,16 @@
 
 - (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell
 {
+    // Frame 变化了， 第一个 cell 的起点变化了， 需要重置。
+    CGFloat recordOffset = self.scrollView.contentOffset.x;
+    CGFloat originFrameOffset = CGRectGetMinX(self.firstCell.frame);
     [self updateCellsFrameOnRightSideFromCell:self.firstCell
                                toLeadPosition:[self offsetOfCurrentFrame]
                                     animation:NO
                                    completion:NULL];
+    [self adjustContentSizeAndOffset];
+    [self scrollToOffset:recordOffset + [self offsetOfCurrentFrame] - originFrameOffset
+                animated:NO];
 }
 
 #pragma mark - Update Cells Frame
