@@ -176,6 +176,8 @@ UIScrollViewDelegate
                                                   cellForRowAtIndexPath:indexPath];
         NSAssert(cell != nil, nil);
         
+        [self didLoadCell:cell];
+        
         cell.delegate = self;
         [self.cells addObject:cell];
         
@@ -259,6 +261,11 @@ UIScrollViewDelegate
     if ([self.delegate respondsToSelector:@selector(didTouchDownBackground:)]) {
         [self.delegate didTouchDownBackground:self];
     }
+}
+
+- (void)didLoadCell:(GKHorizontalCell *)cell
+{
+    // Empty
 }
 
 #pragma mark - GKHorizontalCellDelegate

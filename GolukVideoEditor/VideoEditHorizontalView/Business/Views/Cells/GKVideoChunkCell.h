@@ -18,8 +18,21 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
 };
 
 @class GKVideoFenceCell;
+@class GKVideoChunkCell;
+
+@protocol GKVideoChunkCellDelegate <NSObject>
+
+@optional
+
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell leftEditMovedOffset:(CGFloat)offset;
+
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell rightEditMovedOffset:(CGFloat)offset;
+
+@end
 
 @interface GKVideoChunkCell : GKHorizontalCell
+
+@property (nonatomic, weak  ) id <GKVideoChunkCellDelegate> chunkCellDelegate;
 
 @property (nonatomic, weak  ) GKVideoFenceCell * leftFenceCell;
 @property (nonatomic, weak  ) GKVideoFenceCell * rightFenceCell;

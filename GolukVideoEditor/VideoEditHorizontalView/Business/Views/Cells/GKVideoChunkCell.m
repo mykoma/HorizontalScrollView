@@ -315,14 +315,22 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 #pragma mark - Gesture
 
-- (void)leftEditGestureMoved:(id)sender
+- (void)leftEditGestureMoved:(UIPanGestureRecognizer *)sender
 {
-    // TODO
+    UIView *view = sender.view;
+    CGPoint point = [sender locationInView:view.superview];
+    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:leftEditMovedOffset:)]) {
+        [self.chunkCellDelegate chunkCell:self leftEditMovedOffset:point.x];
+    }
 }
 
-- (void)rightEditGestureMoved:(id)sender
+- (void)rightEditGestureMoved:(UITapGestureRecognizer *)sender
 {
-    // TODO
+    UIView *view = sender.view;
+    CGPoint point = [sender locationInView:view.superview];
+    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:rightEditMovedOffset:)]) {
+        [self.chunkCellDelegate chunkCell:self rightEditMovedOffset:point.x];
+    }
 }
 
 #pragma mark - Override
@@ -337,7 +345,6 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
         self.rightCell.leftCell = fenceCell.leftCell;
         fenceCell.leftCell.rightCell = self.rightCell;
         // 连接左边4个 cell
-        
         GKHorizontalCell * tempFenceCell = cell.leftCell;
         tempFenceCell.rightCell = self;
         self.leftCell = tempFenceCell;
@@ -352,7 +359,6 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
         // 连接左边两个 cell
         self.leftCell.rightCell = fenceCell.rightCell;
         fenceCell.rightCell.leftCell = self.leftCell;
-        
         // 连接右边4个 cell
         GKHorizontalCell * tempFenceCell = cell.rightCell;
         tempFenceCell.leftCell = self;

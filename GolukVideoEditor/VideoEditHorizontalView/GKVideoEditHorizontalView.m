@@ -204,7 +204,7 @@ GKVideoHorizontalScrollViewLayout
 
 - (UIEdgeInsets)edgeInsetsOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
-    return UIEdgeInsetsMake(0, 50, 0, 10);
+    return UIEdgeInsetsMake(0, CGRectGetMidX(self.bounds), 0, 10);
 }
 
 - (UIEdgeInsets)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView

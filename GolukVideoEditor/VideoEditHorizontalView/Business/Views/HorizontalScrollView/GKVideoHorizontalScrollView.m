@@ -11,7 +11,7 @@
 #import "GKVideoFenceCell.h"
 #import "GKVideoTailerCell.h"
 
-@interface GKVideoHorizontalScrollView ()
+@interface GKVideoHorizontalScrollView () <GKVideoChunkCellDelegate>
 
 @property (nonatomic, strong) UIImageView      * frameMarker;
 @property (nonatomic, assign) GKVideoHorizontalState state;
@@ -570,6 +570,14 @@
     }
 }
 
+- (void)didLoadCell:(GKHorizontalCell *)cell
+{
+    if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
+        GKVideoChunkCell * chunkCell = (GKVideoChunkCell *)cell;
+        chunkCell.chunkCellDelegate = self;
+    }
+}
+
 #pragma mark - Private
 
 - (GKVideoChunkCell *)lastChunkCell
@@ -615,6 +623,18 @@
             [self.delegate horizontalScrollView:self changeStateTo:self.state];
         }
     }
+}
+
+#pragma mark - GKVideoChunkCellDelegate
+
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell leftEditMovedOffset:(CGFloat)offset
+{
+    NSLog(@"--- %lf", offset);
+}
+
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell rightEditMovedOffset:(CGFloat)offset
+{
+    NSLog(@"--- %lf", offset);
 }
 
 @end

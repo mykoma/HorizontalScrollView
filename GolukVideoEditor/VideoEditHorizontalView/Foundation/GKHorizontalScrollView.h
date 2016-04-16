@@ -113,4 +113,6 @@
 
 - (void)didTouchDownBackground;
 
+- (void)didLoadCell:(GKHorizontalCell *)cell;
+
 @end
