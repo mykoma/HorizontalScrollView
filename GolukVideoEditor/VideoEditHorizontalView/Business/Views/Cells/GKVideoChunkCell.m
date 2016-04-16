@@ -314,7 +314,13 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)touchDown:(id)sender
 {
+    GKVideoChunkCellState recordState = self.state;
     [self becomeToEditState];
+    if (recordState == GKVideoChunkCellStateNormal) {
+        if ([self.chunkCellDelegate respondsToSelector:@selector(didChangeToEditWithTouchDownForChunkCell:)]) {
+            [self.chunkCellDelegate didChangeToEditWithTouchDownForChunkCell:self];
+        }
+    }
     if (self.touchDown) {
         self.touchDown();
     }

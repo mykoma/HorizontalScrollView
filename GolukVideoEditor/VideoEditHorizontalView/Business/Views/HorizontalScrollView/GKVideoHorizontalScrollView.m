@@ -651,4 +651,10 @@
     NSLog(@"--- %lf", offset);
 }
 
+- (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell
+{
+    [self scrollToOffset:CGRectGetMidX(chunkCell.frame) - [self offsetOfCurrentFrame]
+                animated:YES];
+}
+
 @end
