@@ -225,6 +225,7 @@
                              curCell = curCell.rightCell;
                          }
                      } completion:^(BOOL finished) {
+                         self.state = GKVideoHorizontalStateNormal;
                          [self adjustContentSizeAndOffset];
                      }];
 }
@@ -590,6 +591,10 @@
         return;
     }
     _state = state;
+    // 当前 view 的状态改变的时候， 那么则修改所有的 chunkCell， 改变他们的状态
+    if (_state == GKVideoHorizontalStateNormal) {
+        [GKVideoChunkCell resignEditState];
+    }
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
         [self.delegate horizontalScrollView:self changeStateTo:self.state];
     }
