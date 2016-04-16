@@ -221,21 +221,21 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 {
     self.layer.cornerRadius = 0.0f;
 
-    [UIView animateWithDuration:0.1f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
+//    [UIView animateWithDuration:0.1f
+//                          delay:0
+//                        options:UIViewAnimationOptionCurveEaseInOut
+//                     animations:^{
                          _leftEditView.alpha    = 0.0f;
                          _rightEditView.alpha   = 0.0f;
                          _topEditLine.alpha    = 0.0f;
                          _bottomEditLine.alpha = 0.0f;
-                     } completion:^(BOOL finished) {
+//                     } completion:^(BOOL finished) {
                          // 这儿不调用 self. 是为了避免调用懒加载
                          [_leftEditView removeFromSuperview];
                          [_rightEditView removeFromSuperview];
                          [_topEditLine removeFromSuperview];
                          [_bottomEditLine removeFromSuperview];
-                     }];
+//                     }];
 }
 
 - (void)layoutForEditState
@@ -266,16 +266,16 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     [self addSubview:self.rightEditView];
     [self addSubview:self.topEditLine];
     [self addSubview:self.bottomEditLine];
-    [UIView animateWithDuration:0.1f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
+//    [UIView animateWithDuration:0.1f
+//                          delay:0
+//                        options:UIViewAnimationOptionCurveEaseInOut
+//                     animations:^{
                          self.leftEditView.alpha    = 1.0f;
                          self.rightEditView.alpha   = 1.0f;
                          self.topEditLine.alpha    = 1.0f;
                          self.bottomEditLine.alpha = 1.0f;
-                     } completion:^(BOOL finished) {
-                     }];
+//                     } completion:^(BOOL finished) {
+//                     }];
 }
 
 - (CGFloat)offsetOfImageIV
