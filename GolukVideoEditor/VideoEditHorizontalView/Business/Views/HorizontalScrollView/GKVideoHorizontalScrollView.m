@@ -686,27 +686,23 @@
 - (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell fromSide:(GKVideoChunkCellSide)side
 {
     // Frame 变化了， 第一个 cell 的起点变化了， 需要重置。
-    CGFloat recordOffset = self.scrollView.contentOffset.x;
-    CGFloat originFrameOffset = CGRectGetMinX(self.firstCell.frame);
-    [self updateCellsFrameOnRightSideFromCell:self.firstCell
-                               toLeadPosition:[self offsetOfCurrentFrame]
-                                    animation:NO
-                                   completion:NULL];
-    [self adjustContentSizeAndOffset];
-    [self scrollToOffset:recordOffset + [self offsetOfCurrentFrame] - originFrameOffset
-                animated:NO];
     [UIView animateWithDuration:0.3f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          [self setFrameMarkerToDefaultPostion];
+                         [self updateCellsFrameOnRightSideFromCell:self.firstCell
+                                                    toLeadPosition:[self offsetOfCurrentFrame]
+                                                         animation:NO
+                                                        completion:NULL];
+                         [self adjustContentSizeAndOffset];
                          // 如果是在左边操作，那么将当前的 cell 的左边移到 currentFrame 点
                          if (side == GKVideoChunkCellSideLeft) {
                              [self scrollToOffset:CGRectGetMinX(chunkCell.frame)  - [self offsetOfCurrentFrame]
-                                         animated:YES];
+                                         animated:NO];
                          } else if (side == GKVideoChunkCellSideRight) {
                              [self scrollToOffset:CGRectGetMaxX(chunkCell.frame)  - [self offsetOfCurrentFrame]
-                                         animated:YES];
+                                         animated:NO];
                          }
                      } completion:^(BOOL finished) {
                          
