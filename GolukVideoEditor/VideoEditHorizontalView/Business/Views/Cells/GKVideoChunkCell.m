@@ -340,9 +340,13 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
         case UIGestureRecognizerStateChanged: {
-            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:leftPositionChangedInSuperView:)]) {
+            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameChangedOnLeftSide:)]) {
                 CGPoint point = [sender locationInView:self.superview];
-                [self.chunkCellDelegate chunkCell:self leftPositionChangedInSuperView:point.x];
+                
+                self.frame = CGRectMake(point.x, 0,
+                                        CGRectGetMaxX(self.frame) - point.x,
+                                        CGRectGetHeight(self.frame));
+                [self.chunkCellDelegate chunkCell:self frameChangedOnLeftSide:self.frame];
             }
             break;
         }
@@ -362,9 +366,12 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
         case UIGestureRecognizerStateChanged: {
-            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:rightPositionChangedInSuperView:)]) {
+            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameChangedOnRightSide:)]) {
                 CGPoint point = [sender locationInView:self.superview];
-                [self.chunkCellDelegate chunkCell:self rightPositionChangedInSuperView:point.x];
+                self.frame = CGRectMake(CGRectGetMinX(self.frame), 0,
+                                        point.x - CGRectGetMinX(self.frame),
+                                        CGRectGetHeight(self.frame));
+                [self.chunkCellDelegate chunkCell:self frameChangedOnRightSide:self.frame];
             }
             break;
         }

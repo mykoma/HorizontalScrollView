@@ -614,24 +614,18 @@
 
 #pragma mark - GKVideoChunkCellDelegate
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell leftPositionChangedInSuperView:(CGFloat)offset
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnLeftSide:(CGRect)changedFrame
 {
-    chunkCell.frame = CGRectMake(offset, 0,
-                                 CGRectGetMaxX(chunkCell.frame) - offset,
-                                 CGRectGetHeight(chunkCell.frame));
     [self updateCellsFrameOnLeftSideFromCell:chunkCell.leftCell
-                              toTailPosition:CGRectGetMinX(chunkCell.frame) - self.cellEdge.left
+                              toTailPosition:CGRectGetMinX(changedFrame) - self.cellEdge.left
                                    animation:NO
                                   completion:NULL];
 }
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell rightPositionChangedInSuperView:(CGFloat)offset
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnRightSide:(CGRect)changedFrame
 {
-    chunkCell.frame = CGRectMake(CGRectGetMinX(chunkCell.frame), 0,
-                                 offset - CGRectGetMinX(chunkCell.frame),
-                                 CGRectGetHeight(chunkCell.frame));
     [self updateCellsFrameOnRightSideFromCell:chunkCell.rightCell
-                               toLeadPosition:CGRectGetMaxX(chunkCell.frame) + self.cellEdge.right
+                               toLeadPosition:CGRectGetMaxX(changedFrame) + self.cellEdge.right
                                     animation:NO
                                    completion:NULL];
 }
