@@ -356,13 +356,13 @@
     NSTimeInterval additionTimeInterval = 0.0f;
     GKVideoChunkCell * curCell = (GKVideoChunkCell *)self.firstCell;
     while (curCell) {
-        CGFloat durationOfRate = curCell.cellModel.endPercent - curCell.cellModel.beginPercent;
+        NSTimeInterval durationOfVisible = curCell.cellModel.endTime - curCell.cellModel.beginTime;
         // 如果在这个 curCell 的duration中间
         if (additionTimeInterval <= timeInterval
-            && timeInterval <= additionTimeInterval + curCell.cellModel.duration * durationOfRate) {
+            && timeInterval <= additionTimeInterval + durationOfVisible) {
             break;
         }
-        additionTimeInterval += curCell.cellModel.duration * durationOfRate;
+        additionTimeInterval += durationOfVisible;
         
         // 如果当前 curCell 是最后一个 cell 了， 那么 break
         if (![curCell.rightCell.rightCell isKindOfClass:[GKVideoChunkCell class]]) {
@@ -387,8 +387,7 @@
     NSTimeInterval totalDuration = 0.0f;
     GKVideoChunkCell * curCell = (GKVideoChunkCell *)self.firstCell;
     while ([curCell isKindOfClass:[GKVideoChunkCell class]]) {
-        CGFloat durationOfRate = curCell.cellModel.endPercent - curCell.cellModel.beginPercent;
-        totalDuration += durationOfRate * curCell.cellModel.duration;
+        totalDuration += curCell.cellModel.endTime - curCell.cellModel.beginTime;
         
         // 如果当前 curCell 是最后一个 cell 了， 那么 break
         if (![curCell.rightCell.rightCell isKindOfClass:[GKVideoChunkCell class]]) {
@@ -594,15 +593,13 @@
     while (curCell) {
         if ([curCell isKindOfClass:[GKVideoChunkCell class]]) {
             GKVideoChunkCell * chunkCell = (GKVideoChunkCell *)curCell;
-            CGFloat durationOfRate = chunkCell.cellModel.endPercent - chunkCell.cellModel.beginPercent;
-            timeInterval += chunkCell.cellModel.duration * durationOfRate;
+            timeInterval += chunkCell.cellModel.endTime - chunkCell.cellModel.beginTime;
         }
         curCell = curCell.leftCell;
     }
 
     if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
-        GKVideoChunkCell * chunkCell = (GKVideoChunkCell *)cell;
-        timeInterval += [chunkCell timeIntervalOfVisibleOffset:([self offsetOfCurrentFrame] + offset - CGRectGetMinX(cell.frame))];
+        timeInterval += [GKVideoChunkCell durationOfWidth:([self offsetOfCurrentFrame] + offset - CGRectGetMinX(cell.frame))];
     }
 
     return timeInterval;

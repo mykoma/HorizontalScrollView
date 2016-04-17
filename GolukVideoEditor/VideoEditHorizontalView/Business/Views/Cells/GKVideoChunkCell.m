@@ -41,6 +41,11 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     return editColor;
 }
 
++ (NSTimeInterval)durationOfWidth:(CGFloat)width
+{
+    return width / [[self class] widthOfOneSecond];
+}
+
 + (CGFloat)widthOfOnePicture
 {
     return (16 * HEIGHT_OF_HORIZONTAL_CELL) / 9;
@@ -61,7 +66,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 + (CGFloat)widthForModel:(GKVideoChunkCellModel *)cellModel
 {
-    return [[self class] widthOfOneSecond] * cellModel.duration * (cellModel.endPercent - cellModel.beginPercent);
+    return [[self class] widthOfOneSecond] * (cellModel.endTime - cellModel.beginTime);
 }
 
 - (void)dealloc
@@ -203,7 +208,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 {
     UIImageView * prevIV = nil;
     for (UIImageView * imageView in self.imageIVs) {
-        imageView.frame = CGRectMake(CGRectGetMaxX(prevIV.frame) - [self offsetOfImageIV],
+        imageView.frame = CGRectMake(CGRectGetMaxX(prevIV.frame) - [self offsetOfVisibelImageIV],
                                      0,
                                      [[self class] widthOfOnePicture],
                                      HEIGHT_OF_HORIZONTAL_CELL);
@@ -278,11 +283,6 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 //                     }];
 }
 
-- (CGFloat)offsetOfImageIV
-{
-    return [[self class] widthOfOneSecond] * (self.cellModel.duration * self.cellModel.beginPercent);
-}
-
 - (NSTimeInterval)timeIntervalOfVisibleOffset:(CGFloat)offset
 {
     return offset / [[self class] widthOfOneSecond];
@@ -308,6 +308,11 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (GKVideoFenceCell *)rightFenceCell
 {
     return (GKVideoFenceCell *)self.rightCell;
+}
+
+- (CGFloat)offsetOfVisibelImageIV
+{
+    return [[self class] widthOfOneSecond] * self.cellModel.beginTime;
 }
 
 #pragma mark - Actions
@@ -423,18 +428,16 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (NSArray *)divideAtRate:(CGFloat)rate
 {
-    CGFloat visibleDuration = self.cellModel.duration * (self.cellModel.endPercent - self.cellModel.beginPercent);
-    CGFloat leftInvisibleDuration = self.cellModel.duration * self.cellModel.beginPercent;
+    CGFloat visibleDuration = (self.cellModel.endTime - self.cellModel.beginTime);
+    CGFloat leftInvisibleDuration = self.cellModel.beginTime;
     CGFloat leftSubVisibleDuration = visibleDuration * rate;
     CGFloat rightSubVisibleDuration = visibleDuration - leftSubVisibleDuration;
-    CGFloat rightInvisibleDuration = self.cellModel.duration * (1.0f - self.cellModel.endPercent);
+    CGFloat rightInvisibleDuration = self.cellModel.duration - self.cellModel.endTime;
 
     // Left
     GKVideoChunkCellModel * leftSubCellModel = [GKVideoChunkCellModel new];
     leftSubCellModel.duration = leftInvisibleDuration + leftSubVisibleDuration;
-    leftSubCellModel.beginPercent = leftInvisibleDuration / leftSubCellModel.duration;
-    // endPercent 只会是 1.0f
-    leftSubCellModel.endPercent = 1.0f;
+    leftSubCellModel.beginTime = leftInvisibleDuration;
     // 计算图片的最大 index
     NSInteger ceilImageIndex = ceil(leftSubCellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
     NSMutableArray <UIImage *> * mArray = [NSMutableArray new];
@@ -453,9 +456,9 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
     // Right
     GKVideoChunkCellModel * rightSubCellModel = [GKVideoChunkCellModel new];
     rightSubCellModel.duration = rightSubVisibleDuration + rightInvisibleDuration;
-    // beginPercent 只会是 0.0f
-    rightSubCellModel.beginPercent = 0.0f;
-    rightSubCellModel.endPercent = rightSubVisibleDuration / rightSubCellModel.duration;
+    // beginTime 只会是 0.0f
+    rightSubCellModel.beginTime = 0.0f;
+    rightSubCellModel.endTime = rightSubVisibleDuration;
     // 计算图片的起始 index
     NSInteger floorImageIndex = floor(leftSubCellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
     // 计算需要几张图片

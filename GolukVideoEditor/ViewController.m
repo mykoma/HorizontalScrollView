@@ -28,8 +28,8 @@
     GKVideoChunkCellModel * model1 = [[GKVideoChunkCellModel alloc] init];
     model1.images = @[[UIImage imageNamed:@"1"], [UIImage imageNamed:@"2"]];
     model1.duration = 10;
-    model1.beginPercent = 0.1f;
-    model1.endPercent = 0.9f;
+    model1.beginTime = 3.0f;
+    model1.endTime = 7.0f;
     
     GKVideoChunkCellModel * model2 = [[GKVideoChunkCellModel alloc] init];
     model2.images = @[[UIImage imageNamed:@"2"]];
@@ -144,8 +144,6 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     NSLog(@"didTouchAddChunk");
     GKVideoChunkCellModel * model = [[GKVideoChunkCellModel alloc] init];
     model.duration = 5;
-    model.beginPercent = 0.0f;
-    model.endPercent = 1.0f;
     model.images = @[[UIImage imageNamed:@"2"]];
     [self.videoEditView addChunkCellModel:model];
 }

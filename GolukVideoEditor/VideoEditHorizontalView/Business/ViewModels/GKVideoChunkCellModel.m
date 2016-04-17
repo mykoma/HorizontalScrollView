@@ -14,11 +14,19 @@
 {
     self = [super init];
     if (self) {
-        _beginPercent = 0.0f;
-        _endPercent = 1.0f;
+        _beginTime = 0.0f;
+        _endTime = 0.0f;
         _duration = 0.0f;
     }
     return self;
+}
+
+- (NSTimeInterval)endTime
+{
+    if (_endTime <= 0.0f) {
+        _endTime = self.duration;
+    }
+    return _endTime;
 }
 
 @end

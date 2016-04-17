@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) NSArray <UIImage *>           * images;
 @property (nonatomic, assign) NSTimeInterval                duration;
-@property (nonatomic, assign) CGFloat                       beginPercent;
-@property (nonatomic, assign) CGFloat                       endPercent;
+@property (nonatomic, assign) NSTimeInterval                beginTime;
+@property (nonatomic, assign) NSTimeInterval                endTime;
 
 @end
