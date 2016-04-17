@@ -346,6 +346,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
                 self.frame = CGRectMake(point.x, 0,
                                         CGRectGetMaxX(self.frame) - point.x,
                                         CGRectGetHeight(self.frame));
+                self.cellModel.beginTime = self.cellModel.endTime - (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class]widthOfOneSecond];
                 [self.chunkCellDelegate chunkCell:self frameChangedOnLeftSide:self.frame];
             }
             break;
@@ -371,6 +372,7 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
                 self.frame = CGRectMake(CGRectGetMinX(self.frame), 0,
                                         point.x - CGRectGetMinX(self.frame),
                                         CGRectGetHeight(self.frame));
+                self.cellModel.endTime = (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class] widthOfOneSecond] + self.cellModel.beginTime;
                 [self.chunkCellDelegate chunkCell:self frameChangedOnRightSide:self.frame];
             }
             break;
