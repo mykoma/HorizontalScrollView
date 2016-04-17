@@ -337,23 +337,29 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)leftEditGestureMoved:(UIPanGestureRecognizer *)sender
 {
+    CGPoint point = [sender locationInView:self.superview];
+    
+    self.frame = CGRectMake(point.x, 0,
+                            CGRectGetMaxX(self.frame) - point.x,
+                            CGRectGetHeight(self.frame));
+    self.cellModel.beginTime = self.cellModel.endTime - (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class]widthOfOneSecond];
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
+        {
+            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameBeganChangedOnLeftSide:)]) {
+                [self.chunkCellDelegate chunkCell:self frameBeganChangedOnLeftSide:self.frame];
+            }
+            break;
+        }
         case UIGestureRecognizerStateChanged: {
             if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameChangedOnLeftSide:)]) {
-                CGPoint point = [sender locationInView:self.superview];
-                
-                self.frame = CGRectMake(point.x, 0,
-                                        CGRectGetMaxX(self.frame) - point.x,
-                                        CGRectGetHeight(self.frame));
-                self.cellModel.beginTime = self.cellModel.endTime - (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class]widthOfOneSecond];
                 [self.chunkCellDelegate chunkCell:self frameChangedOnLeftSide:self.frame];
             }
             break;
         }
         case UIGestureRecognizerStateEnded: {
-            if ([self.chunkCellDelegate respondsToSelector:@selector(didFinishEditForChunkCell:)]) {
-                [self.chunkCellDelegate didFinishEditForChunkCell:self];
+            if ([self.chunkCellDelegate respondsToSelector:@selector(didFinishEditForChunkCell:fromSide:)]) {
+                [self.chunkCellDelegate didFinishEditForChunkCell:self fromSide:GKVideoChunkCellSideLeft];
             }
             break;
         }
@@ -364,22 +370,29 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)rightEditGestureMoved:(UITapGestureRecognizer *)sender
 {
+    CGPoint point = [sender locationInView:self.superview];
+    self.frame = CGRectMake(CGRectGetMinX(self.frame), 0,
+                            point.x - CGRectGetMinX(self.frame),
+                            CGRectGetHeight(self.frame));
+    self.cellModel.endTime = (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class] widthOfOneSecond] + self.cellModel.beginTime;
+
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
+        {
+            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameBeganChangedOnRightSide:)]) {
+                [self.chunkCellDelegate chunkCell:self frameBeganChangedOnRightSide:self.frame];
+            }
+            break;
+        }
         case UIGestureRecognizerStateChanged: {
             if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameChangedOnRightSide:)]) {
-                CGPoint point = [sender locationInView:self.superview];
-                self.frame = CGRectMake(CGRectGetMinX(self.frame), 0,
-                                        point.x - CGRectGetMinX(self.frame),
-                                        CGRectGetHeight(self.frame));
-                self.cellModel.endTime = (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class] widthOfOneSecond] + self.cellModel.beginTime;
                 [self.chunkCellDelegate chunkCell:self frameChangedOnRightSide:self.frame];
             }
             break;
         }
         case UIGestureRecognizerStateEnded: {
-            if ([self.chunkCellDelegate respondsToSelector:@selector(didFinishEditForChunkCell:)]) {
-                [self.chunkCellDelegate didFinishEditForChunkCell:self];
+            if ([self.chunkCellDelegate respondsToSelector:@selector(didFinishEditForChunkCell:fromSide:)]) {
+                [self.chunkCellDelegate didFinishEditForChunkCell:self fromSide:GKVideoChunkCellSideRight];
             }
             break;
         }

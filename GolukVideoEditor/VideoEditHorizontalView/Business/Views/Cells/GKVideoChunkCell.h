@@ -17,6 +17,12 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
     GKVideoChunkCellStateEdit
 };
 
+typedef NS_ENUM(NSUInteger, GKVideoChunkCellSide)
+{
+    GKVideoChunkCellSideLeft = 0,
+    GKVideoChunkCellSideRight
+};
+
 @class GKVideoFenceCell;
 @class GKVideoChunkCell;
 
@@ -24,11 +30,15 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellState)
 
 @optional
 
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell frameBeganChangedOnLeftSide:(CGRect)changedFrame;
+
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell frameBeganChangedOnRightSide:(CGRect)changedFrame;
+
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnLeftSide:(CGRect)changedFrame;
 
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnRightSide:(CGRect)changedFrame;
 
-- (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell;
+- (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell fromSide:(GKVideoChunkCellSide)side;
 
 - (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell;
 

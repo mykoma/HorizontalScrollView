@@ -41,12 +41,17 @@
 - (void)reloadData
 {
     [super reloadData];
+    [self setFrameMarkerToDefaultPostion];
+    [self refreshContentSize];
+}
+
+- (void)setFrameMarkerToDefaultPostion
+{
     CGFloat offsetOfFrameMarker = 0.0f;
     if ([self.layout respondsToSelector:@selector(defaultOffsetOfFrameMarkerOfHorizontalScrollView:)]) {
         offsetOfFrameMarker = [self.layout defaultOffsetOfFrameMarkerOfHorizontalScrollView:self];
     }
     self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 1, CGRectGetHeight(self.frame));
-    [self refreshContentSize];
 }
 
 - (NSInteger)indexOfChunkCell:(GKVideoChunkCell *)cell
@@ -614,12 +619,55 @@
 
 #pragma mark - GKVideoChunkCellDelegate
 
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell frameBeganChangedOnLeftSide:(CGRect)changedFrame
+{
+    [self updateCellsFrameOnLeftSideFromCell:chunkCell.leftCell
+                              toTailPosition:CGRectGetMinX(changedFrame) - self.cellEdge.left
+                                   animation:NO
+                                  completion:NULL];
+    [UIView animateWithDuration:0.2f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect changedFrameInSelfView = [self convertRect:changedFrame fromView:self.scrollView];
+                         self.frameMarker.frame = CGRectMake(CGRectGetMinX(changedFrameInSelfView),
+                                                             0,
+                                                             CGRectGetWidth(self.frameMarker.frame),
+                                                             CGRectGetHeight(self.frameMarker.frame));
+                     } completion:^(BOOL finished) {
+                     }];
+}
+
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell frameBeganChangedOnRightSide:(CGRect)changedFrame
+{
+    [self updateCellsFrameOnRightSideFromCell:chunkCell.rightCell
+                               toLeadPosition:CGRectGetMaxX(changedFrame) + self.cellEdge.right
+                                    animation:NO
+                                   completion:NULL];
+    [UIView animateWithDuration:0.2f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect changedFrameInSelfView = [self convertRect:changedFrame fromView:self.scrollView];
+                         self.frameMarker.frame = CGRectMake(CGRectGetMaxX(changedFrameInSelfView),
+                                                             0,
+                                                             CGRectGetWidth(self.frameMarker.frame),
+                                                             CGRectGetHeight(self.frameMarker.frame));
+                     } completion:^(BOOL finished) {
+                     }];
+}
+
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnLeftSide:(CGRect)changedFrame
 {
     [self updateCellsFrameOnLeftSideFromCell:chunkCell.leftCell
                               toTailPosition:CGRectGetMinX(changedFrame) - self.cellEdge.left
                                    animation:NO
                                   completion:NULL];
+    CGRect changedFrameInSelfView = [self convertRect:changedFrame fromView:self.scrollView];
+    self.frameMarker.frame = CGRectMake(CGRectGetMinX(changedFrameInSelfView),
+                                        0,
+                                        CGRectGetWidth(self.frameMarker.frame),
+                                        CGRectGetHeight(self.frameMarker.frame));
 }
 
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnRightSide:(CGRect)changedFrame
@@ -628,15 +676,14 @@
                                toLeadPosition:CGRectGetMaxX(changedFrame) + self.cellEdge.right
                                     animation:NO
                                    completion:NULL];
+    CGRect changedFrameInSelfView = [self convertRect:changedFrame fromView:self.scrollView];
+    self.frameMarker.frame = CGRectMake(CGRectGetMaxX(changedFrameInSelfView),
+                                        0,
+                                        CGRectGetWidth(self.frameMarker.frame),
+                                        CGRectGetHeight(self.frameMarker.frame));
 }
 
-- (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell
-{
-    [self scrollToOffset:CGRectGetMidX(chunkCell.frame) - [self offsetOfCurrentFrame]
-                animated:YES];
-}
-
-- (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell
+- (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell fromSide:(GKVideoChunkCellSide)side
 {
     // Frame 变化了， 第一个 cell 的起点变化了， 需要重置。
     CGFloat recordOffset = self.scrollView.contentOffset.x;
@@ -648,6 +695,28 @@
     [self adjustContentSizeAndOffset];
     [self scrollToOffset:recordOffset + [self offsetOfCurrentFrame] - originFrameOffset
                 animated:NO];
+    [UIView animateWithDuration:0.3f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [self setFrameMarkerToDefaultPostion];
+                         // 如果是在左边操作，那么将当前的 cell 的左边移到 currentFrame 点
+                         if (side == GKVideoChunkCellSideLeft) {
+                             [self scrollToOffset:CGRectGetMinX(chunkCell.frame)  - [self offsetOfCurrentFrame]
+                                         animated:YES];
+                         } else if (side == GKVideoChunkCellSideRight) {
+                             [self scrollToOffset:CGRectGetMaxX(chunkCell.frame)  - [self offsetOfCurrentFrame]
+                                         animated:YES];
+                         }
+                     } completion:^(BOOL finished) {
+                         
+                     }];
+}
+
+- (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell
+{
+    [self scrollToOffset:CGRectGetMidX(chunkCell.frame) - [self offsetOfCurrentFrame]
+                animated:YES];
 }
 
 #pragma mark - Update Cells Frame
