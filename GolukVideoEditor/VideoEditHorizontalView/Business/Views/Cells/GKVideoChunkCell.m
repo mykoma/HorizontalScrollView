@@ -207,11 +207,13 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 - (void)layoutSubviews
 {
     UIImageView * prevIV = nil;
+    CGFloat xOffset = 0.0f - [self offsetOfVisibelImageIV];
     for (UIImageView * imageView in self.imageIVs) {
-        imageView.frame = CGRectMake(CGRectGetMaxX(prevIV.frame) - [self offsetOfVisibelImageIV],
+        imageView.frame = CGRectMake(xOffset,
                                      0,
                                      [[self class] widthOfOnePicture],
                                      HEIGHT_OF_HORIZONTAL_CELL);
+        xOffset += CGRectGetWidth(imageView.frame);
         prevIV = imageView;
     }
 
