@@ -14,6 +14,7 @@ NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT = @"com.goluk.videoEdito
 
 CGFloat HEIGHT_OF_HORIZONTAL_CELL = 42;
 NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
+NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 
 @interface GKVideoChunkCell ()
 
@@ -337,21 +338,39 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)leftEditGestureMoved:(UIPanGestureRecognizer *)sender
 {
-    CGPoint point = [sender locationInView:self.superview];
+    BOOL(^updateFrameWhenChange)(void) = ^() {
+        CGPoint point = [sender locationInView:self.superview];
+        if (point.x >= CGRectGetMaxX(self.frame)) {
+            return NO;
+        }
+        CGRect newFrame = CGRectMake(point.x, 0,
+                                     CGRectGetMaxX(self.frame) - point.x,
+                                     CGRectGetHeight(self.frame));
+        NSTimeInterval newBeginTime = self.cellModel.endTime - (CGRectGetMaxX(newFrame) - CGRectGetMinX(newFrame)) / [[self class] widthOfOneSecond];
+        if (newBeginTime < 0.0f
+            || (self.cellModel.endTime - newBeginTime) < MIN_EDIT_SECOND_DURATION) {
+            return NO;
+        }
+        self.cellModel.beginTime = newBeginTime;
+        self.frame = newFrame;
+        return YES;
+    };
     
-    self.frame = CGRectMake(point.x, 0,
-                            CGRectGetMaxX(self.frame) - point.x,
-                            CGRectGetHeight(self.frame));
-    self.cellModel.beginTime = self.cellModel.endTime - (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class]widthOfOneSecond];
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
         {
+            if (!updateFrameWhenChange()) {
+                return;
+            }
             if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameBeganChangedOnLeftSide:)]) {
                 [self.chunkCellDelegate chunkCell:self frameBeganChangedOnLeftSide:self.frame];
             }
             break;
         }
         case UIGestureRecognizerStateChanged: {
+            if (!updateFrameWhenChange()) {
+                return;
+            }
             if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameChangedOnLeftSide:)]) {
                 [self.chunkCellDelegate chunkCell:self frameChangedOnLeftSide:self.frame];
             }
@@ -370,21 +389,40 @@ NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 
 - (void)rightEditGestureMoved:(UITapGestureRecognizer *)sender
 {
-    CGPoint point = [sender locationInView:self.superview];
-    self.frame = CGRectMake(CGRectGetMinX(self.frame), 0,
-                            point.x - CGRectGetMinX(self.frame),
-                            CGRectGetHeight(self.frame));
-    self.cellModel.endTime = (CGRectGetMaxX(self.frame) - CGRectGetMinX(self.frame)) / [[self class] widthOfOneSecond] + self.cellModel.beginTime;
+    BOOL(^updateFrameWhenChange)(void) = ^() {
+        CGPoint point = [sender locationInView:self.superview];
+        if (CGRectGetMinX(self.frame) >= point.x) {
+            return NO;
+        }
+        CGRect newFrame = CGRectMake(CGRectGetMinX(self.frame), 0,
+                                     point.x - CGRectGetMinX(self.frame),
+                                     CGRectGetHeight(self.frame));
+        NSTimeInterval newEndTime = (CGRectGetMaxX(newFrame) - CGRectGetMinX(newFrame)) / [[self class] widthOfOneSecond] + self.cellModel.beginTime;
+        if (newEndTime > self.cellModel.duration
+            || (newEndTime - self.cellModel.beginTime) < MIN_EDIT_SECOND_DURATION) {
+            return NO;
+        }
+        
+        self.cellModel.endTime = newEndTime;
+        self.frame = newFrame;
+        return YES;
+    };
 
     switch (sender.state) {
         case UIGestureRecognizerStateBegan:
         {
+            if (!updateFrameWhenChange()) {
+                return;
+            }
             if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameBeganChangedOnRightSide:)]) {
                 [self.chunkCellDelegate chunkCell:self frameBeganChangedOnRightSide:self.frame];
             }
             break;
         }
         case UIGestureRecognizerStateChanged: {
+            if (!updateFrameWhenChange()) {
+                return;
+            }
             if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:frameChangedOnRightSide:)]) {
                 [self.chunkCellDelegate chunkCell:self frameChangedOnRightSide:self.frame];
             }
