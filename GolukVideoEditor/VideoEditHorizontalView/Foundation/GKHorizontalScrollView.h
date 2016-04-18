@@ -56,6 +56,8 @@
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
              offsetOfContent:(CGFloat)offset;
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+offsetOfContentWhenFinishedScroll:(CGFloat)offset;
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
           cellDeletedAtIndex:(NSInteger)index;
 - (void)didTouchDownBackground:(GKHorizontalScrollView *)horizontalScrollView;
 
@@ -86,6 +88,12 @@
 - (GKHorizontalCell *)seekCellWithLeftDistance:(CGFloat)distance;
 
 /**
+ * 查找当前 scrollView 的 contentOffset 的 最近的cell
+ * 这个 distance 是相对于 scrollView的左边距
+ */
+- (GKHorizontalCell *)seekNearestCellWithLeftDistance:(CGFloat)distance;
+
+/**
  * 获取 cell 的 index
  */
 - (NSInteger)indexOfCell:(GKHorizontalCell *)cell;
@@ -109,6 +117,7 @@
                            withIntersectCell:(GKHorizontalCell *)intersectCell;
 
 - (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView;
+- (void)horizontalScrollViewFinishScroll:(UIScrollView *)scrollView;
 
 - (void)didMoveCell:(GKHorizontalCell *)fromCell toCell:(GKHorizontalCell *)toCell;
 

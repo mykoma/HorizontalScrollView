@@ -128,6 +128,42 @@ UIScrollViewDelegate
     return seekedCell;
 }
 
+- (GKHorizontalCell *)seekNearestCellWithLeftDistance:(CGFloat)distance
+{
+    CGFloat seekedOffset = distance + self.scrollView.contentOffset.x;
+    GKHorizontalCell * seekedCell= nil;
+    GKHorizontalCell * curCell = self.firstCell;
+    
+    while (curCell) {
+        // 如果seekedOffset在这个 curCell 内部
+        if (CGRectGetMinX(curCell.frame) <= seekedOffset
+            && seekedOffset <= CGRectGetMaxX(curCell.frame)) {
+            seekedCell = curCell;
+            break;
+        }
+        // 如果在两个 cell 的中间
+        if (CGRectGetMaxX(curCell.frame) < seekedOffset
+            && seekedOffset < CGRectGetMinX(curCell.rightCell.frame)) {
+            CGFloat leftOffset = fabs(seekedOffset - CGRectGetMaxX(curCell.frame));
+            CGFloat rightOffset = fabs(CGRectGetMinX(curCell.rightCell.frame) - seekedOffset);
+            if (leftOffset <= rightOffset) {
+                seekedCell = curCell;
+            } else {
+                seekedCell = curCell.rightCell;
+            }
+            break;
+        }
+        if (curCell.rightCell == nil) {
+            break;
+        }
+        curCell = curCell.rightCell;
+    }
+    if (CGRectGetMaxX(curCell.frame) < seekedOffset) {
+        seekedCell = curCell;
+    }
+    return seekedCell;
+}
+
 - (NSInteger)indexOfCell:(GKHorizontalCell *)cell
 {
     NSInteger index = 0;
@@ -494,10 +530,29 @@ UIScrollViewDelegate
     [self horizontalScrollViewDidScroll:scrollView];
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (decelerate == NO) {
+        [self horizontalScrollViewFinishScroll:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self horizontalScrollViewFinishScroll:scrollView];
+}
+
 - (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView
 {
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:offsetOfContent:)]) {
         [self.delegate horizontalScrollView:self offsetOfContent:scrollView.contentOffset.x];
+    }
+}
+
+- (void)horizontalScrollViewFinishScroll:(UIScrollView *)scrollView
+{
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:offsetOfContentWhenFinishedScroll:)]) {
+        [self.delegate horizontalScrollView:self offsetOfContentWhenFinishedScroll:scrollView.contentOffset.x];
     }
 }
 

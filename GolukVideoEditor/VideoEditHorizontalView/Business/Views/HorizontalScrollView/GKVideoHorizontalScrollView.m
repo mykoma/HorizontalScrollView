@@ -79,6 +79,11 @@
     return CGRectGetMidX(self.frameMarker.frame);
 }
 
+- (CGFloat)offsetOfCurrentFrameInScrollView
+{
+    return [self offsetOfCurrentFrame] + self.scrollView.contentOffset.x;
+}
+
 - (void)removeCell:(GKVideoChunkCell *)cell
 {
     static BOOL IN_MOVING_ANIMATION = NO;
@@ -543,6 +548,56 @@
     }
 }
 
+- (void)horizontalScrollViewFinishScroll:(UIScrollView *)scrollView
+{
+    [super horizontalScrollViewFinishScroll:scrollView];
+    GKHorizontalCell * cell = [self seekNearestCellWithLeftDistance:[self offsetOfCurrentFrame]];
+    if (![cell isKindOfClass:[GKVideoChunkCell class]]) {
+        // 查看左边的 cell
+        GKHorizontalCell * leftCell = cell.leftCell;
+        while (leftCell) {
+            if ([leftCell isKindOfClass:[GKVideoChunkCell class]]) {
+                break;
+            }
+            leftCell = leftCell.leftCell;
+        }
+        // 查看右边的 cell
+        GKHorizontalCell * rightCell = cell.rightCell;
+        while (rightCell) {
+            if ([rightCell isKindOfClass:[GKVideoChunkCell class]]) {
+                break;
+            }
+            rightCell = rightCell.rightCell;
+        }
+        
+        if (leftCell == nil) {
+            [self scrollToOffset:CGRectGetMinX(rightCell.frame) - [self offsetOfCurrentFrame]
+                        animated:YES];
+        } else if (rightCell == nil) {
+            [self scrollToOffset:CGRectGetMaxX(leftCell.frame) - [self offsetOfCurrentFrame]
+                        animated:YES];
+        } else {
+            CGFloat leftDistance = [self offsetOfCurrentFrameInScrollView] - CGRectGetMaxX(leftCell.frame);
+            CGFloat rightDistance = CGRectGetMinX(rightCell.frame) - [self offsetOfCurrentFrameInScrollView];
+            if (leftDistance <= rightDistance) {
+                [self scrollToOffset:CGRectGetMaxX(leftCell.frame) - [self offsetOfCurrentFrame]
+                            animated:YES];
+            } else {
+                [self scrollToOffset:CGRectGetMinX(rightCell.frame) - [self offsetOfCurrentFrame]
+                            animated:YES];
+            }
+        }
+    } else {
+        if ([self offsetOfCurrentFrameInScrollView] < CGRectGetMinX(cell.frame)) {
+            [self scrollToOffset:CGRectGetMinX(cell.frame) - [self offsetOfCurrentFrame]
+                        animated:YES];
+        } else if (CGRectGetMaxX(cell.frame) < [self offsetOfCurrentFrameInScrollView] ) {
+            [self scrollToOffset:CGRectGetMaxX(cell.frame) - [self offsetOfCurrentFrame]
+                        animated:YES];
+        }
+    }
+}
+
 - (void)didTouchDownBackground
 {
     [super didTouchDownBackground];
@@ -591,8 +646,7 @@
 
 - (NSTimeInterval)timeIntervalOfHorizontalScrollOffset:(CGFloat)offset
 {
-    GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
-
+    GKHorizontalCell * cell = [self seekNearestCellWithLeftDistance:[self offsetOfCurrentFrame]];
     NSTimeInterval timeInterval = 0.0f;
     GKHorizontalCell * curCell = cell.leftCell;
     while (curCell) {

@@ -217,7 +217,7 @@ GKVideoHorizontalScrollViewLayout
 - (UIEdgeInsets)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
              insetForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UIEdgeInsetsMake(0, 0, 0, 5);
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 #pragma mark - GKVideoHorizontalScrollViewDelegate
