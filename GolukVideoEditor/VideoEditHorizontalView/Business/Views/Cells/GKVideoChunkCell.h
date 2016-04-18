@@ -67,5 +67,4 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellSide)
 
 - (void)becomeToEditState;
 
-
 @end

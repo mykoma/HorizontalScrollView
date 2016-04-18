@@ -8,12 +8,26 @@
 
 #import "GKVideoTailerCell.h"
 
+@interface GKVideoTailerCell ()
+
+@property (nonatomic, strong) UIImageView * bgIV;
+
+@end
+
 @implementation GKVideoTailerCell
 
 - (void)setup
 {
     [super setup];
-    self.backgroundColor = [UIColor purpleColor];
+    self.backgroundColor = [UIColor clearColor];
+    
+    self.bgIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"video_tailer"]];
+    [self addSubview:self.bgIV];
+}
+
+- (void)layoutSubviews
+{
+    self.bgIV.frame = self.bounds;
 }
 
 @end

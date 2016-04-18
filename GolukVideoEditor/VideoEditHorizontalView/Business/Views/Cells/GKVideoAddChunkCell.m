@@ -11,6 +11,7 @@
 @interface GKVideoAddChunkCell ()
 
 @property (nonatomic, strong) UIButton * touchBtn;
+@property (nonatomic, strong) UIImageView * bgIV;
 
 @end
 
@@ -19,17 +20,21 @@
 - (void)setup
 {
     [super setup];
-    self.touchBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self addSubview:self.touchBtn];
+    self.backgroundColor = [UIColor clearColor];
     
+    self.bgIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_video_chunk"]];
+    [self addSubview:self.bgIV];
+
+    self.touchBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.touchBtn addTarget:self
                       action:@selector(touch:)
             forControlEvents:UIControlEventTouchUpInside];
-    self.backgroundColor = [UIColor cyanColor];
+    [self addSubview:self.touchBtn];
 }
 
 - (void)layoutSubviews
 {
+    self.bgIV.frame = self.bounds;
     self.touchBtn.frame = self.bounds;
 }
 

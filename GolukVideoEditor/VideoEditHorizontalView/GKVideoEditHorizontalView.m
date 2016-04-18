@@ -12,8 +12,10 @@
 #import "GKVideoAddChunkCell.h"
 #import "GKVideoTailerCell.h"
 #import "GKVideoTimeCell.h"
+#import "GKVideoBlankCell.h"
 
 extern CGFloat HEIGHT_OF_HORIZONTAL_CELL;
+extern CGFloat WIDTH_OF_FENCE_CELL;
 
 @interface GKVideoEditHorizontalView ()
 <
@@ -100,9 +102,20 @@ GKVideoHorizontalScrollViewLayout
     }
     
     [self.viewModel.innerCellModels addObject:[GKVideoTailerCellModel new]];
+    
+    GKVideoBlankCellModel * blankCellModel = [GKVideoBlankCellModel new];
+    blankCellModel.size = CGSizeMake(19.0f, HEIGHT_OF_HORIZONTAL_CELL);
+    [self.viewModel.innerCellModels addObject:blankCellModel];
+    
     [self.viewModel.innerCellModels addObject:[GKVideoAddChunkCellModel new]];
+    
+    blankCellModel = [GKVideoBlankCellModel new];
+    blankCellModel.size = CGSizeMake(11.0f, HEIGHT_OF_HORIZONTAL_CELL);
+    [self.viewModel.innerCellModels addObject:blankCellModel];
+
     GKVideoTimeCellModel * timeCellModel = [GKVideoTimeCellModel new];
     self.timeCellModel = timeCellModel;
+    
     [self.viewModel.innerCellModels addObject:timeCellModel];
 }
 
@@ -170,13 +183,16 @@ GKVideoHorizontalScrollViewLayout
     if ([itemModel isKindOfClass:[GKVideoChunkCellModel class]]) {
         return CGSizeMake([GKVideoChunkCell widthForModel:itemModel], HEIGHT_OF_HORIZONTAL_CELL);
     } else if ([itemModel isKindOfClass:[GKVideoFenceCellModel class]]) {
-        return CGSizeMake(10, HEIGHT_OF_HORIZONTAL_CELL);
+        return CGSizeMake(WIDTH_OF_FENCE_CELL, HEIGHT_OF_HORIZONTAL_CELL);
     } else if ([itemModel isKindOfClass:[GKVideoAddChunkCellModel class]]) {
-        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
+        return CGSizeMake(75, HEIGHT_OF_HORIZONTAL_CELL);
     } else if ([itemModel isKindOfClass:[GKVideoTailerCellModel class]]) {
-        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
+        return CGSizeMake(75, HEIGHT_OF_HORIZONTAL_CELL);
     } else if ([itemModel isKindOfClass:[GKVideoTimeCellModel class]]) {
-        return CGSizeMake(HEIGHT_OF_HORIZONTAL_CELL, HEIGHT_OF_HORIZONTAL_CELL);
+        return CGSizeMake(48, HEIGHT_OF_HORIZONTAL_CELL);
+    } else if ([itemModel isKindOfClass:[GKVideoBlankCellModel class]]) {
+        GKVideoBlankCellModel * blankCellModel = (GKVideoBlankCellModel *)itemModel;
+        return blankCellModel.size;
     }
     return CGSizeZero;
 }
