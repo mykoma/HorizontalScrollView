@@ -10,10 +10,11 @@
 #import "GKVideoChunkCell.h"
 #import "GKVideoFenceCell.h"
 #import "GKVideoTailerCell.h"
+#import "GKVideoCurrentFrameView.h"
 
 @interface GKVideoHorizontalScrollView () <GKVideoChunkCellDelegate>
 
-@property (nonatomic, strong) UIImageView      * frameMarker;
+@property (nonatomic, strong) GKVideoCurrentFrameView      * frameMarker;
 @property (nonatomic, assign) GKVideoHorizontalState state;
 
 @end
@@ -24,8 +25,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _frameMarker = [[UIImageView alloc] init];
-        _frameMarker.backgroundColor = [UIColor redColor];
+        _frameMarker = [[GKVideoCurrentFrameView alloc] init];
         _state = GKVideoHorizontalStateNormal;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -51,7 +51,7 @@
     if ([self.layout respondsToSelector:@selector(defaultOffsetOfFrameMarkerOfHorizontalScrollView:)]) {
         offsetOfFrameMarker = [self.layout defaultOffsetOfFrameMarkerOfHorizontalScrollView:self];
     }
-    self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 1, CGRectGetHeight(self.frame));
+    self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 0.5, CGRectGetHeight(self.frame));
 }
 
 - (NSInteger)indexOfChunkCell:(GKVideoChunkCell *)cell

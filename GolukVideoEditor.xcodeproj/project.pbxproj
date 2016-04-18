@@ -27,6 +27,8 @@
 		18B09F971CC521E30068BBF5 /* GKHorizontalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B09F891CC521E30068BBF5 /* GKHorizontalCell.m */; };
 		18B09F981CC521E30068BBF5 /* GKHorizontalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B09F8B1CC521E30068BBF5 /* GKHorizontalScrollView.m */; };
 		18B09F991CC521E30068BBF5 /* GKVideoEditHorizontalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B09F8D1CC521E30068BBF5 /* GKVideoEditHorizontalView.m */; };
+		18B09F9F1CC533710068BBF5 /* GKVideoCurrentFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B09F9E1CC533710068BBF5 /* GKVideoCurrentFrameView.m */; };
+		18B09FA11CC5382B0068BBF5 /* icon_视频帧箭头@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B09FA01CC5382B0068BBF5 /* icon_视频帧箭头@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,9 @@
 		18B09F8B1CC521E30068BBF5 /* GKHorizontalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHorizontalScrollView.m; sourceTree = "<group>"; };
 		18B09F8C1CC521E30068BBF5 /* GKVideoEditHorizontalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoEditHorizontalView.h; sourceTree = "<group>"; };
 		18B09F8D1CC521E30068BBF5 /* GKVideoEditHorizontalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoEditHorizontalView.m; sourceTree = "<group>"; };
+		18B09F9D1CC533710068BBF5 /* GKVideoCurrentFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKVideoCurrentFrameView.h; sourceTree = "<group>"; };
+		18B09F9E1CC533710068BBF5 /* GKVideoCurrentFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKVideoCurrentFrameView.m; sourceTree = "<group>"; };
+		18B09FA01CC5382B0068BBF5 /* icon_视频帧箭头@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_视频帧箭头@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +112,7 @@
 				186FA2051CBA2B89009EA660 /* Assets.xcassets */,
 				186FA2071CBA2B89009EA660 /* LaunchScreen.storyboard */,
 				186FA20A1CBA2B89009EA660 /* Info.plist */,
+				18B09FA01CC5382B0068BBF5 /* icon_视频帧箭头@2x.png */,
 				1831E93D1CBF90C000B47536 /* 2.png */,
 				188D6DBA1CBF6CBD00F1D59B /* 1.png */,
 				186FA1F91CBA2B89009EA660 /* Supporting Files */,
@@ -184,6 +190,8 @@
 		18B09F841CC521E30068BBF5 /* HorizontalScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				18B09F9D1CC533710068BBF5 /* GKVideoCurrentFrameView.h */,
+				18B09F9E1CC533710068BBF5 /* GKVideoCurrentFrameView.m */,
 				18B09F851CC521E30068BBF5 /* GKVideoHorizontalScrollView.h */,
 				18B09F861CC521E30068BBF5 /* GKVideoHorizontalScrollView.m */,
 			);
@@ -259,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				186FA2091CBA2B89009EA660 /* LaunchScreen.storyboard in Resources */,
+				18B09FA11CC5382B0068BBF5 /* icon_视频帧箭头@2x.png in Resources */,
 				188D6DBB1CBF6CBD00F1D59B /* 1.png in Resources */,
 				1831E93E1CBF90C000B47536 /* 2.png in Resources */,
 				186FA2061CBA2B89009EA660 /* Assets.xcassets in Resources */,
@@ -279,6 +288,7 @@
 				186FA2011CBA2B89009EA660 /* ViewController.m in Sources */,
 				18B09F901CC521E30068BBF5 /* GKVideoAddChunkCell.m in Sources */,
 				18B09F8F1CC521E30068BBF5 /* GKVideoEditHorizontalViewModel.m in Sources */,
+				18B09F9F1CC533710068BBF5 /* GKVideoCurrentFrameView.m in Sources */,
 				18B09F941CC521E30068BBF5 /* GKVideoTailerCell.m in Sources */,
 				18B09F911CC521E30068BBF5 /* GKVideoBlankCell.m in Sources */,
 				18B09F8E1CC521E30068BBF5 /* GKVideoChunkCellModel.m in Sources */,
