@@ -24,10 +24,14 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 @property (nonatomic, strong) UIView * rightEditView;
 @property (nonatomic, strong) UIView * topEditLine;
 @property (nonatomic, strong) UIView * bottomEditLine;
+@property (nonatomic, strong) UIView * centerEditView;
+@property (nonatomic, strong) UILabel * centerEditLabel;
 
 @end
 
 @implementation GKVideoChunkCell
+
+#pragma mark - Class Method
 
 + (UIColor *)editColor
 {
@@ -70,6 +74,8 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     return [[self class] widthOfOneSecond] * (cellModel.endTime - cellModel.beginTime);
 }
 
+#pragma mark - Life Circle
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -96,6 +102,8 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     [self addGestureRecognizer:tapGesture];
 }
 
+#pragma mark - Public
+
 - (void)becomeToEditState
 {
     if (self.state == GKVideoChunkCellStateNormal) {
@@ -109,6 +117,26 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 }
 
 #pragma mark - Lazy Load
+
+- (UIView *)centerEditView
+{
+    if (_centerEditView == nil) {
+        _centerEditView = [[UIView alloc] init];
+        _centerEditView.backgroundColor = [[self class] editColor];
+        _centerEditView.alpha = 0.5f;
+    }
+    return _centerEditView;
+}
+
+- (UILabel *)centerEditLabel
+{
+    if (_centerEditLabel == nil) {
+        _centerEditLabel = [[UILabel alloc] init];
+        _centerEditLabel.textAlignment = NSTextAlignmentCenter;
+        _centerEditLabel.font = [UIFont systemFontOfSize:13.0f];
+    }
+    return _centerEditLabel;
+}
 
 - (UIView *)leftEditView
 {
@@ -153,57 +181,7 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     return _bottomEditLine;
 }
 
-#pragma mark - Notifications
-
-- (void)handleResignEditNotification:(NSNotification *)notification
-{
-    self.state = GKVideoChunkCellStateNormal;
-    self.enableMove = YES;
-}
-
-- (void)handleBecomeEditNotification:(NSNotification *)notification
-{
-    if (notification.object != self) {
-        self.state = GKVideoChunkCellStateNormal;
-    }
-    self.enableMove = NO;
-}
-
-#pragma mark -
-
-- (void)setCellModel:(GKVideoChunkCellModel *)cellModel
-{
-    _cellModel = cellModel;
-    [self.imageIVs enumerateObjectsUsingBlock:^(UIImageView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
-    }];
-    [self.imageIVs removeAllObjects];
-    
-    NSInteger imageCount = ceil(self.cellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
-    NSInteger indexOfImage = 0;
-    for (NSInteger index = 0; index < imageCount; index ++) {
-        indexOfImage = index;
-        if (indexOfImage >= cellModel.images.count) {
-            indexOfImage = cellModel.images.count - 1;
-        }
-        if (indexOfImage >= 0 && indexOfImage < self.cellModel.images.count) {
-            UIImage * image = self.cellModel.images[indexOfImage];
-            UIImageView * imageIV = [[UIImageView alloc] initWithImage:image];
-            [self.imageIVs addObject:imageIV];
-            [self addSubview:imageIV];
-        }
-    }
-}
-
-- (void)setState:(GKVideoChunkCellState)state
-{
-    if (_state == state) {
-        return;
-    }
-    _state = state;
-    // 状态变化， 需要重新刷新 subviews 的 frame
-    [self setNeedsLayout];
-}
+#pragma mark - Layout
 
 - (void)layoutSubviews
 {
@@ -233,16 +211,20 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 //                          delay:0
 //                        options:UIViewAnimationOptionCurveEaseInOut
 //                     animations:^{
-                         _leftEditView.alpha    = 0.0f;
-                         _rightEditView.alpha   = 0.0f;
-                         _topEditLine.alpha    = 0.0f;
-                         _bottomEditLine.alpha = 0.0f;
+    _leftEditView.alpha    = 0.0f;
+    _rightEditView.alpha   = 0.0f;
+    _topEditLine.alpha    = 0.0f;
+    _bottomEditLine.alpha = 0.0f;
+    _centerEditView.alpha = 0.0f;
+    _centerEditLabel.alpha = 0.0f;
 //                     } completion:^(BOOL finished) {
                          // 这儿不调用 self. 是为了避免调用懒加载
-                         [_leftEditView removeFromSuperview];
-                         [_rightEditView removeFromSuperview];
-                         [_topEditLine removeFromSuperview];
-                         [_bottomEditLine removeFromSuperview];
+    [_leftEditView removeFromSuperview];
+    [_rightEditView removeFromSuperview];
+    [_topEditLine removeFromSuperview];
+    [_bottomEditLine removeFromSuperview];
+    [_centerEditView removeFromSuperview];
+    [_centerEditLabel removeFromSuperview];
 //                     }];
 }
 
@@ -270,28 +252,82 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     self.bottomEditLine.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - editLineHeight,
                                            CGRectGetWidth(self.bounds),
                                            editLineHeight);
+    self.centerEditView.frame = CGRectMake(CGRectGetMaxX(self.leftEditView.frame),
+                                           CGRectGetMaxY(self.topEditLine.frame),
+                                           CGRectGetMinX(self.rightEditView.frame) - CGRectGetMaxX(self.leftEditView.frame),
+                                           CGRectGetMinY(self.bottomEditLine.frame) - CGRectGetMaxY(self.topEditLine.frame));
+    [self.centerEditLabel sizeToFit];
+    self.centerEditLabel.center = CGPointMake(CGRectGetMidX(self.bounds),
+                                              CGRectGetMidY(self.bounds));
     [self addSubview:self.leftEditView];
     [self addSubview:self.rightEditView];
     [self addSubview:self.topEditLine];
     [self addSubview:self.bottomEditLine];
+    [self addSubview:self.centerEditView];
+    [self addSubview:self.centerEditLabel];
 //    [UIView animateWithDuration:0.1f
 //                          delay:0
 //                        options:UIViewAnimationOptionCurveEaseInOut
 //                     animations:^{
-                         self.leftEditView.alpha    = 1.0f;
-                         self.rightEditView.alpha   = 1.0f;
-                         self.topEditLine.alpha    = 1.0f;
-                         self.bottomEditLine.alpha = 1.0f;
+    self.leftEditView.alpha    = 1.0f;
+    self.rightEditView.alpha   = 1.0f;
+    self.topEditLine.alpha    = 1.0f;
+    self.bottomEditLine.alpha = 1.0f;
+    self.centerEditView.alpha = 0.5f;
+    self.centerEditLabel.alpha = 1.0f;
 //                     } completion:^(BOOL finished) {
 //                     }];
 }
 
-- (NSTimeInterval)timeIntervalOfVisibleOffset:(CGFloat)offset
+#pragma mark - Setter & Getter
+
+- (void)setCellModel:(GKVideoChunkCellModel *)cellModel
 {
-    return offset / [[self class] widthOfOneSecond];
+    [_cellModel removeObserver:self
+                    forKeyPath:@"beginTime"];
+    [_cellModel removeObserver:self
+                    forKeyPath:@"endTime"];
+    
+    _cellModel = cellModel;
+    [self.imageIVs enumerateObjectsUsingBlock:^(UIImageView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    [self.imageIVs removeAllObjects];
+    
+    NSInteger imageCount = ceil(self.cellModel.duration / SECOND_COUNT_OF_ONE_PICTURE);
+    NSInteger indexOfImage = 0;
+    for (NSInteger index = 0; index < imageCount; index ++) {
+        indexOfImage = index;
+        if (indexOfImage >= cellModel.images.count) {
+            indexOfImage = cellModel.images.count - 1;
+        }
+        if (indexOfImage >= 0 && indexOfImage < self.cellModel.images.count) {
+            UIImage * image = self.cellModel.images[indexOfImage];
+            UIImageView * imageIV = [[UIImageView alloc] initWithImage:image];
+            [self.imageIVs addObject:imageIV];
+            [self addSubview:imageIV];
+        }
+    }
+    
+    [_cellModel addObserver:self
+                 forKeyPath:@"beginTime"
+                    options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                    context:NULL];
+    [_cellModel addObserver:self
+                 forKeyPath:@"endTime"
+                    options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                    context:NULL];
 }
 
-#pragma mark - Setter & Getter
+- (void)setState:(GKVideoChunkCellState)state
+{
+    if (_state == state) {
+        return;
+    }
+    _state = state;
+    // 状态变化， 需要重新刷新 subviews 的 frame
+    [self setNeedsLayout];
+}
 
 - (void)setLeftFenceCell:(GKVideoFenceCell *)leftFenceCell
 {
@@ -311,11 +347,6 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 - (GKVideoFenceCell *)rightFenceCell
 {
     return (GKVideoFenceCell *)self.rightCell;
-}
-
-- (CGFloat)offsetOfVisibelImageIV
-{
-    return [[self class] widthOfOneSecond] * self.cellModel.beginTime;
 }
 
 #pragma mark - Actions
@@ -541,6 +572,43 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     rightSubCellModel.images = mArray;
     
     return @[leftSubCellModel, rightSubCellModel];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"beginTime"] || [keyPath isEqualToString:@"endTime"]) {
+        self.centerEditLabel.text = [NSString stringWithFormat:@"%.1lf″", self.cellModel.endTime - self.cellModel.beginTime];
+    }
+}
+
+#pragma mark - Notifications
+
+- (void)handleResignEditNotification:(NSNotification *)notification
+{
+    self.state = GKVideoChunkCellStateNormal;
+    self.enableMove = YES;
+}
+
+- (void)handleBecomeEditNotification:(NSNotification *)notification
+{
+    if (notification.object != self) {
+        self.state = GKVideoChunkCellStateNormal;
+    }
+    self.enableMove = NO;
+}
+
+#pragma mark - Private
+
+- (CGFloat)offsetOfVisibelImageIV
+{
+    return [[self class] widthOfOneSecond] * self.cellModel.beginTime;
+}
+
+- (NSTimeInterval)timeIntervalOfVisibleOffset:(CGFloat)offset
+{
+    return offset / [[self class] widthOfOneSecond];
 }
 
 @end
