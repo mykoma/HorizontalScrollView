@@ -86,6 +86,8 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 
 - (void)dealloc
 {
+    [self.cellModel removeObserver:self forKeyPath:@"beginTime"];
+    [self.cellModel removeObserver:self forKeyPath:@"endTime"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
