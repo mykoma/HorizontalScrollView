@@ -26,6 +26,8 @@
 
 - (void)chunkCellMovedFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
 
+- (void)indexOfChunkCellAtCurrentFrame:(NSInteger)index;
+
 @end
 
 @interface GKVideoEditHorizontalView : UIView
@@ -33,6 +35,8 @@
 @property (nonatomic, weak) id <GKVideoEditHorizontalViewDelegate> delegate;
 
 @property (nonatomic, strong) GKVideoEditHorizontalViewModel * viewModel;
+
+@property (nonatomic, assign, readonly) NSUInteger selectedIndex;
 
 - (void)loadData;
 - (void)addChunkCellModel:(GKVideoChunkCellModel *)cellModel;

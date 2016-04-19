@@ -14,8 +14,9 @@
 
 @interface GKVideoHorizontalScrollView () <GKVideoChunkCellDelegate>
 
-@property (nonatomic, strong) GKVideoCurrentFrameView      * frameMarker;
-@property (nonatomic, assign) GKVideoHorizontalState state;
+@property (nonatomic, strong) GKVideoCurrentFrameView * frameMarker;
+@property (nonatomic, assign) GKVideoHorizontalState  state;
+@property (nonatomic, weak  ) GKVideoChunkCell        * currentEditChunkCell;
 
 @end
 
@@ -545,7 +546,14 @@
     if (self.state == GKVideoHorizontalStateEdit) {
         GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
         if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
-            [(GKVideoChunkCell *)cell becomeToEditState];
+            if (self.currentEditChunkCell != cell) {
+                self.currentEditChunkCell = (GKVideoChunkCell *)cell;
+                [self.currentEditChunkCell becomeToEditState];
+                if ([self.delegate respondsToSelector:@selector(horizontalScrollView:indexOfChunkCellAtCurrentFrame:)]) {
+                    [self.delegate horizontalScrollView:self
+                         indexOfChunkCellAtCurrentFrame:[self indexOfChunkCell:self.currentEditChunkCell]];
+                }
+            }
         }
     }
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:timeIntervalOfOffset:)])
@@ -631,6 +639,7 @@
     // 当前 view 的状态改变的时候， 那么则修改所有的 chunkCell， 改变他们的状态
     if (_state == GKVideoHorizontalStateNormal) {
         [GKVideoChunkCell resignEditState];
+        self.currentEditChunkCell = nil;
     }
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
         [self.delegate horizontalScrollView:self changeStateTo:self.state];
@@ -772,6 +781,13 @@
 
 - (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell
 {
+    if (self.currentEditChunkCell != chunkCell) {
+        self.currentEditChunkCell = chunkCell;
+        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:indexOfChunkCellAtCurrentFrame:)]) {
+            [self.delegate horizontalScrollView:self
+                 indexOfChunkCellAtCurrentFrame:[self indexOfChunkCell:self.currentEditChunkCell]];
+        }
+    }
     [self scrollToOffset:CGRectGetMidX(chunkCell.frame) - [self offsetOfCurrentFrame]
                 animated:YES];
 }

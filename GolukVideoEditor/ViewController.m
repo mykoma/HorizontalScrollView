@@ -158,4 +158,9 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     NSLog(@"didChangeToState   %ld", state);
 }
 
+- (void)indexOfChunkCellAtCurrentFrame:(NSInteger)index
+{
+    NSLog(@"indexOfChunkCellAtCurrentFrame  %ld----selectedIndex==%ld", index, self.videoEditView.selectedIndex);
+}
+
 @end

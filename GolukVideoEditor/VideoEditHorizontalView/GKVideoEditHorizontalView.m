@@ -26,8 +26,8 @@ GKVideoHorizontalScrollViewLayout
 
 @property (nonatomic, strong) GKVideoHorizontalScrollView * horizontalScrollView;
 @property (nonatomic, weak  ) GKVideoChunkCell * selectedCell;
-
 @property (nonatomic, weak  ) GKVideoTimeCellModel * timeCellModel;
+@property (nonatomic, assign, readwrite) NSUInteger selectedIndex;
 
 @end
 
@@ -300,6 +300,15 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     }
     if ([self.delegate respondsToSelector:@selector(didChangeToState:)]) {
         [self.delegate didChangeToState:state];
+    }
+}
+
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+indexOfChunkCellAtCurrentFrame:(NSInteger)index
+{
+    self.selectedIndex = index;
+    if ([self.delegate respondsToSelector:@selector(indexOfChunkCellAtCurrentFrame:)]) {
+        [self.delegate indexOfChunkCellAtCurrentFrame:index];
     }
 }
 

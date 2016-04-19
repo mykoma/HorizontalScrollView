@@ -70,6 +70,9 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
                changeStateTo:(GKVideoHorizontalState)state;
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+indexOfChunkCellAtCurrentFrame:(NSInteger)index;
+
 @end
 
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView
