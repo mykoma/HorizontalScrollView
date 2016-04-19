@@ -170,4 +170,9 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     NSLog(@"didEditChunkCellAtIndex: %ld  beginTime  %lf  endTime %lf", index, beginTime, endTime);
 }
 
+- (void)didDivideAtIndex:(NSInteger)index atTime:(NSTimeInterval)time
+{
+    NSLog(@"didDivideAtIndex   %ld atTime: %lf", index, time);
+}
+
 @end

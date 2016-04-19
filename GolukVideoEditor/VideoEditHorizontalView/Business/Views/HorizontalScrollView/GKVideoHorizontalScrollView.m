@@ -764,6 +764,15 @@
     }
 }
 
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell didDivideAtTime:(NSTimeInterval)time
+{
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:didDivideAtIndex:atTime:)]) {
+        [self.delegate horizontalScrollView:self
+                           didDivideAtIndex:[self indexOfChunkCell:chunkCell]
+                                     atTime:time];
+    }
+}
+
 - (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell fromSide:(GKVideoChunkCellSide)side
 {
     // Frame 变化了， 第一个 cell 的起点变化了， 需要重置。

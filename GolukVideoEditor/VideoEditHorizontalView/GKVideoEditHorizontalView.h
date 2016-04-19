@@ -26,6 +26,8 @@
                       beginTime:(NSTimeInterval)beginTime
                         endTime:(NSTimeInterval)endTime;
 
+- (void)didDivideAtIndex:(NSInteger)index atTime:(NSTimeInterval)time;
+
 - (void)chunkCellDidDeleteAtIndex:(NSInteger)index;
 
 - (void)chunkCellMovedFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;

@@ -611,6 +611,10 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     }
     rightSubCellModel.images = mArray;
     
+    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:didDivideAtTime:)]) {
+        [self.chunkCellDelegate chunkCell:self didDivideAtTime:leftSubCellModel.duration];
+    }
+    
     return @[leftSubCellModel, rightSubCellModel];
 }
 

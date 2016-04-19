@@ -74,6 +74,10 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 indexOfChunkCellAtCurrentFrame:(NSInteger)index;
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+            didDivideAtIndex:(NSInteger)index
+                      atTime:(NSTimeInterval)time;
+
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
      chunkCellDidEditAtIndex:(NSInteger)index
                    beginTime:(NSTimeInterval)beginTime
                      endTime:(NSTimeInterval)endTime;
