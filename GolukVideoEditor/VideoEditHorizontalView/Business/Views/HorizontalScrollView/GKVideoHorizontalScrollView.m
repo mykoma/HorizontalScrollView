@@ -317,11 +317,13 @@
                                        CGRectGetWidth(theThirdNewCell.frame),
                                        CGRectGetHeight(theThirdNewCell.frame));
     
+    __block CGFloat xOffset = cell.frame.origin.x;
+    [cell removeFromSuperview];
+
     [UIView animateWithDuration:0.3f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         CGFloat xOffset = cell.frame.origin.x;
                          GKHorizontalCell * curCell = theFirstNewCell;
                          UIEdgeInsets cellEdge = self.cellEdge;
                          while (curCell) {
@@ -341,7 +343,6 @@
                              curCell = curCell.rightCell;
                          }
                      } completion:^(BOOL finished) {
-                         [cell removeFromSuperview];
                          self.state = GKVideoHorizontalStateNormal;
                          [self adjustContentSizeAndOffset];
                      }];
