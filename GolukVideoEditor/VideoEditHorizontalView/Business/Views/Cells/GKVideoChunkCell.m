@@ -371,19 +371,25 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 {
     BOOL(^updateFrameWhenChange)(void) = ^() {
         CGPoint point = [sender locationInView:self.superview];
-        if (point.x >= CGRectGetMaxX(self.frame)) {
+        NSTimeInterval newBeginTime = self.cellModel.endTime - (CGRectGetMaxX(self.frame) - point.x) / [[self class] widthOfOneSecond];
+        // 如果计算出来的 newBeginTime 是一个负数， 则表示已经拉到了外围，强制赋值为0
+        if (newBeginTime < 0.0f) {
+            newBeginTime = 0.0f;
+        }
+        // 如果时长已经小于了最短编辑时长。那么强制赋值为最短时长
+        if ((self.cellModel.endTime - newBeginTime) < MIN_EDIT_SECOND_DURATION) {
+            newBeginTime = self.cellModel.endTime - MIN_EDIT_SECOND_DURATION;
+        }
+        // 如果没有变化， 则不更新
+        if (newBeginTime == self.cellModel.beginTime) {
             return NO;
         }
-        CGRect newFrame = CGRectMake(point.x, 0,
-                                     CGRectGetMaxX(self.frame) - point.x,
-                                     CGRectGetHeight(self.frame));
-        NSTimeInterval newBeginTime = self.cellModel.endTime - (CGRectGetMaxX(newFrame) - CGRectGetMinX(newFrame)) / [[self class] widthOfOneSecond];
-        if (newBeginTime < 0.0f
-            || (self.cellModel.endTime - newBeginTime) < MIN_EDIT_SECOND_DURATION) {
-            return NO;
-        }
+        // 更新
         self.cellModel.beginTime = newBeginTime;
-        self.frame = newFrame;
+        CGFloat newWidth = (self.cellModel.endTime - self.cellModel.beginTime) * [[self class] widthOfOneSecond];
+        self.frame = CGRectMake(CGRectGetMaxX(self.frame) - newWidth, 0,
+                                newWidth,
+                                CGRectGetHeight(self.frame));
         return YES;
     };
     
@@ -422,20 +428,24 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 {
     BOOL(^updateFrameWhenChange)(void) = ^() {
         CGPoint point = [sender locationInView:self.superview];
-        if (CGRectGetMinX(self.frame) >= point.x) {
+        NSTimeInterval newEndTime = (point.x - CGRectGetMinX(self.frame)) / [[self class] widthOfOneSecond] + self.cellModel.beginTime;
+        // 如果计算出来的结束时间已经超过了视频的长度， 则强制赋值为最后的时间
+        if (newEndTime > self.cellModel.duration) {
+            newEndTime = self.cellModel.duration;
+        }
+        // 如果时长已经小于了最短编辑时长。那么强制赋值为最短时长
+        if ((newEndTime - self.cellModel.beginTime) < MIN_EDIT_SECOND_DURATION) {
+            newEndTime = self.cellModel.beginTime + MIN_EDIT_SECOND_DURATION;
+        }
+        // 如果没有变化， 则不更新
+        if (newEndTime == self.cellModel.endTime) {
             return NO;
         }
-        CGRect newFrame = CGRectMake(CGRectGetMinX(self.frame), 0,
-                                     point.x - CGRectGetMinX(self.frame),
-                                     CGRectGetHeight(self.frame));
-        NSTimeInterval newEndTime = (CGRectGetMaxX(newFrame) - CGRectGetMinX(newFrame)) / [[self class] widthOfOneSecond] + self.cellModel.beginTime;
-        if (newEndTime > self.cellModel.duration
-            || (newEndTime - self.cellModel.beginTime) < MIN_EDIT_SECOND_DURATION) {
-            return NO;
-        }
-        
+        // 更新
         self.cellModel.endTime = newEndTime;
-        self.frame = newFrame;
+        self.frame = CGRectMake(CGRectGetMinX(self.frame), 0,
+                                (self.cellModel.endTime - self.cellModel.beginTime) * [[self class] widthOfOneSecond],
+                                CGRectGetHeight(self.frame));
         return YES;
     };
 
