@@ -753,6 +753,17 @@
                                         CGRectGetHeight(self.frameMarker.frame));
 }
 
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell changedByEditWithNewBeginTime:(NSTimeInterval)newBeginTime
+       newEndTime:(NSTimeInterval)newEndTime
+{
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellDidEditAtIndex:beginTime:endTime:)]) {
+        [self.delegate horizontalScrollView:self
+                    chunkCellDidEditAtIndex:[self indexOfChunkCell:chunkCell]
+                                  beginTime:chunkCell.cellModel.beginTime
+                                    endTime:chunkCell.cellModel.endTime];
+    }
+}
+
 - (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell fromSide:(GKVideoChunkCellSide)side
 {
     // Frame 变化了， 第一个 cell 的起点变化了， 需要重置。

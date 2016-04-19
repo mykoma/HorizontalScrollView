@@ -38,6 +38,9 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellSide)
 
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnRightSide:(CGRect)changedFrame;
 
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell changedByEditWithNewBeginTime:(NSTimeInterval)newBeginTime
+       newEndTime:(NSTimeInterval)newEndTime;
+
 - (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell fromSide:(GKVideoChunkCellSide)side;
 
 - (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell;

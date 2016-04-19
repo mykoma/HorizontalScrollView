@@ -311,5 +311,16 @@ indexOfChunkCellAtCurrentFrame:(NSInteger)index
         [self.delegate indexOfChunkCellAtCurrentFrame:index];
     }
 }
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+     chunkCellDidEditAtIndex:(NSInteger)index
+                   beginTime:(NSTimeInterval)beginTime
+                     endTime:(NSTimeInterval)endTime
+{
+    if ([self.delegate respondsToSelector:@selector(didEditChunkCellAtIndex:beginTime:endTime:)]) {
+        [self.delegate didEditChunkCellAtIndex:index
+                                     beginTime:beginTime
+                                       endTime:endTime];
+    }
+}
 
 @end

@@ -8,6 +8,7 @@
 
 #import "GKVideoChunkCell.h"
 #import "GKVideoFenceCell.h"
+#import <objc/runtime.h>
 
 NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_RESIGN_EDIT = @"com.goluk.videoEditor.resign.edit";
 NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT = @"com.goluk.videoEditor.become.edit";
@@ -15,6 +16,13 @@ NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT = @"com.goluk.videoEdito
 CGFloat HEIGHT_OF_HORIZONTAL_CELL = 42;
 NSInteger SECOND_COUNT_OF_ONE_PICTURE = 5;
 NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
+
+@interface GKVideoChunkCellModel (Origin)
+
+@property (nonatomic, assign) NSTimeInterval                originBeginTime;
+@property (nonatomic, assign) NSTimeInterval                originEndTime;
+
+@end
 
 @interface GKVideoChunkCell ()
 
@@ -321,10 +329,32 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 
 - (void)setState:(GKVideoChunkCellState)state
 {
+    // 如果状态没有变化， 则不处理
     if (_state == state) {
         return;
     }
     _state = state;
+    // 如果状态由 GKVideoChunkCellStateNormal 变为 GKVideoChunkCellStateEdit
+    // 那么记录原始的起止时间
+    if (_state == GKVideoChunkCellStateEdit) {
+        self.cellModel.originBeginTime = self.cellModel.beginTime;
+        self.cellModel.originEndTime = self.cellModel.endTime;
+    }
+    // 如果状态由 GKVideoChunkCellStateEdit 变为 GKVideoChunkCellStateNormal
+    else if (_state == GKVideoChunkCellStateNormal) {
+        // 如果起止时间有变化， 那么回调出去
+        if (self.cellModel.originBeginTime != self.cellModel.beginTime
+            || self.cellModel.originEndTime != self.cellModel.endTime) {
+            if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:changedByEditWithNewBeginTime:newEndTime:)]) {
+                [self.chunkCellDelegate chunkCell:self
+                    changedByEditWithNewBeginTime:self.cellModel.beginTime
+                                       newEndTime:self.cellModel.endTime];
+            }
+            // 重置起止时间
+            self.cellModel.originBeginTime = self.cellModel.beginTime;
+            self.cellModel.originEndTime = self.cellModel.endTime;
+        }
+    }
     // 状态变化， 需要重新刷新 subviews 的 frame
     [self setNeedsLayout];
 }
@@ -619,6 +649,35 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 - (NSTimeInterval)timeIntervalOfVisibleOffset:(CGFloat)offset
 {
     return offset / [[self class] widthOfOneSecond];
+}
+
+@end
+
+@implementation GKVideoChunkCellModel (Origin)
+
+static void * ORIGIN_BEGIN_TIME = &ORIGIN_BEGIN_TIME;
+static void * ORIGIN_END_TIME = &ORIGIN_END_TIME;
+
+- (NSTimeInterval)originBeginTime
+{
+    id object = objc_getAssociatedObject(self, ORIGIN_BEGIN_TIME);
+    return [object doubleValue];
+}
+
+- (void)setOriginBeginTime:(NSTimeInterval)originBeginTime
+{
+    objc_setAssociatedObject(self, ORIGIN_BEGIN_TIME, @(originBeginTime), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSTimeInterval)originEndTime
+{
+    id object = objc_getAssociatedObject(self, ORIGIN_END_TIME);
+    return [object doubleValue];
+}
+
+- (void)setOriginEndTime:(NSTimeInterval)originEndTime
+{
+    objc_setAssociatedObject(self, ORIGIN_END_TIME, @(originEndTime), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

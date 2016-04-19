@@ -73,6 +73,11 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 indexOfChunkCellAtCurrentFrame:(NSInteger)index;
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+     chunkCellDidEditAtIndex:(NSInteger)index
+                   beginTime:(NSTimeInterval)beginTime
+                     endTime:(NSTimeInterval)endTime;
+
 @end
 
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView

@@ -22,6 +22,10 @@
 
 - (void)didChangeToState:(GKVideoHorizontalState)state;
 
+- (void)didEditChunkCellAtIndex:(NSInteger)index
+                      beginTime:(NSTimeInterval)beginTime
+                        endTime:(NSTimeInterval)endTime;
+
 - (void)chunkCellDidDeleteAtIndex:(NSInteger)index;
 
 - (void)chunkCellMovedFromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
