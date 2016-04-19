@@ -165,6 +165,7 @@
     for (id cellModel in newCellModels) {
         GKHorizontalCell * newCell = [self.dataSource horizontalScrollView:self
                                                           cellForItemModel:cellModel];
+        [self didLoadCell:newCell];
         CGSize size = [self.layout horizontalScrollView:self
                                        sizeForItemModel:cellModel];
         newCell.frame = CGRectMake(0, 0, size.width, size.height);
@@ -265,6 +266,7 @@
     for (id cellModel in newCellModels) {
         GKHorizontalCell * newCell = [self.dataSource horizontalScrollView:self
                                                           cellForItemModel:cellModel];
+        [self didLoadCell:newCell];
         CGSize size = [self.layout horizontalScrollView:self
                                        sizeForItemModel:cellModel];
         newCell.frame = CGRectMake(0, 0, size.width, size.height);
