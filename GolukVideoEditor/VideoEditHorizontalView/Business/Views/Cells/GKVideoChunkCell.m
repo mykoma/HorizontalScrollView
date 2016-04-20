@@ -28,6 +28,7 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 
 @property (nonatomic, assign) GKVideoChunkCellState state;
 @property (nonatomic, strong) NSMutableArray <UIImageView *> * imageIVs;
+@property (nonatomic, strong) UIView * editContainerView;
 @property (nonatomic, strong) UIView * leftEditView;
 @property (nonatomic, strong) UIView * rightEditView;
 @property (nonatomic, strong) UIView * topEditLine;
@@ -128,6 +129,15 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 
 #pragma mark - Lazy Load
 
+- (UIView *)editContainerView
+{
+    if (_editContainerView == nil) {
+        _editContainerView = [[UIView alloc] init];
+        _editContainerView.backgroundColor = [UIColor clearColor];
+    }
+    return _editContainerView;
+}
+
 - (UIView *)centerEditView
 {
     if (_centerEditView == nil) {
@@ -217,25 +227,16 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 {
     self.layer.cornerRadius = 0.0f;
 
-//    [UIView animateWithDuration:0.1f
-//                          delay:0
-//                        options:UIViewAnimationOptionCurveEaseInOut
-//                     animations:^{
-    _leftEditView.alpha    = 0.0f;
-    _rightEditView.alpha   = 0.0f;
-    _topEditLine.alpha    = 0.0f;
-    _bottomEditLine.alpha = 0.0f;
-    _centerEditView.alpha = 0.0f;
-    _centerEditLabel.alpha = 0.0f;
-//                     } completion:^(BOOL finished) {
+    [UIView animateWithDuration:0.1f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
                          // 这儿不调用 self. 是为了避免调用懒加载
-    [_leftEditView removeFromSuperview];
-    [_rightEditView removeFromSuperview];
-    [_topEditLine removeFromSuperview];
-    [_bottomEditLine removeFromSuperview];
-    [_centerEditView removeFromSuperview];
-    [_centerEditLabel removeFromSuperview];
-//                     }];
+                         _editContainerView.alpha    = 0.0f;
+                     } completion:^(BOOL finished) {
+                         // 这儿不调用 self. 是为了避免调用懒加载
+                         [_editContainerView removeFromSuperview];
+                     }];
 }
 
 - (void)layoutForEditState
@@ -244,23 +245,20 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     static CGFloat editLineHeight = 1.0f;
     self.layer.cornerRadius = 4.0f;
     
-    self.leftEditView.alpha    = 0.0f;
-    self.rightEditView.alpha   = 0.0f;
-    self.topEditLine.alpha    = 0.0f;
-    self.bottomEditLine.alpha = 0.0f;
+    self.editContainerView.frame = self.bounds;
     
     self.leftEditView.frame = CGRectMake(0, 0,
                                          editBtnWidth,
-                                         CGRectGetHeight(self.bounds));
-    self.rightEditView.frame = CGRectMake(CGRectGetWidth(self.bounds) - editBtnWidth,
+                                         CGRectGetHeight(self.editContainerView.bounds));
+    self.rightEditView.frame = CGRectMake(CGRectGetWidth(self.editContainerView.bounds) - editBtnWidth,
                                           0,
                                           editBtnWidth,
-                                          CGRectGetHeight(self.bounds));
+                                          CGRectGetHeight(self.editContainerView.bounds));
     self.topEditLine.frame = CGRectMake(0, 0,
-                                        CGRectGetWidth(self.bounds),
+                                        CGRectGetWidth(self.editContainerView.bounds),
                                         editLineHeight);
-    self.bottomEditLine.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - editLineHeight,
-                                           CGRectGetWidth(self.bounds),
+    self.bottomEditLine.frame = CGRectMake(0, CGRectGetHeight(self.editContainerView.bounds) - editLineHeight,
+                                           CGRectGetWidth(self.editContainerView.bounds),
                                            editLineHeight);
     self.centerEditView.frame = CGRectMake(CGRectGetMaxX(self.leftEditView.frame),
                                            CGRectGetMaxY(self.topEditLine.frame),
@@ -269,24 +267,27 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     [self.centerEditLabel sizeToFit];
     self.centerEditLabel.center = CGPointMake(CGRectGetMidX(self.bounds),
                                               CGRectGetMidY(self.bounds));
-    [self addSubview:self.leftEditView];
-    [self addSubview:self.rightEditView];
-    [self addSubview:self.topEditLine];
-    [self addSubview:self.bottomEditLine];
-    [self addSubview:self.centerEditView];
-    [self addSubview:self.centerEditLabel];
-//    [UIView animateWithDuration:0.1f
-//                          delay:0
-//                        options:UIViewAnimationOptionCurveEaseInOut
-//                     animations:^{
-    self.leftEditView.alpha    = 1.0f;
-    self.rightEditView.alpha   = 1.0f;
-    self.topEditLine.alpha    = 1.0f;
-    self.bottomEditLine.alpha = 1.0f;
-    self.centerEditView.alpha = 0.5f;
-    self.centerEditLabel.alpha = 1.0f;
-//                     } completion:^(BOOL finished) {
-//                     }];
+    
+    // 如果editContainerView没有 superView， 说明还没有被加进去
+    if (self.editContainerView.superview == nil) {
+        [self addSubview:self.editContainerView];
+        
+        (self.leftEditView.superview == nil)    ? [self.editContainerView addSubview:self.leftEditView]     : nil;
+        (self.rightEditView.superview == nil)   ? [self.editContainerView addSubview:self.rightEditView]    : nil;
+        (self.topEditLine.superview == nil)     ? [self.editContainerView addSubview:self.topEditLine]      : nil;
+        (self.bottomEditLine.superview == nil)  ? [self.editContainerView addSubview:self.bottomEditLine]   : nil;
+        (self.centerEditView.superview == nil)  ? [self.editContainerView addSubview:self.centerEditView]   : nil;
+        (self.centerEditLabel.superview == nil) ? [self.editContainerView addSubview:self.centerEditLabel]  : nil;
+        
+        self.editContainerView.alpha    = 0.0f;
+        [UIView animateWithDuration:0.1f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.editContainerView.alpha    = 1.0f;
+                         } completion:^(BOOL finished) {
+                         }];
+    }
 }
 
 #pragma mark - Setter & Getter
