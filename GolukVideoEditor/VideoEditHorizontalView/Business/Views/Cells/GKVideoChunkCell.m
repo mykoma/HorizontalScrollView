@@ -83,6 +83,11 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     return [[self class] widthOfOneSecond] * (cellModel.endTime - cellModel.beginTime);
 }
 
++ (CGFloat)minimumWidthOfChunkCell
+{
+    return MIN_EDIT_SECOND_DURATION * [[self class] widthOfOneSecond];
+}
+
 #pragma mark - Life Circle
 
 - (void)dealloc

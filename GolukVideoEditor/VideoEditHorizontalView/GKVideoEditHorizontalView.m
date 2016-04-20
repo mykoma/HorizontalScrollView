@@ -306,6 +306,13 @@ indexOfChunkCellAtCurrentFrame:(NSInteger)index
         [self.delegate indexOfChunkCellAtCurrentFrame:index];
     }
 }
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+    couldSplitAtCurrentFrame:(BOOL)couldSplit
+{
+    if ([self.delegate respondsToSelector:@selector(couldSplitAtCurrentFrame:)]) {
+        [self.delegate couldSplitAtCurrentFrame:couldSplit];
+    }
+}
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
             didSplitAtIndex:(NSInteger)index

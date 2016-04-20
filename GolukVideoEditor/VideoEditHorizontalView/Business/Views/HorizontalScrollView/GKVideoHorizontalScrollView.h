@@ -100,10 +100,16 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
 indexOfChunkCellAtCurrentFrame:(NSInteger)index;
 
 /**
+ *  回调当前 CurrentFrame 能否执行 split
+ */
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+    couldSplitAtCurrentFrame:(BOOL)couldSplit;
+
+/**
  *   回调拆分 ChunkCell 的 Index 和时间点
  */
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-            didSplitAtIndex:(NSInteger)index
+             didSplitAtIndex:(NSInteger)index
                       atTime:(NSTimeInterval)time;
 
 /**

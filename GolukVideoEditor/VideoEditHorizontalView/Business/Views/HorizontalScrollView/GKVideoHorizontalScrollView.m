@@ -17,6 +17,7 @@
 @property (nonatomic, strong) GKVideoCurrentFrameView * frameMarker;
 @property (nonatomic, assign) GKVideoHorizontalState  state;
 @property (nonatomic, weak  ) GKVideoChunkCell        * currentEditChunkCell;
+@property (nonatomic, assign) BOOL                    couldSplitAtCurrentFrame;
 
 @end
 
@@ -28,6 +29,7 @@
     if (self) {
         _frameMarker = [[GKVideoCurrentFrameView alloc] init];
         _state = GKVideoHorizontalStateNormal;
+        _couldSplitAtCurrentFrame = YES;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(chunkCellBecomeEdit:)
@@ -238,6 +240,10 @@
 
 - (void)attemptToSplitCellWithLeftDistance:(CGFloat)distance
 {
+    if (!self.couldSplitAtCurrentFrame) {
+        return;
+    }
+
     GKHorizontalCell * cell = [self seekCellWithLeftDistance:distance];
     
     // 如果不是GKVideoChunkCell
@@ -248,11 +254,7 @@
     // 计算offset 在 cell 中的比率
     CGFloat leftWidth = (distance + self.scrollView.contentOffset.x - CGRectGetMinX(cell.frame));
     CGFloat rate = leftWidth / CGRectGetWidth(cell.frame);
-    
-    // 只允许某个区间的进行裁剪
-    if (rate <= 0.1f || rate >= 0.9f) {
-        return;
-    }
+
     // 获取分割后的 cellModels
     GKVideoChunkCell * videoChunkCell = (GKVideoChunkCell *)cell;
     NSArray * subCellModels = [videoChunkCell splitAtRate:rate];
@@ -543,9 +545,10 @@
 - (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView
 {
     [super horizontalScrollViewDidScroll:scrollView];
+    GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
+    
     // 如果是编辑状态，那么当 cell 改变的时候， 如果当前 currentFrame 的 cell 没有被选中， 那么选中。
     if (self.state == GKVideoHorizontalStateEdit && self.isScrollingByManual == YES) {
-        GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
         if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
             if (self.currentEditChunkCell != cell) {
                 self.currentEditChunkCell = (GKVideoChunkCell *)cell;
@@ -561,6 +564,23 @@
     {
         NSTimeInterval timeInterval = [self timeIntervalOfHorizontalScrollOffset:scrollView.contentOffset.x];
         [self.delegate horizontalScrollView:self timeIntervalOfScrollOffset:timeInterval];
+    }
+
+    BOOL couldSplit = YES;
+    // 如果不是GKVideoChunkCell
+    if (![cell isKindOfClass:[GKVideoChunkCell class]]) {
+        couldSplit = NO;
+    } else {
+        CGFloat leftWidth = ([self offsetOfCurrentFrame] + self.scrollView.contentOffset.x - CGRectGetMinX(cell.frame));
+        CGFloat rightWidth = CGRectGetWidth(cell.frame) - leftWidth;
+        CGFloat minimumWidthOfChunkCell = [GKVideoChunkCell minimumWidthOfChunkCell];
+        couldSplit = leftWidth >= minimumWidthOfChunkCell && rightWidth >= minimumWidthOfChunkCell;
+    }
+    if (self.couldSplitAtCurrentFrame != couldSplit) {
+        self.couldSplitAtCurrentFrame = couldSplit;
+        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:couldSplitAtCurrentFrame:)]) {
+            [self.delegate horizontalScrollView:self couldSplitAtCurrentFrame:couldSplit];
+        }
     }
 }
 

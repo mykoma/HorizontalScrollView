@@ -175,4 +175,9 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     NSLog(@"didSplitAtIndex   %ld atTime: %lf", index, time);
 }
 
+- (void)couldSplitAtCurrentFrame:(BOOL)couldSplit
+{
+    NSLog(@"couldSplitAtCurrentFrame  %d", couldSplit);
+}
+
 @end

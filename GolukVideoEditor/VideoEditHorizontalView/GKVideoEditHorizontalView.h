@@ -51,6 +51,11 @@
                         endTime:(NSTimeInterval)endTime;
 
 /**
+ *  回调当前 CurrentFrame 能否执行 split
+ */
+- (void)couldSplitAtCurrentFrame:(BOOL)couldSplit;
+
+/**
  *  切割片段的回调
  *  index:      切分的片段的index
  *  time:       切分的时间点

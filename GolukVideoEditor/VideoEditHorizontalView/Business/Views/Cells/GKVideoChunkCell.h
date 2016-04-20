@@ -68,6 +68,8 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellSide)
 
 + (CGFloat)widthOfOneSecond;
 
++ (CGFloat)minimumWidthOfChunkCell;
+
 + (void)resignEditState;
 
 - (void)becomeToEditState;
