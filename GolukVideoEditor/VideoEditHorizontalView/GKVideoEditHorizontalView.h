@@ -55,7 +55,7 @@
  *  index:      切分的片段的index
  *  time:       切分的时间点
  */
-- (void)didDivideAtIndex:(NSInteger)index atTime:(NSTimeInterval)time;
+- (void)didSplitAtIndex:(NSInteger)index atTime:(NSTimeInterval)time;
 
 /**
  *  删除片段
@@ -101,7 +101,7 @@
 /**
  *  在当前 CurrentFrame 所处的片段， 拆分此片段
  */
-- (void)divideCellAtCurrentFrame;
+- (void)splitCellAtCurrentFrame;
 
 /**
  *  更新到 CurrentFrame 到 timeInterval 的时间点

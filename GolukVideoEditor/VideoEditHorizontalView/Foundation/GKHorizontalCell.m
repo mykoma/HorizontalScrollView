@@ -69,7 +69,7 @@
     }
 }
 
-- (NSArray *)divideAtRate:(CGFloat)rate
+- (NSArray *)splitAtRate:(CGFloat)rate
 {
     // TODO
     return nil;

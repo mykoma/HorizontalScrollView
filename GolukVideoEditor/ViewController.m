@@ -79,13 +79,13 @@
                   action:@selector(remove)
         forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton * divideBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    divideBtn.backgroundColor = [UIColor yellowColor];
-    divideBtn.frame = CGRectMake(CGRectGetMaxX(removeBtn.frame) + 10, CGRectGetMaxY(self.videoEditView.frame) + 10, 50, 30);
-    [self.view addSubview:divideBtn];
+    UIButton * splitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    splitBtn.backgroundColor = [UIColor yellowColor];
+    splitBtn.frame = CGRectMake(CGRectGetMaxX(removeBtn.frame) + 10, CGRectGetMaxY(self.videoEditView.frame) + 10, 50, 30);
+    [self.view addSubview:splitBtn];
     
-    [divideBtn addTarget:self
-                  action:@selector(divide)
+    [splitBtn addTarget:self
+                  action:@selector(split)
         forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -117,9 +117,9 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     [self.videoEditView removeSelectedCell];
 }
 
-- (void)divide
+- (void)split
 {
-    [self.videoEditView divideCellAtCurrentFrame];
+    [self.videoEditView splitCellAtCurrentFrame];
 }
 
 #pragma mark - GKVideoEditHorizontalViewDelegate
@@ -170,9 +170,9 @@ static NSTimeInterval timeInterval = 1.0f / 60;
     NSLog(@"didEditChunkCellAtIndex: %ld  beginTime  %lf  endTime %lf", index, beginTime, endTime);
 }
 
-- (void)didDivideAtIndex:(NSInteger)index atTime:(NSTimeInterval)time
+- (void)didSplitAtIndex:(NSInteger)index atTime:(NSTimeInterval)time
 {
-    NSLog(@"didDivideAtIndex   %ld atTime: %lf", index, time);
+    NSLog(@"didSplitAtIndex   %ld atTime: %lf", index, time);
 }
 
 @end

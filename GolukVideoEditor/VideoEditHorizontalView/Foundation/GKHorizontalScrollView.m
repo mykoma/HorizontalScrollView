@@ -200,7 +200,7 @@ UIScrollViewDelegate
     return scrollViewEdge;
 }
 
-- (void)attemptToDivideCellWithLeftDistance:(CGFloat)offset
+- (void)attemptToSplitCellWithLeftDistance:(CGFloat)offset
 {
     // TODO
 }

@@ -113,7 +113,7 @@ offsetOfContentWhenFinishedScroll:(CGFloat)offset;
  * 如果 distance 是0， 那么删除的是当前 scrollView 的 contentOffset 的那一个 cell
  * 然后 distance 大于0，则是伤处的是当前 contentOffset + distance 的那一个 cell
  */
-- (void)attemptToDivideCellWithLeftDistance:(CGFloat)distance;
+- (void)attemptToSplitCellWithLeftDistance:(CGFloat)distance;
 
 - (void)attemptToUdpateFirstCellByMovingCell:(GKHorizontalCell *)moving
                            withIntersectCell:(GKHorizontalCell *)intersectCell;

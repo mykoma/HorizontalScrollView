@@ -59,7 +59,7 @@ typedef NS_ENUM(NSUInteger, GKVideoHorizontalState)
  * 分割视频，会返回分割后的 cellModels，交由 Delegate 处理， 再返回回来
  */
 - (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-cellModelAfterInterceptDividedModels:(NSArray *)cellModels;
+cellModelAfterInterceptSplitdModels:(NSArray *)cellModels;
 /**
  * 增加视频，会返回增加后的 cellModels，交由 Delegate 处理， 再返回回来
  */
@@ -103,7 +103,7 @@ indexOfChunkCellAtCurrentFrame:(NSInteger)index;
  *   回调拆分 ChunkCell 的 Index 和时间点
  */
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-            didDivideAtIndex:(NSInteger)index
+            didSplitAtIndex:(NSInteger)index
                       atTime:(NSTimeInterval)time;
 
 /**
@@ -135,7 +135,7 @@ indexOfChunkCellAtCurrentFrame:(NSInteger)index;
 /**
  *  在CurrentFrame 位置分割 Cell
  */
-- (void)attemptToDivideCellAtCurrentFrame;
+- (void)attemptToSplitCellAtCurrentFrame;
 
 /**
  *  添加一个 model

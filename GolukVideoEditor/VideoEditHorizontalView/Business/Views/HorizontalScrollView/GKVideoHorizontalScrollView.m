@@ -148,9 +148,9 @@
     }
 }
 
-- (void)attemptToDivideCellAtCurrentFrame
+- (void)attemptToSplitCellAtCurrentFrame
 {
-    [self attemptToDivideCellWithLeftDistance:[self offsetOfCurrentFrame]];
+    [self attemptToSplitCellWithLeftDistance:[self offsetOfCurrentFrame]];
 }
 
 - (void)appendCellModel:(id)cellModel
@@ -236,7 +236,7 @@
                      }];
 }
 
-- (void)attemptToDivideCellWithLeftDistance:(CGFloat)distance
+- (void)attemptToSplitCellWithLeftDistance:(CGFloat)distance
 {
     GKHorizontalCell * cell = [self seekCellWithLeftDistance:distance];
     
@@ -255,11 +255,11 @@
     }
     // 获取分割后的 cellModels
     GKVideoChunkCell * videoChunkCell = (GKVideoChunkCell *)cell;
-    NSArray * subCellModels = [videoChunkCell divideAtRate:rate];
+    NSArray * subCellModels = [videoChunkCell splitAtRate:rate];
     
     // 获取新的 CellModels
     NSArray * newCellModels = [self.delegate horizontalScrollView:self
-                             cellModelAfterInterceptDividedModels:subCellModels];
+                             cellModelAfterInterceptSplitdModels:subCellModels];
     
     NSAssert(newCellModels.count > 0, nil);
 
@@ -299,7 +299,7 @@
     cell.rightCell.leftCell = prevCell;
     prevCell.rightCell = cell.rightCell;
     
-    // 查看 firstCell 是不是当前 divide 的, If YES, 则重置
+    // 查看 firstCell 是不是当前 split 的, If YES, 则重置
     if (self.firstCell == cell) {
         self.firstCell = theFirstNewCell;
     }
@@ -765,11 +765,11 @@
     }
 }
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell didDivideAtTime:(NSTimeInterval)time
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell didSplitAtTime:(NSTimeInterval)time
 {
-    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:didDivideAtIndex:atTime:)]) {
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:didSplitAtIndex:atTime:)]) {
         [self.delegate horizontalScrollView:self
-                           didDivideAtIndex:[self indexOfChunkCell:chunkCell]
+                           didSplitAtIndex:[self indexOfChunkCell:chunkCell]
                                      atTime:time];
     }
 }

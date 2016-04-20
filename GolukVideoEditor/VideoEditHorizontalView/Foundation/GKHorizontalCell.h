@@ -85,7 +85,7 @@ typedef NS_ENUM(NSUInteger, GKHorizontalDirection)
 /**
  * 在指定比率的位置，分割 cell, 返回一个NSArray对象
  */
-- (NSArray *)divideAtRate:(CGFloat)rate;
+- (NSArray *)splitAtRate:(CGFloat)rate;
 
 /**
  * 能否长按移动，默认 NO

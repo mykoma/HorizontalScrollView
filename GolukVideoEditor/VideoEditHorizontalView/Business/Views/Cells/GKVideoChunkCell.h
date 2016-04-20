@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, GKVideoChunkCellSide)
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell changedByEditWithNewBeginTime:(NSTimeInterval)newBeginTime
        newEndTime:(NSTimeInterval)newEndTime;
 
-- (void)chunkCell:(GKVideoChunkCell *)chunkCell didDivideAtTime:(NSTimeInterval)time;
+- (void)chunkCell:(GKVideoChunkCell *)chunkCell didSplitAtTime:(NSTimeInterval)time;
 
 - (void)didFinishEditForChunkCell:(GKVideoChunkCell *)chunkCell fromSide:(GKVideoChunkCellSide)side;
 

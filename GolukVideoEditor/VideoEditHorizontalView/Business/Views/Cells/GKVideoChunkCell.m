@@ -562,7 +562,7 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     return YES;
 }
 
-- (NSArray *)divideAtRate:(CGFloat)rate
+- (NSArray *)splitAtRate:(CGFloat)rate
 {
     CGFloat visibleDuration = (self.cellModel.endTime - self.cellModel.beginTime);
     CGFloat leftInvisibleDuration = self.cellModel.beginTime;
@@ -614,8 +614,8 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     }
     rightSubCellModel.images = mArray;
     
-    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:didDivideAtTime:)]) {
-        [self.chunkCellDelegate chunkCell:self didDivideAtTime:leftSubCellModel.duration];
+    if ([self.chunkCellDelegate respondsToSelector:@selector(chunkCell:didSplitAtTime:)]) {
+        [self.chunkCellDelegate chunkCell:self didSplitAtTime:leftSubCellModel.duration];
     }
     
     return @[leftSubCellModel, rightSubCellModel];

@@ -70,9 +70,9 @@ GKVideoHorizontalScrollViewLayout
     }
 }
 
-- (void)divideCellAtCurrentFrame
+- (void)splitCellAtCurrentFrame
 {
-    [self.horizontalScrollView attemptToDivideCellAtCurrentFrame];
+    [self.horizontalScrollView attemptToSplitCellAtCurrentFrame];
 }
 
 - (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval
@@ -234,7 +234,7 @@ GKVideoHorizontalScrollViewLayout
 #pragma mark - GKVideoHorizontalScrollViewDelegate
 
 - (NSArray *)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-cellModelAfterInterceptDividedModels:(NSArray *)cellModels
+cellModelAfterInterceptSplitdModels:(NSArray *)cellModels
 {
     NSAssert(cellModels.count == 2, nil);
     return @[cellModels[0],
@@ -308,11 +308,11 @@ indexOfChunkCellAtCurrentFrame:(NSInteger)index
 }
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-            didDivideAtIndex:(NSInteger)index
+            didSplitAtIndex:(NSInteger)index
                       atTime:(NSTimeInterval)time
 {
-    if ([self.delegate respondsToSelector:@selector(didDivideAtIndex:atTime:)]) {
-        [self.delegate didDivideAtIndex:index atTime:time];
+    if ([self.delegate respondsToSelector:@selector(didSplitAtIndex:atTime:)]) {
+        [self.delegate didSplitAtIndex:index atTime:time];
     }
 }
 
