@@ -54,8 +54,8 @@
 - (void)setFrameMarkerToDefaultPostion
 {
     CGFloat offsetOfFrameMarker = 0.0f;
-    if ([self.layout respondsToSelector:@selector(defaultOffsetOfFrameMarkerOfHorizontalScrollView:)]) {
-        offsetOfFrameMarker = [self.layout defaultOffsetOfFrameMarkerOfHorizontalScrollView:self];
+    if ([self.layout respondsToSelector:@selector(defaultOffsetOfCurrentFrameOfHorizontalScrollView:)]) {
+        offsetOfFrameMarker = [self.layout defaultOffsetOfCurrentFrameOfHorizontalScrollView:self];
     }
     self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 0.5, CGRectGetHeight(self.frame));
 }
@@ -557,10 +557,10 @@
             }
         }
     }
-    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:timeIntervalOfOffset:)])
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:timeIntervalOfScrollOffset:)])
     {
         NSTimeInterval timeInterval = [self timeIntervalOfHorizontalScrollOffset:scrollView.contentOffset.x];
-        [self.delegate horizontalScrollView:self timeIntervalOfOffset:timeInterval];
+        [self.delegate horizontalScrollView:self timeIntervalOfScrollOffset:timeInterval];
     }
 }
 

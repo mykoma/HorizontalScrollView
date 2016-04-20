@@ -124,7 +124,7 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 
 #pragma mark - GKVideoEditHorizontalViewDelegate
 
-- (void)timeIntervalOfCurrentFrame:(CGFloat)timeInterval
+- (void)timeIntervalAtCurrentFrame:(CGFloat)timeInterval
 {
     NSLog(@"time   %f", timeInterval);
 }

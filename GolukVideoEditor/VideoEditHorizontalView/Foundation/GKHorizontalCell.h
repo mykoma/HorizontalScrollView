@@ -19,15 +19,27 @@ typedef NS_ENUM(NSUInteger, GKHorizontalDirection)
 
 @protocol GKHorizontalCellDelegate <NSObject>
 
+/**
+ *  cell开始移动， 并且移动到 point
+ */
 - (void)horizontalCell:(GKHorizontalCell *)horizontalCell
       moveBeganAtPoint:(CGPoint)point;
 
+/**
+ *  cell移动到 point
+ */
 - (void)horizontalCell:(GKHorizontalCell *)horizontalCell
          movingAtPoint:(CGPoint)point;
 
+/**
+ *  cell移动结束，并且移动到 point
+ */
 - (void)horizontalCell:(GKHorizontalCell *)horizontalCell
        moveEndAtPoint:(CGPoint)point;
 
+/**
+ *  cell移动取消，并且移动到 point
+ */
 - (void)horizontalCell:(GKHorizontalCell *)horizontalCell
   moveCanceledAtPoint:(CGPoint)point;
 
@@ -40,9 +52,19 @@ typedef NS_ENUM(NSUInteger, GKHorizontalDirection)
 
 @property (nonatomic, assign) BOOL enableMove;
 
+/**
+ *  当前 cell 左边的 cell
+ */
 @property (nonatomic, weak) GKHorizontalCell * leftCell;
+
+/**
+ *  当前 cell 右边的 cell
+ */
 @property (nonatomic, weak) GKHorizontalCell * rightCell;
 
+/**
+ *  Setup
+ */
 - (void)setup;
 /**
  * 获取 cell 在 self 的位置
@@ -51,6 +73,9 @@ typedef NS_ENUM(NSUInteger, GKHorizontalDirection)
  */
 - (GKHorizontalDirection)directionForCell:(GKHorizontalCell *)cell;
 
+/**
+ *  改变 self 和 cell 的关系，以及 他们 leftCell, rightCell 的关系
+ */
 - (void)changeRelationWithCell:(GKHorizontalCell *)cell;
 
 /**************** 开始更新 ***************/

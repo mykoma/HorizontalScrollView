@@ -77,12 +77,7 @@ GKVideoHorizontalScrollViewLayout
 
 - (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval
 {
-    [self updateCurrentFrameToTimeInterval:timeInterval animation:NO];
-}
-
-- (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval animation:(BOOL)animation
-{
-    [self.horizontalScrollView scrollToTimeInterval:timeInterval animated:animation];
+    [self.horizontalScrollView scrollToTimeInterval:timeInterval animated:NO];
 }
 
 - (void)refreshTotalDuration
@@ -197,7 +192,7 @@ GKVideoHorizontalScrollViewLayout
     return CGSizeZero;
 }
 
-- (CGFloat)defaultOffsetOfFrameMarkerOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+- (CGFloat)defaultOffsetOfCurrentFrameOfHorizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
 {
     if ([horizontalScrollView.layout respondsToSelector:@selector(edgeInsetsOfHorizontalScrollView:)]) {
         return [horizontalScrollView.layout edgeInsetsOfHorizontalScrollView:horizontalScrollView].left;
@@ -260,10 +255,10 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     return mArray;
 }
 
-- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView timeIntervalOfOffset:(CGFloat)timeInterval
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView timeIntervalOfScrollOffset:(CGFloat)timeInterval
 {
-    if ([self.delegate respondsToSelector:@selector(timeIntervalOfCurrentFrame:)]) {
-        [self.delegate timeIntervalOfCurrentFrame:timeInterval];
+    if ([self.delegate respondsToSelector:@selector(timeIntervalAtCurrentFrame:)]) {
+        [self.delegate timeIntervalAtCurrentFrame:timeInterval];
     }
 }
 
