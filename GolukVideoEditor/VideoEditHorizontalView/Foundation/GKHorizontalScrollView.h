@@ -73,6 +73,8 @@ offsetOfContentWhenFinishedScroll:(CGFloat)offset;
 @property (nonatomic, weak) IBOutlet id <GKHorizontalScrollViewDelegate> delegate;
 @property (nonatomic, assign, readonly) UIEdgeInsets cellEdge;
 @property (nonatomic, assign, readonly) UIEdgeInsets edgeInsetsOfScroll;
+// 当前的滚动是否是用户操作
+@property (nonatomic, assign, readonly) BOOL isScrollingByManual;
 @property (nonatomic, weak) GKHorizontalCell * firstCell;
 
 @property (nonatomic, strong, readonly) UIScrollView * scrollView;

@@ -544,7 +544,7 @@
 {
     [super horizontalScrollViewDidScroll:scrollView];
     // 如果是编辑状态，那么当 cell 改变的时候， 如果当前 currentFrame 的 cell 没有被选中， 那么选中。
-    if (self.state == GKVideoHorizontalStateEdit) {
+    if (self.state == GKVideoHorizontalStateEdit && self.isScrollingByManual == YES) {
         GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
         if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
             if (self.currentEditChunkCell != cell) {

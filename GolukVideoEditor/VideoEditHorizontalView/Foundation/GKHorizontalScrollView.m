@@ -18,6 +18,7 @@ UIScrollViewDelegate
 @property (nonatomic, strong) NSMutableArray <GKHorizontalCell *> * cells;
 @property (nonatomic, assign) CGFloat xOffset;
 @property (nonatomic, weak  ) UIButton * backgroundBtn;
+@property (nonatomic, assign, readwrite) BOOL isScrollingByManual;
 @property (nonatomic, strong, readwrite) UIScrollView * scrollView;
 
 @end
@@ -530,16 +531,23 @@ UIScrollViewDelegate
     [self horizontalScrollViewDidScroll:scrollView];
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.isScrollingByManual = YES;
+}
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (decelerate == NO) {
         [self horizontalScrollViewFinishScroll:scrollView];
+        self.isScrollingByManual = NO;
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self horizontalScrollViewFinishScroll:scrollView];
+    self.isScrollingByManual = NO;
 }
 
 - (void)horizontalScrollViewDidScroll:(UIScrollView *)scrollView
