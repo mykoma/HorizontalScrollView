@@ -534,6 +534,9 @@ UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     self.isScrollingByManual = YES;
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollViewBeganScrollByManual:)]) {
+        [self.delegate horizontalScrollViewBeganScrollByManual:self];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

@@ -31,6 +31,11 @@
 - (void)didTouchAddChunk;
 
 /**
+ *  滚动区域开始用户启动的滚动
+ */
+- (void)scrollAreaBeganScrollByManual;
+
+/**
  *  点击了空白背景区域
  */
 - (void)didTouchDownBackground;

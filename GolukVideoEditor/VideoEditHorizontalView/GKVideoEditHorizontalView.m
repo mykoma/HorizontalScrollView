@@ -260,6 +260,13 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
     return mArray;
 }
 
+- (void)horizontalScrollViewBeganScrollByManual:(GKHorizontalScrollView *)horizontalScrollView
+{
+    if ([self.delegate respondsToSelector:@selector(scrollAreaBeganScrollByManual)]) {
+        [self.delegate scrollAreaBeganScrollByManual];
+    }
+}
+
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView timeIntervalOfScrollOffset:(CGFloat)timeInterval
 {
     if ([self.delegate respondsToSelector:@selector(timeIntervalAtCurrentFrame:)]) {

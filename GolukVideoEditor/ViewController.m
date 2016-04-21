@@ -135,6 +135,11 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 
 #pragma mark - GKVideoEditHorizontalViewDelegate
 
+- (void)scrollAreaBeganScrollByManual
+{
+    NSLog(@"Began Scroll By Manual.");
+}
+
 - (void)timeIntervalAtCurrentFrame:(CGFloat)timeInterval
 {
     NSLog(@"time   %f", timeInterval);
