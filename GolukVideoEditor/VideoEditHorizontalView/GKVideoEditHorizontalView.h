@@ -113,4 +113,9 @@
  */
 - (void)updateCurrentFrameToTimeInterval:(NSTimeInterval)timeInterval;
 
+/**
+ *  更新状态到正常状态
+ */
+- (void)resetToNormalState;
+
 @end

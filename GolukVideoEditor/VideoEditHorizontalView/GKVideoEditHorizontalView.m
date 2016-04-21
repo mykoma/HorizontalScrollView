@@ -85,6 +85,11 @@ GKVideoHorizontalScrollViewLayout
     self.timeCellModel.totalDuration = [self.horizontalScrollView totalTimeDuration];
 }
 
+- (void)resetToNormalState
+{
+    [self.horizontalScrollView resetToNormalState];
+}
+
 #pragma mark - ViewModel
 
 - (void)buildInnerViewModels

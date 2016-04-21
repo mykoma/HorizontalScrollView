@@ -87,6 +87,15 @@
     [splitBtn addTarget:self
                   action:@selector(split)
         forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton * resetBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    resetBtn.backgroundColor = [UIColor blueColor];
+    resetBtn.frame = CGRectMake(CGRectGetMaxX(splitBtn.frame) + 10, CGRectGetMaxY(self.videoEditView.frame) + 10, 50, 30);
+    [self.view addSubview:resetBtn];
+    
+    [resetBtn addTarget:self
+                 action:@selector(reset)
+       forControlEvents:UIControlEventTouchUpInside];
 }
 
 static NSTimeInterval timeOffset = 0.0f;
@@ -102,9 +111,6 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 
 - (void)play
 {
-//    self.videoEditView.viewModel.timeIntervalOfFrame = 3.0f;
-//    [self.videoEditView updateTempAnimation];
-    
     [NSTimer scheduledTimerWithTimeInterval:timeInterval
                                      target:self
                                    selector:@selector(update)
@@ -120,6 +126,11 @@ static NSTimeInterval timeInterval = 1.0f / 60;
 - (void)split
 {
     [self.videoEditView splitCellAtCurrentFrame];
+}
+
+- (void)reset
+{
+    [self.videoEditView resetToNormalState];
 }
 
 #pragma mark - GKVideoEditHorizontalViewDelegate

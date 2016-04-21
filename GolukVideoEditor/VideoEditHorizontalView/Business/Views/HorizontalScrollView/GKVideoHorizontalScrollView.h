@@ -153,4 +153,9 @@ indexOfChunkCellAtCurrentFrame:(NSInteger)index;
  */
 - (NSTimeInterval)totalTimeDuration;
 
+/**
+ *  更新状态到正常状态
+ */
+- (void)resetToNormalState;
+
 @end

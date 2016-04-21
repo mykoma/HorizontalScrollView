@@ -637,6 +637,11 @@
 - (void)didTouchDownBackground
 {
     [super didTouchDownBackground];
+    [self resetToNormalState];
+}
+
+- (void)resetToNormalState
+{
     [GKVideoChunkCell resignEditState];
     if (self.state != GKVideoChunkCellStateNormal) {
         self.state = GKVideoHorizontalStateNormal;
