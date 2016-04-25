@@ -90,6 +90,11 @@ GKVideoHorizontalScrollViewLayout
     [self.horizontalScrollView resetToNormalState];
 }
 
+- (GKVideoHorizontalState)state
+{
+    return self.horizontalScrollView.state;
+}
+
 #pragma mark - ViewModel
 
 - (void)buildInnerViewModels
@@ -311,13 +316,14 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels
 }
 
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-indexOfChunkCellAtCurrentFrame:(NSInteger)index
+chunkCellOfCurrentFrameChangedAtIndex:(NSInteger)index
 {
     self.selectedIndex = index;
-    if ([self.delegate respondsToSelector:@selector(indexOfChunkCellAtCurrentFrame:)]) {
-        [self.delegate indexOfChunkCellAtCurrentFrame:index];
+    if ([self.delegate respondsToSelector:@selector(chunkCellOfCurrentFrameChangedAtIndex:)]) {
+        [self.delegate chunkCellOfCurrentFrameChangedAtIndex:index];
     }
 }
+
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
     couldSplitAtCurrentFrame:(BOOL)couldSplit
 {

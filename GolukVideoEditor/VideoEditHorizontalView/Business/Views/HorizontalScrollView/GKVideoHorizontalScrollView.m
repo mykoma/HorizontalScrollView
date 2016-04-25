@@ -14,10 +14,10 @@
 
 @interface GKVideoHorizontalScrollView () <GKVideoChunkCellDelegate>
 
-@property (nonatomic, strong) GKVideoCurrentFrameView * frameMarker;
-@property (nonatomic, assign) GKVideoHorizontalState  state;
-@property (nonatomic, weak  ) GKVideoChunkCell        * currentEditChunkCell;
-@property (nonatomic, assign) BOOL                    couldSplitAtCurrentFrame;
+@property (nonatomic, strong           ) GKVideoCurrentFrameView * frameMarker;
+@property (nonatomic, weak             ) GKVideoChunkCell        * chunkCellAtCurrentFrame;
+@property (nonatomic, assign           ) BOOL                    couldSplitAtCurrentFrame;
+@property (nonatomic, assign, readwrite) GKVideoHorizontalState  state;
 
 @end
 
@@ -547,17 +547,15 @@
     [super horizontalScrollViewDidScroll:scrollView];
     GKHorizontalCell * cell = [self seekCellWithLeftDistance:[self offsetOfCurrentFrame]];
     
-    // 如果是编辑状态，那么当 cell 改变的时候， 如果当前 currentFrame 的 cell 没有被选中， 那么选中。
-    if (self.state == GKVideoHorizontalStateEdit && self.isScrollingByManual == YES) {
-        if ([cell isKindOfClass:[GKVideoChunkCell class]]) {
-            if (self.currentEditChunkCell != cell) {
-                self.currentEditChunkCell = (GKVideoChunkCell *)cell;
-                [self.currentEditChunkCell becomeToEditState];
-                if ([self.delegate respondsToSelector:@selector(horizontalScrollView:indexOfChunkCellAtCurrentFrame:)]) {
-                    [self.delegate horizontalScrollView:self
-                         indexOfChunkCellAtCurrentFrame:[self indexOfChunkCell:self.currentEditChunkCell]];
-                }
-            }
+    if ([cell isKindOfClass:[GKVideoChunkCell class]] && self.chunkCellAtCurrentFrame != cell) {
+        self.chunkCellAtCurrentFrame = (GKVideoChunkCell *)cell;
+        // 如果当前是编辑状态并且当前是用户在滚动， 那么更新 cell 的状态
+        if (self.state == GKVideoHorizontalStateEdit && self.isScrollingByManual) {
+            [self.chunkCellAtCurrentFrame becomeToEditState];
+        }
+        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellOfCurrentFrameChangedAtIndex:)]) {
+            [self.delegate horizontalScrollView:self
+          chunkCellOfCurrentFrameChangedAtIndex:[self indexOfChunkCell:self.chunkCellAtCurrentFrame]];
         }
     }
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:timeIntervalOfScrollOffset:)])
@@ -665,7 +663,6 @@
     // 当前 view 的状态改变的时候， 那么则修改所有的 chunkCell， 改变他们的状态
     if (_state == GKVideoHorizontalStateNormal) {
         [GKVideoChunkCell resignEditState];
-        self.currentEditChunkCell = nil;
     }
     if ([self.delegate respondsToSelector:@selector(horizontalScrollView:changeStateTo:)]) {
         [self.delegate horizontalScrollView:self changeStateTo:self.state];
@@ -827,13 +824,6 @@
 
 - (void)didChangeToEditWithTouchDownForChunkCell:(GKVideoChunkCell *)chunkCell
 {
-    if (self.currentEditChunkCell != chunkCell) {
-        self.currentEditChunkCell = chunkCell;
-        if ([self.delegate respondsToSelector:@selector(horizontalScrollView:indexOfChunkCellAtCurrentFrame:)]) {
-            [self.delegate horizontalScrollView:self
-                 indexOfChunkCellAtCurrentFrame:[self indexOfChunkCell:self.currentEditChunkCell]];
-        }
-    }
     [self scrollToOffset:CGRectGetMidX(chunkCell.frame) - [self offsetOfCurrentFrame]
                 animated:YES];
 }

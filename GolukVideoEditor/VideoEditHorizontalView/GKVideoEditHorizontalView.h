@@ -23,7 +23,7 @@
 /**
  *  回调当前 CurrentFrame 所在的片段的 index
  */
-- (void)indexOfChunkCellAtCurrentFrame:(NSInteger)index;
+- (void)chunkCellOfCurrentFrameChangedAtIndex:(NSInteger)index;
 
 /**
  *  点击了添加片段
@@ -84,9 +84,9 @@
 
 @interface GKVideoEditHorizontalView : UIView
 
-@property (nonatomic, weak) id <GKVideoEditHorizontalViewDelegate> delegate;
-
-@property (nonatomic, strong) GKVideoEditHorizontalViewModel * viewModel;
+@property (nonatomic, weak            ) id <GKVideoEditHorizontalViewDelegate>  delegate;
+@property (nonatomic, strong          ) GKVideoEditHorizontalViewModel          * viewModel;
+@property (nonatomic, assign, readonly) GKVideoHorizontalState                  state;
 
 /**
  *  当前所处于编辑状态的片段的 index

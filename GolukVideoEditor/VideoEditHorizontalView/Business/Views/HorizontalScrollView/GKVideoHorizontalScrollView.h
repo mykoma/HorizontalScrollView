@@ -97,7 +97,7 @@ cellModelAfterInterceptAppendModels:(NSArray *)cellModels;
  *  回调当前 CurrentFrame 所在的 ChunkCell 的 index
  */
 - (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
-indexOfChunkCellAtCurrentFrame:(NSInteger)index;
+chunkCellOfCurrentFrameChangedAtIndex:(NSInteger)index;
 
 /**
  *  回调当前 CurrentFrame 能否执行 split
@@ -127,6 +127,8 @@ indexOfChunkCellAtCurrentFrame:(NSInteger)index;
 @property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollDataSource> dataSource;
 @property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollViewLayout> layout;
 @property (nonatomic, weak) IBOutlet id <GKVideoHorizontalScrollViewDelegate> delegate;
+
+@property (nonatomic, assign, readonly) GKVideoHorizontalState  state;
 
 /**
  *  滚动到timeInterval所对应的位置
