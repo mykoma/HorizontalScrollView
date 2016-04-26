@@ -59,7 +59,7 @@
     if ([self.layout respondsToSelector:@selector(defaultOffsetOfCurrentFrameOfHorizontalScrollView:)]) {
         offsetOfFrameMarker = [self.layout defaultOffsetOfCurrentFrameOfHorizontalScrollView:self];
     }
-    self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 0.5, CGRectGetHeight(self.frame));
+    self.frameMarker.frame = CGRectMake(offsetOfFrameMarker, 0, 1, CGRectGetHeight(self.frame));
 }
 
 - (NSInteger)indexOfChunkCell:(GKVideoChunkCell *)cell

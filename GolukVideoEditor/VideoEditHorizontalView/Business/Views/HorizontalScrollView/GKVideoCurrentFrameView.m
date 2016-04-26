@@ -39,7 +39,7 @@ CGFloat HEIGHT_OF_ARC = 8.5f;
 
 -(void)layoutSubviews
 {
-    self.topArcIV.frame = CGRectMake((CGRectGetMinX(self.bounds) - WIDTH_OF_ARC) / 2, 0,
+    self.topArcIV.frame = CGRectMake((CGRectGetWidth(self.bounds) - WIDTH_OF_ARC) / 2, 0,
                                      WIDTH_OF_ARC, HEIGHT_OF_ARC);
     self.bottomArcIV.frame = CGRectMake(CGRectGetMinX(self.topArcIV.frame),
                                         CGRectGetHeight(self.bounds) - HEIGHT_OF_ARC,
