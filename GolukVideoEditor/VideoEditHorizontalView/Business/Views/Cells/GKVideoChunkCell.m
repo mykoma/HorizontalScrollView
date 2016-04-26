@@ -30,7 +30,9 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 @property (nonatomic, strong) NSMutableArray <UIImageView *> * imageIVs;
 @property (nonatomic, strong) UIView * editContainerView;
 @property (nonatomic, strong) UIView * leftEditView;
+@property (nonatomic, strong) UIView * leftActionEditView;
 @property (nonatomic, strong) UIView * rightEditView;
+@property (nonatomic, strong) UIView * rightActionEditView;
 @property (nonatomic, strong) UIView * topEditLine;
 @property (nonatomic, strong) UIView * bottomEditLine;
 @property (nonatomic, strong) UIView * centerEditView;
@@ -166,26 +168,44 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
 - (UIView *)leftEditView
 {
     if (_leftEditView == nil) {
-        _leftEditView = [UIButton buttonWithType:UIButtonTypeCustom];
+        _leftEditView = [[UIView alloc] init];
         _leftEditView.backgroundColor = [[self class] editColor];
-        UIPanGestureRecognizer * gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                                                   action:@selector(leftEditGestureMoved:)];
-        [_leftEditView addGestureRecognizer:gesture];
     }
     return _leftEditView;
+}
+
+- (UIView *)leftActionEditView
+{
+    if (_leftActionEditView == nil) {
+        _leftActionEditView = [[UIView alloc] init];
+        _leftActionEditView.backgroundColor = [UIColor clearColor];
+        UIPanGestureRecognizer * gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                   action:@selector(leftEditGestureMoved:)];
+        [_leftActionEditView addGestureRecognizer:gesture];
+    }
+    return _leftActionEditView;
 }
 
 - (UIView *)rightEditView
 {
     if (_rightEditView == nil) {
-        _rightEditView = [UIButton buttonWithType:UIButtonTypeCustom];
+        _rightEditView = [[UIView alloc] init];
         _rightEditView.backgroundColor = [[self class] editColor];
-
-        UIPanGestureRecognizer * gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                                                   action:@selector(rightEditGestureMoved:)];
-        [_rightEditView addGestureRecognizer:gesture];
     }
     return _rightEditView;
+}
+
+- (UIView *)rightActionEditView
+{
+    if (_rightActionEditView == nil) {
+        _rightActionEditView = [[UIView alloc] init];
+        _rightActionEditView.backgroundColor = [UIColor clearColor];
+        
+        UIPanGestureRecognizer * gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                                   action:@selector(rightEditGestureMoved:)];
+        [_rightActionEditView addGestureRecognizer:gesture];
+    }
+    return _rightActionEditView;
 }
 
 - (UIView *)topEditLine
@@ -255,10 +275,18 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     self.leftEditView.frame = CGRectMake(0, 0,
                                          editBtnWidth,
                                          CGRectGetHeight(self.editContainerView.bounds));
+    self.leftActionEditView.frame = CGRectMake(CGRectGetMinX(self.leftEditView.frame),
+                                               CGRectGetMinY(self.leftEditView.frame),
+                                               CGRectGetWidth(self.leftEditView.frame) * 3,
+                                               CGRectGetHeight(self.leftEditView.frame));
     self.rightEditView.frame = CGRectMake(CGRectGetWidth(self.editContainerView.bounds) - editBtnWidth,
                                           0,
                                           editBtnWidth,
                                           CGRectGetHeight(self.editContainerView.bounds));
+    self.rightActionEditView.frame = CGRectMake(CGRectGetMaxX(self.rightEditView.frame) - CGRectGetWidth(self.rightEditView.frame) * 3,
+                                                CGRectGetMinY(self.rightEditView.frame),
+                                                CGRectGetWidth(self.rightEditView.frame) * 3,
+                                                CGRectGetHeight(self.rightEditView.frame));
     self.topEditLine.frame = CGRectMake(0, 0,
                                         CGRectGetWidth(self.editContainerView.bounds),
                                         editLineHeight);
@@ -277,13 +305,16 @@ NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
     if (self.editContainerView.superview == nil) {
         [self addSubview:self.editContainerView];
         
-        (self.leftEditView.superview == nil)    ? [self.editContainerView addSubview:self.leftEditView]     : nil;
-        (self.rightEditView.superview == nil)   ? [self.editContainerView addSubview:self.rightEditView]    : nil;
-        (self.topEditLine.superview == nil)     ? [self.editContainerView addSubview:self.topEditLine]      : nil;
-        (self.bottomEditLine.superview == nil)  ? [self.editContainerView addSubview:self.bottomEditLine]   : nil;
-        (self.centerEditView.superview == nil)  ? [self.editContainerView addSubview:self.centerEditView]   : nil;
-        (self.centerEditLabel.superview == nil) ? [self.editContainerView addSubview:self.centerEditLabel]  : nil;
-        
+        (self.leftEditView.superview == nil)        ? [self.editContainerView addSubview:self.leftEditView]         : nil;
+        (self.leftActionEditView.superview == nil)  ? [self.editContainerView addSubview:self.leftActionEditView]   : nil;
+        (self.rightEditView.superview == nil)       ? [self.editContainerView addSubview:self.rightEditView]        : nil;
+        (self.rightActionEditView.superview == nil) ? [self.editContainerView addSubview:self.rightActionEditView]  : nil;
+        (self.topEditLine.superview == nil)         ? [self.editContainerView addSubview:self.topEditLine]          : nil;
+        (self.bottomEditLine.superview == nil)      ? [self.editContainerView addSubview:self.bottomEditLine]       : nil;
+        (self.centerEditView.superview == nil)      ? [self.editContainerView addSubview:self.centerEditView]       : nil;
+        (self.centerEditLabel.superview == nil)     ? [self.editContainerView addSubview:self.centerEditLabel]      : nil;
+        [self.editContainerView bringSubviewToFront:self.leftActionEditView];
+        [self.editContainerView bringSubviewToFront:self.rightActionEditView];
         self.editContainerView.alpha    = 0.0f;
         [UIView animateWithDuration:0.1f
                               delay:0
