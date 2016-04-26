@@ -23,6 +23,7 @@
     self.backgroundColor = [UIColor clearColor];
     
     self.bgIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_video_chunk"]];
+    self.bgIV.contentMode = UIViewContentModeScaleToFill;
     [self addSubview:self.bgIV];
 
     self.touchBtn = [UIButton buttonWithType:UIButtonTypeSystem];
