@@ -392,13 +392,14 @@
         }
         curCell = curCell.rightFenceCell.rightChunkCell;
     }
-    // 如果不是GKVideoChunkCell， 那么返回0
-    if (![curCell isKindOfClass:[GKVideoChunkCell class]]) {
-        return 0.0f;
+    // 如果时间长度已经超过了本来的时长
+    if (![curCell isKindOfClass:[GKVideoChunkCell class]] && timeInterval > additionTimeInterval) {
+        xPosition = CGRectGetMaxX([self lastChunkCell].frame) - [self offsetOfCurrentFrame];
+    } else {
+        NSTimeInterval offsetOfTimeInterval = timeInterval - additionTimeInterval;
+        
+        xPosition = CGRectGetMinX(curCell.frame) - [self offsetOfCurrentFrame] + [GKVideoChunkCell widthOfOneSecond] * offsetOfTimeInterval;
     }
-    NSTimeInterval offsetOfTimeInterval = timeInterval - additionTimeInterval;
-
-    xPosition = CGRectGetMinX(curCell.frame) - [self offsetOfCurrentFrame] + [GKVideoChunkCell widthOfOneSecond] * offsetOfTimeInterval;
     return xPosition;
 }
 
