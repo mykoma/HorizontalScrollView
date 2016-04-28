@@ -15,7 +15,7 @@ NSString * GK_VIDEO_CHUNK_CELL_NOTIFICATION_BECOME_EDIT = @"com.goluk.videoEdito
 
 CGFloat HEIGHT_OF_HORIZONTAL_CELL = 48;
 NSInteger SECOND_COUNT_OF_ONE_PICTURE = 3;
-NSTimeInterval MIN_EDIT_SECOND_DURATION = 2.0f;
+NSTimeInterval MIN_EDIT_SECOND_DURATION = 0.1f;
 
 @interface GKVideoChunkCellModel (Origin)
 
