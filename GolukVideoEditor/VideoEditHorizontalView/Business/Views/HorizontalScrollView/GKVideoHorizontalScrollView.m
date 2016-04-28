@@ -753,6 +753,12 @@
 
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnLeftSide:(CGRect)changedFrame
 {
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellInEdittingAtIndex:beginTime:endTime:)]) {
+        [self.delegate horizontalScrollView:self
+                 chunkCellInEdittingAtIndex:[self indexOfChunkCell:chunkCell]
+                                  beginTime:chunkCell.cellModel.beginTime
+                                    endTime:chunkCell.cellModel.endTime];
+    }
     [self updateCellsFrameOnLeftSideFromCell:chunkCell.leftCell
                               toTailPosition:CGRectGetMinX(changedFrame) - self.cellEdge.left
                                    animation:NO
@@ -766,6 +772,12 @@
 
 - (void)chunkCell:(GKVideoChunkCell *)chunkCell frameChangedOnRightSide:(CGRect)changedFrame
 {
+    if ([self.delegate respondsToSelector:@selector(horizontalScrollView:chunkCellInEdittingAtIndex:beginTime:endTime:)]) {
+        [self.delegate horizontalScrollView:self
+                 chunkCellInEdittingAtIndex:[self indexOfChunkCell:chunkCell]
+                                  beginTime:chunkCell.cellModel.beginTime
+                                    endTime:chunkCell.cellModel.endTime];
+    }
     [self updateCellsFrameOnRightSideFromCell:chunkCell.rightCell
                                toLeadPosition:CGRectGetMaxX(changedFrame) + self.cellEdge.right
                                     animation:NO

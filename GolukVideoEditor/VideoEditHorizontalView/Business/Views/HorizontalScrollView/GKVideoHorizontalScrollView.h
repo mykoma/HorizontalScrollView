@@ -120,6 +120,14 @@ chunkCellOfCurrentFrameChangedAtIndex:(NSInteger)index;
                    beginTime:(NSTimeInterval)beginTime
                      endTime:(NSTimeInterval)endTime;
 
+/**
+ *  回调编辑过的 ChunkCell 的 index，开始时间和结束时间
+ */
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+  chunkCellInEdittingAtIndex:(NSInteger)index
+                   beginTime:(NSTimeInterval)beginTime
+                     endTime:(NSTimeInterval)endTime;
+
 @end
 
 @interface GKVideoHorizontalScrollView : GKHorizontalScrollView

@@ -353,4 +353,12 @@ chunkCellOfCurrentFrameChangedAtIndex:(NSInteger)index
     }
 }
 
+- (void)horizontalScrollView:(GKHorizontalScrollView *)horizontalScrollView
+  chunkCellInEdittingAtIndex:(NSInteger)index
+                   beginTime:(NSTimeInterval)beginTime
+                     endTime:(NSTimeInterval)endTim
+{
+    [self refreshTotalDuration];
+}
+
 @end
